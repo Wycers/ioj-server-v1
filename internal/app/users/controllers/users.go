@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"github.com/Infinity-OJ/Server/internal/app/users/services"
+	"github.com/Infinity-OJ/Server/internal/pkg/jwt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net/http"
@@ -39,6 +40,14 @@ func (pc *UsersController) Get(c *gin.Context) {
 }
 
 func (pc *UsersController) GetSession(c *gin.Context) {
-	fmt.Println(c.PostForm("username"))
-	fmt.Println(c.PostForm("password"))
+	username := c.PostForm("username")
+	fmt.Println(username)
+	password := c.PostForm("password")
+	fmt.Println(password)
+	fmt.Println(jwt.GenerateToken(username, password))
+}
+
+func (pc *UsersController) CheckSession(c *gin.Context) {
+	claims := c.MustGet("claims").(*jwt.Claims)
+	fmt.Printf(claims.Username)
 }
