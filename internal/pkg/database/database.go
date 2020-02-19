@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/Infinity-OJ/Server/internal/pkg/models/users"
+	"github.com/Infinity-OJ/Server/internal/pkg/models"
 	"github.com/google/wire"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -31,7 +31,7 @@ func NewOptions(v *viper.Viper, logger *zap.Logger) (*Options, error) {
 // Init 初始化数据库
 func New(o *Options) (*gorm.DB, error) {
 	var err error
-	db, err := gorm.Open("postgres", "host=192.168.31.233 user=postgres dbname=postgres sslmode=disable")
+	db, err := gorm.Open("postgres", "host=127.0.0.1 user=postgres password=postgres dbname=postgres sslmode=disable")
 	if err != nil {
 		return nil, errors.Wrap(err, "gorm open database connection error")
 	}
@@ -40,7 +40,7 @@ func New(o *Options) (*gorm.DB, error) {
 		db = db.Debug()
 	}
 
-	db.AutoMigrate(&users.Account{})
+	db.AutoMigrate(&models.Account{})
 
 	return db, nil
 }

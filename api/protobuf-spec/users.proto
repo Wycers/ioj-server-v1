@@ -4,16 +4,22 @@ option go_package = "proto";
 
 
 service Users {
-    rpc Get (GetUserRequest) returns (User);
-}
-
-message GetUserRequest {
-    uint64 id = 1;
+    rpc Register (RegisterRequest) returns (RegisterResponse);
 }
 
 message User {
-    uint64 id = 1;
-    string name = 2;
-    float price = 3;
+    uint64 uid = 1;
+    string username = 2;
+    string password = 3;
     google.protobuf.Timestamp createdTime = 4;
+}
+
+message RegisterRequest {
+    string username = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message RegisterResponse {
+    User user = 1;
 }

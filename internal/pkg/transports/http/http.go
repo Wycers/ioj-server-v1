@@ -3,6 +3,8 @@ package http
 import (
 	"context"
 	"fmt"
+	"github.com/Infinity-OJ/Server/internal/pkg/transports/http/middlewares/ginprom"
+	"github.com/Infinity-OJ/Server/internal/pkg/utils/netutil"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
@@ -12,8 +14,6 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/Infinity-OJ/Server/internal/pkg/transports/http/middlewares/ginprom"
-	"github.com/Infinity-OJ/Server/internal/pkg/utils/netutil"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"net/http"
@@ -92,7 +92,7 @@ func (s *Server) Start() error {
 		s.port = netutil.GetAvailablePort()
 	}
 
-	s.host = "127.0.0.1"
+	s.host = netutil.GetLocalIP4()
 
 	if s.host == "" {
 		return errors.New("get local ipv4 error")
