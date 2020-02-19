@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"fmt"
+	"github.com/Infinity-OJ/Server/internal/pkg/utils/netutil"
 	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	"github.com/grpc-ecosystem/go-grpc-middleware/recovery"
@@ -11,7 +12,6 @@ import (
 	consulApi "github.com/hashicorp/consul/api"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
-	"github.com/Infinity-OJ/Server/internal/pkg/utils/netutil"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
@@ -44,7 +44,6 @@ type Server struct {
 	server    *grpc.Server
 	consulCli *consulApi.Client
 }
-
 
 type InitServers func(s *grpc.Server)
 
@@ -91,7 +90,7 @@ func (s *Server) Start() error {
 		s.port = netutil.GetAvailablePort()
 	}
 
-	s.host = "127.0.0.1"
+	s.host = netutil.GetLocalIP4()
 
 	if s.host == "" {
 		return errors.New("get local ipv4 error")

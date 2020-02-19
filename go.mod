@@ -3,6 +3,7 @@ module github.com/Infinity-OJ/Server
 go 1.13
 
 require (
+	github.com/codahale/hdrhistogram v0.0.0-20161010025455-3a0bb77429bd // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/pprof v1.2.1
 	github.com/gin-contrib/zap v0.0.0-20191128031730-d12829f8f61b
@@ -20,11 +21,12 @@ require (
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pkg/errors v0.8.1
 	github.com/prometheus/client_golang v0.9.3
-	github.com/sdgmf/go-project-sample v0.0.0-20191014021359-f7ef09b7713b // indirect
 	github.com/spf13/viper v1.6.2
 	github.com/stretchr/testify v1.4.0
 	github.com/uber/jaeger-client-go v2.22.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible
+	github.com/urfave/cli v1.22.2
+	github.com/urfave/cli/v2 v2.1.1
 	go.uber.org/zap v1.13.0
 	google.golang.org/grpc v1.26.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0

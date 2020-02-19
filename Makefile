@@ -1,7 +1,7 @@
 
 
 
-apps = 'users'
+apps = 'users' 'server'
 
 .PHONY: run
 run: proto wire
@@ -10,6 +10,9 @@ run: proto wire
 		 go run ./cmd/$$app -f configs/$$app.yml  & \
 	done
 
+.PHONY: run-cli
+run-cli: proto wire
+	go build ./cmd/cli
 
 .PHONY: wire
 wire:
