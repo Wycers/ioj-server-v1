@@ -47,7 +47,7 @@ func TestUsersService_Get(t *testing.T) {
 			req := &proto.GetDetailRequest{
 				Id: test.id,
 			}
-			p, err := server.Get(context.Background(), req)
+			p, err := server.Register(context.Background(), req)
 			if err != nil {
 				t.Fatalf("product service get proudct error,%+v", err)
 			}

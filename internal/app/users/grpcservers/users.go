@@ -22,7 +22,7 @@ func (s *UsersServer) Register(ctx context.Context, req *proto.RegisterRequest) 
 	} else {
 		resp = &proto.RegisterResponse{
 			User: &proto.User{
-				Uid:      0,
+				Uid:      u.ID,
 				Username: u.Username,
 				Password: "",
 			},
@@ -36,32 +36,4 @@ func NewUsersServer(logger *zap.Logger, ps services.UsersService) (*UsersServer,
 		logger:  logger,
 		service: ps,
 	}, nil
-}
-
-func (s *UsersServer) Get(ctx context.Context, req *proto.RegisterRequest) (*proto.RegisterResponse, error) {
-	//p, err := s.service.Get(req.Id)
-	//if err != nil {
-	//	return nil, errors.Wrap(err, "users grpc service get detail error")
-	//}
-	//ct, err := ptypes.TimestampProto(p.CreatedTime)
-	//if err != nil {
-	//	return nil, errors.Wrap(err, "convert create time error")
-	//}
-	//
-	//resp := &proto.User{
-	//	Id:          uint64(p.ID),
-	//	Name:        p.Name,
-	//	Price:       p.Price,
-	//	CreatedTime: ct,
-	//}
-	s.logger.Info(req.Username)
-	s.logger.Info(req.Password)
-	resp := &proto.RegisterResponse{
-		User: &proto.User{
-			Uid:      123,
-			Username: "123",
-			Password: "123",
-		},
-	}
-	return resp, nil
 }

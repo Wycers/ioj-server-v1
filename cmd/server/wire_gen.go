@@ -69,7 +69,9 @@ func CreateApp(cf string) (*app.Application, error) {
 	}
 	productsService := services.NewProductService(logger, usersClient)
 	productsController := controllers.NewProductsController(logger, productsService)
-	initControllers := controllers.CreateInitControllersFn(productsController)
+	userService := services.NewUserService(logger, usersClient)
+	usersController := controllers.NewUsersController(logger, userService)
+	initControllers := controllers.CreateInitControllersFn(productsController, usersController)
 	engine := http.NewRouter(httpOptions, logger, initControllers, tracer)
 	apiClient, err := consul.New(consulOptions)
 	if err != nil {

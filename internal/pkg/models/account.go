@@ -7,7 +7,7 @@ type Account struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time
-	Username  string
-	Hash      string
-	Salt      string
+	Username  string `gorm:"not null;unique"`
+	Hash      string `gorm:"not null;"`
+	Salt      string `gorm:"not null;"`
 }

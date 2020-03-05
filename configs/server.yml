@@ -2,9 +2,9 @@ app:
   name: products
 http:
   mode: release
-  port: 8080
+  port: 8888
 log:
-  filename: .products.log
+  filename: logs/server.log
   maxSize: 500
   maxBackups: 3
   maxAge: 3

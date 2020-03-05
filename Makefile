@@ -7,7 +7,11 @@ apps = 'users' 'server'
 run: proto wire
 	for app in $(apps) ;\
 	do \
-		 go run ./cmd/$$app -f configs/$$app.yml  & \
+		go build -o build/$$app ./cmd/$$app/; \
+	done
+	for app in $(apps) ;\
+	do \
+		./build/$$app -f configs/$$app.yml  & \
 	done
 
 .PHONY: run-cli
