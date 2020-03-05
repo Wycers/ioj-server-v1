@@ -29,7 +29,7 @@ func NewDetailService(logger *zap.Logger, Repository repositories.UsersRepositor
 }
 
 func (s *DefaultUsersService) Get(ID uint64) (p *models.Detail, err error) {
-	if p, err = s.Repository.Get(ID); err != nil {
+	if p, err = s.Repository.Query(ID); err != nil {
 		return nil, errors.Wrap(err, "detail service get detail error")
 	}
 
@@ -39,7 +39,7 @@ func (s *DefaultUsersService) Get(ID uint64) (p *models.Detail, err error) {
 func (s *DefaultUsersService) Create(username, password, email string) (u *models.Account, err error) {
 	salt := random.RandStringRunes(64)
 	hash := crypto.Sha1(salt + password + specialKey)
-	if u, err = s.Repository.Create(username, hash, salt); err != nil {
+	if u, err = s.Repository.Create(username, hash, salt, email); err != nil {
 		return nil, err
 	}
 	return

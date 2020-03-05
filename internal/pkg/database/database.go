@@ -41,6 +41,7 @@ func New(o *Options) (*gorm.DB, error) {
 	}
 
 	db.AutoMigrate(&models.Account{})
+	db.AutoMigrate(&models.Profile{})
 
 	return db, nil
 }

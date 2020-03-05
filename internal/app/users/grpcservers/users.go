@@ -17,7 +17,7 @@ func (s *UsersServer) Register(ctx context.Context, req *proto.RegisterRequest) 
 	s.logger.Info(req.Username)
 	s.logger.Info(req.Password)
 
-	if u, err := s.service.Create(req.Username, req.Password, ""); err != nil {
+	if u, err := s.service.Create(req.Username, req.Password, req.Email); err != nil {
 		return nil, errors.Wrapf(err, "Create user failed")
 	} else {
 		resp = &proto.RegisterResponse{
