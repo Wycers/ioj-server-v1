@@ -40,7 +40,7 @@ func New(o *Options) (*gorm.DB, error) {
 		db = db.Debug()
 	}
 
-	db.AutoMigrate(&models.Account{})
+	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Profile{})
 
 	return db, nil

@@ -8,10 +8,10 @@ import (
 )
 
 type UsersRepository interface {
-	Create(username, hash, salt, email string) (u *models.Account, err error)
+	Create(username, hash, salt, email string) (u *models.User, err error)
 	UpdateProfile(p *models.Profile) (err error)
-	UpdateAccount(u *models.Account) (err error)
-	QueryAccount(username string) (u *models.Account, err error)
+	UpdateAccount(u *models.User) (err error)
+	QueryAccount(username string) (u *models.User, err error)
 	QueryProfile(uid uint64) (p *models.Profile, err error)
 }
 
@@ -20,7 +20,7 @@ type MysqlUsersRepository struct {
 	db     *gorm.DB
 }
 
-func (s *MysqlUsersRepository) Create(username, hash, salt, email string) (u *models.Account, err error) {
+func (s *MysqlUsersRepository) Create(username, hash, salt, email string) (u *models.User, err error) {
 	tx := s.db.Begin()
 	defer func() {
 		if r := recover(); r != nil {
@@ -32,7 +32,7 @@ func (s *MysqlUsersRepository) Create(username, hash, salt, email string) (u *mo
 		return nil, err
 	}
 
-	u = &models.Account{
+	u = &models.User{
 		Username: username,
 		Hash:     hash,
 		Salt:     salt,
@@ -60,14 +60,14 @@ func (s *MysqlUsersRepository) UpdateProfile(p *models.Profile) (err error) {
 	return
 }
 
-func (s *MysqlUsersRepository) UpdateAccount(u *models.Account) (err error) {
+func (s *MysqlUsersRepository) UpdateAccount(u *models.User) (err error) {
 	// TODO: find a better way...
 	err = s.db.Save(&u).Error
 	return
 }
 
-func (s *MysqlUsersRepository) QueryAccount(username string) (u *models.Account, err error) {
-	u = new(models.Account)
+func (s *MysqlUsersRepository) QueryAccount(username string) (u *models.User, err error) {
+	u = new(models.User)
 	if err = s.db.Model(u).Where("username = ?", username).First(u).Error; err != nil {
 		return nil, errors.Wrapf(err, "get profile error[Username = %s]", username)
 	}

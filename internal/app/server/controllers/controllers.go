@@ -2,12 +2,17 @@ package controllers
 
 import (
 	"github.com/Infinity-OJ/Server/internal/pkg/transports/http"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 )
 
 func CreateInitControllersFn(uc *UsersController) http.InitControllers {
 	return func(res *gin.Engine) {
+		//config := cors.DefaultConfig()
+		//config.AllowOrigins = []string{"http://localhost:8080"}
+		res.Use(cors.Default())
+
 		api := res.Group("/api")
 
 		user := api.Group("/users")
@@ -20,8 +25,6 @@ func CreateInitControllersFn(uc *UsersController) http.InitControllers {
 		session.POST("/", uc.SignIn)
 		//session.PUT("/")
 		session.DELETE("/")
-
-		//res.GET("/product/:id", pc.Get)
 	}
 }
 

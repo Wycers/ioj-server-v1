@@ -4,8 +4,8 @@ option go_package = "proto";
 
 
 service Users {
-    rpc Register (RegisterRequest) returns (RegisterResponse);
-    rpc Signin (SigninRequest) returns (SigninResponse);
+    rpc CreateUser (RegisterRequest) returns (RegisterResponse);
+    rpc CreateSession (SigninRequest) returns (SigninResponse);
 }
 
 message User {

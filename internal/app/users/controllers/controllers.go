@@ -9,8 +9,8 @@ import (
 
 func CreateInitControllersFn(pc *UsersController) http.InitControllers {
 	return func(r *gin.Engine) {
-		r.POST("/session", pc.GetSession)
-		r.GET("/session", jwt.JWT(), pc.CheckSession)
+		r.POST("/session", pc.CreateSession)
+		r.GET("/session", jwt.JWT(), pc.GetSession)
 	}
 }
 

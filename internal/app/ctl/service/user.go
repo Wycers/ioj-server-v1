@@ -3,13 +3,14 @@ package service
 import (
 	"context"
 	"fmt"
+
 	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
 	"github.com/Infinity-OJ/Server/internal/pkg/models"
 	"github.com/pkg/errors"
 )
 
 type UserService interface {
-	Create(username, password, email string) (*models.Account, error)
+	Create(username, password, email string) (*models.User, error)
 }
 
 type DefaultUserService struct {
@@ -22,7 +23,7 @@ func NewUserService(userSrv proto.UsersClient) UserService {
 	}
 }
 
-func (s *DefaultUserService) Create(username, password, email string) (*models.Account, error) {
+func (s *DefaultUserService) Create(username, password, email string) (*models.User, error) {
 	// get detail
 	req := &proto.RegisterRequest{
 		Username: username,
@@ -30,7 +31,7 @@ func (s *DefaultUserService) Create(username, password, email string) (*models.A
 		Password: password,
 	}
 
-	pd, err := s.userSrv.Register(context.TODO(), req)
+	pd, err := s.userSrv.CreateUser(context.TODO(), req)
 	if err != nil {
 		return nil, errors.Wrap(err, "get rating error")
 	}

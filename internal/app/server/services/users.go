@@ -2,16 +2,17 @@ package services
 
 import (
 	"context"
-	"github.com/Infinity-OJ/Server/api/protobuf-spec"
+
+	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
 	"github.com/Infinity-OJ/Server/internal/pkg/models"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 )
 
 type UserService interface {
-	Create(c context.Context, username, password, email string) (*models.Account, error)
+	CreateUser(c context.Context, username, password, email string) (*models.User, error)
 	Update(c context.Context, ID uint64) error
-	Verify(c context.Context, username, password string) (token string, err error)
+	CreateSession(c context.Context, username, password string) (token string, err error)
 }
 
 type DefaultUserService struct {
@@ -19,13 +20,13 @@ type DefaultUserService struct {
 	usersSrv proto.UsersClient
 }
 
-func (s *DefaultUserService) Verify(c context.Context, username, password string) (token string, err error) {
+func (s *DefaultUserService) CreateSession(c context.Context, username, password string) (token string, err error) {
 	req := &proto.SigninRequest{
 		Username: username,
 		Password: password,
 	}
 
-	resp, err := s.usersSrv.Signin(c, req)
+	resp, err := s.usersSrv.CreateSession(c, req)
 	if err != nil {
 		return "", errors.Wrap(err, "Sign in failed.")
 	}
@@ -35,21 +36,21 @@ func (s *DefaultUserService) Verify(c context.Context, username, password string
 	return resp.Token, nil
 }
 
-func (s *DefaultUserService) Create(c context.Context, username, password, email string) (*models.Account, error) {
+func (s *DefaultUserService) CreateUser(c context.Context, username, password, email string) (*models.User, error) {
 	req := &proto.RegisterRequest{
 		Username: username,
 		Email:    email,
 		Password: password,
 	}
 
-	pd, err := s.usersSrv.Register(c, req)
+	pd, err := s.usersSrv.CreateUser(c, req)
 	if err != nil {
 		return nil, errors.Wrap(err, "get rating error")
 	}
 
 	s.logger.Info("User Created!", zap.String("username", pd.User.Username))
 
-	return &models.Account{
+	return &models.User{
 		Username: pd.User.Username,
 	}, nil
 }

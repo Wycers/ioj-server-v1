@@ -2,7 +2,8 @@ package grpcservers
 
 import (
 	"context"
-	"github.com/Infinity-OJ/Server/api/protobuf-spec"
+
+	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
 	"github.com/Infinity-OJ/Server/internal/app/users/services"
 	"github.com/Infinity-OJ/Server/internal/pkg/jwt"
 	"github.com/pkg/errors"
@@ -14,11 +15,11 @@ type UsersServer struct {
 	service services.UsersService
 }
 
-func (s *UsersServer) Register(ctx context.Context, req *proto.RegisterRequest) (resp *proto.RegisterResponse, err error) {
+func (s *UsersServer) CreateUser(ctx context.Context, req *proto.RegisterRequest) (res *proto.RegisterResponse, err error) {
 	if u, err := s.service.Create(req.Username, req.Password, req.Email); err != nil {
-		return nil, errors.Wrapf(err, "Create user failed")
+		return nil, errors.Wrapf(err, "CreateUser user failed")
 	} else {
-		resp = &proto.RegisterResponse{
+		res = &proto.RegisterResponse{
 			User: &proto.User{
 				Uid:      u.ID,
 				Username: u.Username,
@@ -29,16 +30,23 @@ func (s *UsersServer) Register(ctx context.Context, req *proto.RegisterRequest) 
 	return
 }
 
-func (s *UsersServer) Signin(ctx context.Context, req *proto.SigninRequest) (resp *proto.SigninResponse, err error) {
-	if u, err := s.service.Verify(req.Username, req.Password); err != nil {
-		return nil, errors.Wrapf(err, "Create user failed")
+func (s *UsersServer) CreateSession(ctx context.Context, req *proto.SigninRequest) (res *proto.SigninResponse, err error) {
+	if isValid, err := s.service.Verify(req.Username, req.Password); err != nil {
+		return nil, errors.Wrapf(err, "CreateUser user failed")
 	} else {
-		if token, err := jwt.GenerateToken(req.Username); err != nil {
-			return nil, errors.Wrapf(err, "Verify user failed")
+		if isValid {
+			if token, err := jwt.GenerateToken(req.Username); err != nil {
+				return nil, errors.Wrapf(err, "CreateSession user failed")
+			} else {
+				res = &proto.SigninResponse{
+					Authorized: true,
+					Token:      token,
+				}
+			}
 		} else {
-			resp = &proto.SigninResponse{
-				Authorized: u,
-				Token:      token,
+			res = &proto.SigninResponse{
+				Authorized: false,
+				Token:      "",
 			}
 		}
 	}

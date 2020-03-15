@@ -1,6 +1,6 @@
 package models
 
-type Account struct {
+type User struct {
 	Model
 
 	Group    int    `gorm:"not null; unique_index:idx1; default: 0"`

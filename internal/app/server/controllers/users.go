@@ -1,10 +1,11 @@
 package controllers
 
 import (
+	"net/http"
+
 	"github.com/Infinity-OJ/Server/internal/app/server/services"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	"net/http"
 )
 
 type UsersController struct {
@@ -33,7 +34,7 @@ func (usersController *UsersController) Post(c *gin.Context) {
 		return
 	}
 
-	p, err := usersController.service.Create(c.Request.Context(), user.Username, user.Password, user.Email)
+	p, err := usersController.service.CreateUser(c.Request.Context(), user.Username, user.Password, user.Email)
 	if err != nil {
 		usersController.logger.Error("register error", zap.Error(err))
 		c.String(http.StatusInternalServerError, "%+v", err)
@@ -56,12 +57,16 @@ func (usersController *UsersController) SignIn(c *gin.Context) {
 		return
 	}
 
-	p, err := usersController.service.Verify(c.Request.Context(), session.Username, session.Password)
+	p, err := usersController.service.CreateSession(c.Request.Context(), session.Username, session.Password)
 	if err != nil {
 		usersController.logger.Error("sign in error", zap.Error(err))
 		c.String(http.StatusInternalServerError, "%+v", err)
 		return
 	}
 
-	c.JSON(http.StatusOK, p)
+	if p == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"token": nil})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"token": p})
+	}
 }

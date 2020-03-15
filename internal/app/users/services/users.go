@@ -12,7 +12,7 @@ var specialKey = "imf1nlTy0j"
 
 type UsersService interface {
 	//Get(ID uint64) (*models.Detail, error)
-	Create(username, password, email string) (*models.Account, error)
+	Create(username, password, email string) (*models.User, error)
 	Verify(username, password string) (valid bool, err error)
 }
 
@@ -21,7 +21,7 @@ type DefaultUsersService struct {
 	Repository repositories.UsersRepository
 }
 
-func (s *DefaultUsersService) Create(username, password, email string) (u *models.Account, err error) {
+func (s *DefaultUsersService) Create(username, password, email string) (u *models.User, err error) {
 	salt := random.RandStringRunes(64)
 	hash := crypto.Sha1(salt + password + specialKey)
 	if u, err = s.Repository.Create(username, hash, salt, email); err != nil {
@@ -31,7 +31,7 @@ func (s *DefaultUsersService) Create(username, password, email string) (u *model
 }
 
 func (s *DefaultUsersService) Verify(username, password string) (valid bool, err error) {
-	u := new(models.Account)
+	u := new(models.User)
 	if u, err = s.Repository.QueryAccount(username); err != nil {
 		return false, err
 	}

@@ -3,14 +3,15 @@ package services
 import (
 	"context"
 	"fmt"
-	"github.com/Infinity-OJ/Server/api/protobuf-spec"
+
+	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
 	"github.com/Infinity-OJ/Server/internal/pkg/models"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 )
 
 type ProductsService interface {
-	Get(c context.Context, ID uint64) (*models.Account, error)
+	Get(c context.Context, ID uint64) (*models.User, error)
 }
 
 type DefaultProductsService struct {
@@ -25,7 +26,7 @@ func NewProductService(logger *zap.Logger, usersSrv proto.UsersClient) ProductsS
 	}
 }
 
-func (s *DefaultProductsService) Get(c context.Context, productID uint64) (p *models.Account, err error) {
+func (s *DefaultProductsService) Get(c context.Context, productID uint64) (p *models.User, err error) {
 	// get detail
 	req := &proto.RegisterRequest{
 		Username: "wycer",
@@ -33,7 +34,7 @@ func (s *DefaultProductsService) Get(c context.Context, productID uint64) (p *mo
 		Password: "123",
 	}
 
-	pd, err := s.usersSrv.Register(c, req)
+	pd, err := s.usersSrv.CreateUser(c, req)
 	if err != nil {
 		return nil, errors.Wrap(err, "get rating error")
 	}
