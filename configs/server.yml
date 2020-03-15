@@ -1,7 +1,7 @@
 app:
   name: server
 http:
-  mode: release
+  mode: debug
   port: 8888
 log:
   filename: logs/server.log

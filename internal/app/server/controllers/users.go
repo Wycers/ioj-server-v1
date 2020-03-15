@@ -60,7 +60,8 @@ func (usersController *UsersController) SignIn(c *gin.Context) {
 	p, err := usersController.service.CreateSession(c.Request.Context(), session.Username, session.Password)
 	if err != nil {
 		usersController.logger.Error("sign in error", zap.Error(err))
-		c.String(http.StatusInternalServerError, "%+v", err)
+		//c.String(http.StatusInternalServerError, "%+v", err)
+		c.String(http.StatusInternalServerError, "")
 		return
 	}
 

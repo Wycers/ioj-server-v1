@@ -9,10 +9,6 @@ import (
 
 func CreateInitControllersFn(uc *UsersController) http.InitControllers {
 	return func(res *gin.Engine) {
-		//config := cors.DefaultConfig()
-		//config.AllowOrigins = []string{"http://localhost:8080"}
-		res.Use(cors.Default())
-
 		api := res.Group("/api")
 
 		user := api.Group("/users")
