@@ -11,11 +11,28 @@ import (
 type UserService interface {
 	Create(c context.Context, username, password, email string) (*models.Account, error)
 	Update(c context.Context, ID uint64) error
+	Verify(c context.Context, username, password string) (token string, err error)
 }
 
 type DefaultUserService struct {
 	logger   *zap.Logger
 	usersSrv proto.UsersClient
+}
+
+func (s *DefaultUserService) Verify(c context.Context, username, password string) (token string, err error) {
+	req := &proto.SigninRequest{
+		Username: username,
+		Password: password,
+	}
+
+	resp, err := s.usersSrv.Signin(c, req)
+	if err != nil {
+		return "", errors.Wrap(err, "Sign in failed.")
+	}
+
+	s.logger.Info("User Sign in!", zap.String("username", username))
+
+	return resp.Token, nil
 }
 
 func (s *DefaultUserService) Create(c context.Context, username, password, email string) (*models.Account, error) {

@@ -6,7 +6,7 @@ import (
 	"github.com/google/wire"
 )
 
-func CreateInitControllersFn(pc *ProductsController, uc *UsersController) http.InitControllers {
+func CreateInitControllersFn(uc *UsersController) http.InitControllers {
 	return func(res *gin.Engine) {
 		api := res.Group("/api")
 
@@ -17,12 +17,12 @@ func CreateInitControllersFn(pc *ProductsController, uc *UsersController) http.I
 
 		session := api.Group("/sessions")
 		session.GET("/")
-		session.POST("/")
+		session.POST("/", uc.SignIn)
 		//session.PUT("/")
 		session.DELETE("/")
 
-		res.GET("/product/:id", pc.Get)
+		//res.GET("/product/:id", pc.Get)
 	}
 }
 
-var ProviderSet = wire.NewSet(NewProductsController, NewUsersController, CreateInitControllersFn)
+var ProviderSet = wire.NewSet(NewUsersController, CreateInitControllersFn)

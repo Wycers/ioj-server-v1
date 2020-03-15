@@ -1,8 +1,8 @@
 app:
-  name: products
+  name: server
 http:
   mode: release
-  port: 8888
+  port: 8000
 log:
   filename: logs/server.log
   maxSize: 500

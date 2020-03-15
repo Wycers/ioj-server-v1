@@ -1,10 +1,10 @@
-package products
+package server
 
 import (
-	"github.com/google/wire"
-	"github.com/pkg/errors"
 	"github.com/Infinity-OJ/Server/internal/pkg/app"
 	"github.com/Infinity-OJ/Server/internal/pkg/transports/http"
+	"github.com/google/wire"
+	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )

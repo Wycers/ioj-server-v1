@@ -35,7 +35,7 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	productsOptions, err := products.NewOptions(viper, logger)
+	serverOptions, err := server.NewOptions(viper, logger)
 	if err != nil {
 		return nil, err
 	}
@@ -67,21 +67,19 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	productsService := services.NewProductService(logger, usersClient)
-	productsController := controllers.NewProductsController(logger, productsService)
 	userService := services.NewUserService(logger, usersClient)
 	usersController := controllers.NewUsersController(logger, userService)
-	initControllers := controllers.CreateInitControllersFn(productsController, usersController)
+	initControllers := controllers.CreateInitControllersFn(usersController)
 	engine := http.NewRouter(httpOptions, logger, initControllers, tracer)
 	apiClient, err := consul.New(consulOptions)
 	if err != nil {
 		return nil, err
 	}
-	server, err := http.New(httpOptions, logger, engine, apiClient)
+	httpServer, err := http.New(httpOptions, logger, engine, apiClient)
 	if err != nil {
 		return nil, err
 	}
-	application, err := products.NewApp(productsOptions, logger, server)
+	application, err := server.NewApp(serverOptions, logger, httpServer)
 	if err != nil {
 		return nil, err
 	}
@@ -90,4 +88,4 @@ func CreateApp(cf string) (*app.Application, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, consul.ProviderSet, jaeger.ProviderSet, http.ProviderSet, grpc.ProviderSet, grpcclients.ProviderSet, controllers.ProviderSet, services.ProviderSet, products.ProviderSet)
+var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, consul.ProviderSet, jaeger.ProviderSet, http.ProviderSet, grpc.ProviderSet, grpcclients.ProviderSet, controllers.ProviderSet, services.ProviderSet, server.ProviderSet)

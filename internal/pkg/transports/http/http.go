@@ -3,10 +3,13 @@ package http
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"time"
+
 	"github.com/Infinity-OJ/Server/internal/pkg/transports/http/middlewares/ginprom"
 	"github.com/Infinity-OJ/Server/internal/pkg/utils/netutil"
 	"github.com/gin-contrib/pprof"
-	"github.com/gin-contrib/zap"
+	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 	consulApi "github.com/hashicorp/consul/api"
@@ -16,8 +19,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
-	"net/http"
-	"time"
 )
 
 type Options struct {
@@ -92,7 +93,7 @@ func (s *Server) Start() error {
 		s.port = netutil.GetAvailablePort()
 	}
 
-	s.host = netutil.GetLocalIP4()
+	s.host = "127.0.0.1" // netutil.GetLocalIP4()
 
 	if s.host == "" {
 		return errors.New("get local ipv4 error")

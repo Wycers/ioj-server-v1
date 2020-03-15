@@ -2,12 +2,15 @@ package grpc
 
 import (
 	"fmt"
+	"log"
+	"net"
+
 	"github.com/Infinity-OJ/Server/internal/pkg/utils/netutil"
-	"github.com/grpc-ecosystem/go-grpc-middleware"
-	"github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
-	"github.com/grpc-ecosystem/go-grpc-middleware/recovery"
-	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
-	"github.com/grpc-ecosystem/go-grpc-prometheus"
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
+	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
+	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
+	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	consulApi "github.com/hashicorp/consul/api"
 	"github.com/opentracing/opentracing-go"
@@ -15,8 +18,6 @@ import (
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"log"
-	"net"
 )
 
 type ServerOptions struct {
@@ -90,7 +91,7 @@ func (s *Server) Start() error {
 		s.port = netutil.GetAvailablePort()
 	}
 
-	s.host = netutil.GetLocalIP4()
+	s.host = "127.0.0.1" // netutil.GetLocalIP4()
 
 	if s.host == "" {
 		return errors.New("get local ipv4 error")

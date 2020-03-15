@@ -42,3 +42,26 @@ func (usersController *UsersController) Post(c *gin.Context) {
 
 	c.JSON(http.StatusOK, p)
 }
+
+type Session struct {
+	Username string `form:"username"`
+	Password string `form:"password"`
+}
+
+func (usersController *UsersController) SignIn(c *gin.Context) {
+	var session Session
+	if err := c.ShouldBind(&session); err != nil {
+		usersController.logger.Error("Missing fields", zap.Error(err))
+		_ = c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	p, err := usersController.service.Verify(c.Request.Context(), session.Username, session.Password)
+	if err != nil {
+		usersController.logger.Error("sign in error", zap.Error(err))
+		c.String(http.StatusInternalServerError, "%+v", err)
+		return
+	}
+
+	c.JSON(http.StatusOK, p)
+}

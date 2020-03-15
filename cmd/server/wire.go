@@ -3,7 +3,6 @@
 package main
 
 import (
-	"github.com/google/wire"
 	"github.com/Infinity-OJ/Server/internal/app/server"
 	"github.com/Infinity-OJ/Server/internal/app/server/controllers"
 	"github.com/Infinity-OJ/Server/internal/app/server/grpcclients"
@@ -15,6 +14,7 @@ import (
 	"github.com/Infinity-OJ/Server/internal/pkg/log"
 	"github.com/Infinity-OJ/Server/internal/pkg/transports/grpc"
 	"github.com/Infinity-OJ/Server/internal/pkg/transports/http"
+	"github.com/google/wire"
 )
 
 var providerSet = wire.NewSet(
@@ -27,7 +27,7 @@ var providerSet = wire.NewSet(
 	grpcclients.ProviderSet,
 	controllers.ProviderSet,
 	services.ProviderSet,
-	products.ProviderSet,
+	server.ProviderSet,
 )
 
 func CreateApp(cf string) (*app.Application, error) {

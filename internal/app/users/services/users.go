@@ -5,35 +5,20 @@ import (
 	"github.com/Infinity-OJ/Server/internal/pkg/models"
 	"github.com/Infinity-OJ/Server/internal/pkg/utils/crypto"
 	"github.com/Infinity-OJ/Server/internal/pkg/utils/random"
-	"github.com/pkg/errors"
 	"go.uber.org/zap"
 )
 
 var specialKey = "imf1nlTy0j"
 
 type UsersService interface {
-	Get(ID uint64) (*models.Detail, error)
+	//Get(ID uint64) (*models.Detail, error)
 	Create(username, password, email string) (*models.Account, error)
+	Verify(username, password string) (valid bool, err error)
 }
 
 type DefaultUsersService struct {
 	logger     *zap.Logger
 	Repository repositories.UsersRepository
-}
-
-func NewDetailService(logger *zap.Logger, Repository repositories.UsersRepository) UsersService {
-	return &DefaultUsersService{
-		logger:     logger.With(zap.String("type", "DefaultUsersService")),
-		Repository: Repository,
-	}
-}
-
-func (s *DefaultUsersService) Get(ID uint64) (p *models.Detail, err error) {
-	if p, err = s.Repository.Query(ID); err != nil {
-		return nil, errors.Wrap(err, "detail service get detail error")
-	}
-
-	return
 }
 
 func (s *DefaultUsersService) Create(username, password, email string) (u *models.Account, err error) {
@@ -43,4 +28,21 @@ func (s *DefaultUsersService) Create(username, password, email string) (u *model
 		return nil, err
 	}
 	return
+}
+
+func (s *DefaultUsersService) Verify(username, password string) (valid bool, err error) {
+	u := new(models.Account)
+	if u, err = s.Repository.QueryAccount(username); err != nil {
+		return false, err
+	}
+	hash := crypto.Sha1(u.Salt + password + specialKey)
+
+	return hash == u.Hash, nil
+}
+
+func NewDetailService(logger *zap.Logger, Repository repositories.UsersRepository) UsersService {
+	return &DefaultUsersService{
+		logger:     logger.With(zap.String("type", "DefaultUsersService")),
+		Repository: Repository,
+	}
 }

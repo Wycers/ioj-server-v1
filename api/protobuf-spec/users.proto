@@ -5,6 +5,7 @@ option go_package = "proto";
 
 service Users {
     rpc Register (RegisterRequest) returns (RegisterResponse);
+    rpc Signin (SigninRequest) returns (SigninResponse);
 }
 
 message User {
@@ -22,4 +23,14 @@ message RegisterRequest {
 
 message RegisterResponse {
     User user = 1;
+}
+
+message SigninRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message SigninResponse {
+    bool authorized = 1;
+    string token = 2;
 }
