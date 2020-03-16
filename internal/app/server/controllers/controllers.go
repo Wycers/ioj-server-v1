@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/Infinity-OJ/Server/internal/pkg/transports/http"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 )
