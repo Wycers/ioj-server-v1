@@ -1,7 +1,7 @@
 
 
 
-apps = 'users' 'server'
+apps = 'problems' 'users' 'server' 'files'
 
 .PHONY: run
 run: proto wire
