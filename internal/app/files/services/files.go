@@ -17,7 +17,7 @@ type DefaultFilesService struct {
 }
 
 func (d DefaultFilesService) CreateFileSpace(fileSpace string) error {
-	d.Repository.CreateFileSpace("XD")
+	d.Repository.CreateFileSpace(fileSpace)
 	return nil
 }
 

@@ -1,6 +1,9 @@
 package files
 
 import (
+	"errors"
+	"strings"
+
 	"github.com/google/wire"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -8,7 +11,7 @@ import (
 
 // Options is log configuration struct
 type Options struct {
-	Type string `yaml: "type"`
+	Type string `yaml:"type"`
 	Base string `yaml:"base"`
 }
 
@@ -37,7 +40,16 @@ func NewOptions(v *viper.Viper, logger *zap.Logger) (*Options, error) {
 
 // New for file library
 func New(o *Options) (FileManager, error) {
-	return &LocalFileManager{}, nil
+	switch strings.ToLower(o.Type) {
+	case "local":
+		{
+			fm := &LocalFileManager{}
+			fm.SetBase(o.Base)
+			return fm, nil
+		}
+	default:
+		return nil, errors.New("unknown store type")
+	}
 }
 
 var ProviderSet = wire.NewSet(New, NewOptions)

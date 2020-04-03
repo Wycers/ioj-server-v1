@@ -51,7 +51,6 @@ func (m *LocalFileManager) CreateDirectory(fileName string) (err error) {
 	if err != nil {
 		return
 	}
-	fmt.Println(filePath)
 	if exist, err := m.isFileExists(fileName); err != nil {
 		return err
 	} else {

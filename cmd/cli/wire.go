@@ -4,6 +4,7 @@ package main
 
 import (
 	"github.com/Infinity-OJ/Server/internal/app/ctl"
+	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/file"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/user"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/grpcclients"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/service"
@@ -13,6 +14,7 @@ import (
 	"github.com/Infinity-OJ/Server/internal/pkg/jaeger"
 	"github.com/Infinity-OJ/Server/internal/pkg/log"
 	"github.com/Infinity-OJ/Server/internal/pkg/transports/grpc"
+
 	//"github.com/Infinity-OJ/Server/internal/pkg/transports/http"
 	"github.com/google/wire"
 	"github.com/urfave/cli/v2"
@@ -24,6 +26,7 @@ var providerSet = wire.NewSet(
 	log.ProviderSet,
 	config.ProviderSet,
 	user.ProviderSet,
+	file.ProviderSet,
 	service.ProviderSet,
 	consul.ProviderSet,
 	ctl.ProviderSet,

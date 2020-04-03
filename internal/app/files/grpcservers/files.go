@@ -2,6 +2,7 @@ package grpcservers
 
 import (
 	"context"
+	"fmt"
 
 	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
 	"github.com/Infinity-OJ/Server/internal/app/files/services"
@@ -13,8 +14,18 @@ type FilesServer struct {
 	service services.FilesService
 }
 
-func (s *FilesServer) CreateFileSpace(context.Context, *proto.CreateFileSpaceRequest) (*proto.CreateFileSpaceResponse, error) {
-	panic("implement me")
+func (f FilesServer) CreateFileSpace(ctx context.Context, req *proto.CreateFileSpaceRequest) (res *proto.CreateFileSpaceResponse, err error) {
+	fmt.Println(req.SpaceName)
+	if err := f.service.CreateFileSpace(req.SpaceName); err != nil {
+		res = &proto.CreateFileSpaceResponse{
+			Status: 1,
+		}
+	} else {
+		res = &proto.CreateFileSpaceResponse{
+			Status: 0,
+		}
+	}
+	return
 }
 
 func NewFilesServer(logger *zap.Logger, fs services.FilesService) (*FilesServer, error) {
