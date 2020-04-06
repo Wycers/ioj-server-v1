@@ -70,7 +70,7 @@ func CreateApp(cf string) (*cli.App, error) {
 	}
 	fileService := service.NewFileService(filesClient)
 	createDirectoryCommand := file.NewCreateDirectoryCommand(fileService)
-	fileCommand := file.NewFileCommand(createDirectoryCommand)
+	fileCommand := file.NewFileCommand(createDirectoryCommand, fileService)
 	problemsClient, err := grpcclients.NewProblemsClient(client)
 	if err != nil {
 		return nil, err

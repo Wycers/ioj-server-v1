@@ -1,17 +1,31 @@
 package repositories
 
 import (
+	"path"
+
 	"github.com/Infinity-OJ/Server/internal/pkg/files"
 	"go.uber.org/zap"
 )
 
 type FilesRepository interface {
 	CreateFileSpace(fileSpace string) error
+	CreateDirectory(fileSpace, directory string) error
+	CreateFile(fileSpace, fileName string, data []byte) error
 }
 
 type FileManager struct {
 	logger *zap.Logger
 	fm     files.FileManager
+}
+
+func (m *FileManager) CreateDirectory(fileSpace, directory string) error {
+	filePath := path.Join(fileSpace, directory)
+	return m.fm.CreateDirectory(filePath)
+}
+
+func (m *FileManager) CreateFile(fileSpace, fileName string, data []byte) error {
+	filePath := path.Join(fileSpace, fileName)
+	return m.fm.CreateFile(filePath, data)
 }
 
 func (m *FileManager) CreateFileSpace(fileSpace string) error {

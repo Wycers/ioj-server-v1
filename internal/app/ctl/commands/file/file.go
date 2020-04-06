@@ -3,6 +3,8 @@ package file
 import (
 	"fmt"
 
+	"github.com/Infinity-OJ/Server/internal/app/ctl/service"
+
 	"github.com/google/wire"
 	"github.com/urfave/cli/v2"
 )
@@ -13,9 +15,10 @@ type Command struct {
 
 var ProviderSet = wire.NewSet(NewFileCommand, NewCreateDirectoryCommand)
 
-func NewFileCommand(createDirectoryCommand *CreateDirectoryCommand) Command {
+func NewFileCommand(createDirectoryCommand *CreateDirectoryCommand, fileService service.FileService) Command {
 	var subCommands = []*cli.Command{
 		createDirectoryCommand.command,
+		NewUploadCommand(fileService),
 	}
 	return Command{Command: &cli.Command{
 		Name:        "file",

@@ -5,40 +5,64 @@ option go_package = "proto";
 
 
 service Files {
-    rpc CreateFileSpace (CreateFileSpaceRequest) returns (CreateFileSpaceResponse);
+  rpc CreateFileSpace (CreateFileSpaceRequest) returns (CreateFileSpaceResponse);
+  rpc CreateDirectory (CreateDirectoryRequest) returns (CreateDirectoryResponse);
+  rpc CreateFile (CreateFileRequest) returns (CreateFileResponse);
 }
 
 message FileMeta {
-    string filename = 1;
-    string length = 2;
-    string sha256 = 3;
+  string filename = 1;
+  string length = 2;
+  string sha256 = 3;
 }
 
 message File {
-    string filename = 1;
-    FileMeta meta = 2;
+  string filename = 1;
+  FileMeta meta = 2;
 }
 
 message Directory {
-    string directory_name = 1;
-    repeated string File = 2;
+  string directory_name = 1;
+  repeated string File = 2;
 }
 
 // CreateFileSpace
 message CreateFileSpaceRequest {
-    string space_name = 1;
+  string space_name = 1;
 }
 
 message CreateFileSpaceResponse {
-    Status status = 1;
+  Status status = 1;
 }
+
+// CreateDirectory
+message CreateDirectoryRequest {
+  string file_space = 1;
+  string directory = 2;
+}
+
+message CreateDirectoryResponse {
+  Status status = 1;
+}
+
+// CreateFile
+message CreateFileRequest {
+  string file_space = 1;
+  string file_path = 2;
+  bytes data = 3;
+}
+
+message CreateFileResponse {
+  Status status = 1;
+}
+
 
 // CheckFileSpaceExists
 message FetchFileSpaceRequest {
-    string space_name = 1;
+  string space_name = 1;
 }
 
 message FetchFileSpaceResponse {
-    bool exist = 1;
-    string prev_file_space = 2;
+  bool exist = 1;
+  string prev_file_space = 2;
 }

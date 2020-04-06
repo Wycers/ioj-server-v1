@@ -252,6 +252,188 @@ func (m *CreateFileSpaceResponse) GetStatus() Status {
 	return Status_success
 }
 
+// CreateDirectory
+type CreateDirectoryRequest struct {
+	FileSpace            string   `protobuf:"bytes,1,opt,name=file_space,json=fileSpace,proto3" json:"file_space,omitempty"`
+	Directory            string   `protobuf:"bytes,2,opt,name=directory,proto3" json:"directory,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CreateDirectoryRequest) Reset()         { *m = CreateDirectoryRequest{} }
+func (m *CreateDirectoryRequest) String() string { return proto.CompactTextString(m) }
+func (*CreateDirectoryRequest) ProtoMessage()    {}
+func (*CreateDirectoryRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cac8f32ecfdd343c, []int{5}
+}
+
+func (m *CreateDirectoryRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateDirectoryRequest.Unmarshal(m, b)
+}
+func (m *CreateDirectoryRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateDirectoryRequest.Marshal(b, m, deterministic)
+}
+func (m *CreateDirectoryRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateDirectoryRequest.Merge(m, src)
+}
+func (m *CreateDirectoryRequest) XXX_Size() int {
+	return xxx_messageInfo_CreateDirectoryRequest.Size(m)
+}
+func (m *CreateDirectoryRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateDirectoryRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateDirectoryRequest proto.InternalMessageInfo
+
+func (m *CreateDirectoryRequest) GetFileSpace() string {
+	if m != nil {
+		return m.FileSpace
+	}
+	return ""
+}
+
+func (m *CreateDirectoryRequest) GetDirectory() string {
+	if m != nil {
+		return m.Directory
+	}
+	return ""
+}
+
+type CreateDirectoryResponse struct {
+	Status               Status   `protobuf:"varint,1,opt,name=status,proto3,enum=Status" json:"status,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CreateDirectoryResponse) Reset()         { *m = CreateDirectoryResponse{} }
+func (m *CreateDirectoryResponse) String() string { return proto.CompactTextString(m) }
+func (*CreateDirectoryResponse) ProtoMessage()    {}
+func (*CreateDirectoryResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cac8f32ecfdd343c, []int{6}
+}
+
+func (m *CreateDirectoryResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateDirectoryResponse.Unmarshal(m, b)
+}
+func (m *CreateDirectoryResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateDirectoryResponse.Marshal(b, m, deterministic)
+}
+func (m *CreateDirectoryResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateDirectoryResponse.Merge(m, src)
+}
+func (m *CreateDirectoryResponse) XXX_Size() int {
+	return xxx_messageInfo_CreateDirectoryResponse.Size(m)
+}
+func (m *CreateDirectoryResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateDirectoryResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateDirectoryResponse proto.InternalMessageInfo
+
+func (m *CreateDirectoryResponse) GetStatus() Status {
+	if m != nil {
+		return m.Status
+	}
+	return Status_success
+}
+
+// CreateFile
+type CreateFileRequest struct {
+	FileSpace            string   `protobuf:"bytes,1,opt,name=file_space,json=fileSpace,proto3" json:"file_space,omitempty"`
+	FilePath             string   `protobuf:"bytes,2,opt,name=file_path,json=filePath,proto3" json:"file_path,omitempty"`
+	Data                 []byte   `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CreateFileRequest) Reset()         { *m = CreateFileRequest{} }
+func (m *CreateFileRequest) String() string { return proto.CompactTextString(m) }
+func (*CreateFileRequest) ProtoMessage()    {}
+func (*CreateFileRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cac8f32ecfdd343c, []int{7}
+}
+
+func (m *CreateFileRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateFileRequest.Unmarshal(m, b)
+}
+func (m *CreateFileRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateFileRequest.Marshal(b, m, deterministic)
+}
+func (m *CreateFileRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateFileRequest.Merge(m, src)
+}
+func (m *CreateFileRequest) XXX_Size() int {
+	return xxx_messageInfo_CreateFileRequest.Size(m)
+}
+func (m *CreateFileRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateFileRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateFileRequest proto.InternalMessageInfo
+
+func (m *CreateFileRequest) GetFileSpace() string {
+	if m != nil {
+		return m.FileSpace
+	}
+	return ""
+}
+
+func (m *CreateFileRequest) GetFilePath() string {
+	if m != nil {
+		return m.FilePath
+	}
+	return ""
+}
+
+func (m *CreateFileRequest) GetData() []byte {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+type CreateFileResponse struct {
+	Status               Status   `protobuf:"varint,1,opt,name=status,proto3,enum=Status" json:"status,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CreateFileResponse) Reset()         { *m = CreateFileResponse{} }
+func (m *CreateFileResponse) String() string { return proto.CompactTextString(m) }
+func (*CreateFileResponse) ProtoMessage()    {}
+func (*CreateFileResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cac8f32ecfdd343c, []int{8}
+}
+
+func (m *CreateFileResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateFileResponse.Unmarshal(m, b)
+}
+func (m *CreateFileResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateFileResponse.Marshal(b, m, deterministic)
+}
+func (m *CreateFileResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateFileResponse.Merge(m, src)
+}
+func (m *CreateFileResponse) XXX_Size() int {
+	return xxx_messageInfo_CreateFileResponse.Size(m)
+}
+func (m *CreateFileResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateFileResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateFileResponse proto.InternalMessageInfo
+
+func (m *CreateFileResponse) GetStatus() Status {
+	if m != nil {
+		return m.Status
+	}
+	return Status_success
+}
+
 // CheckFileSpaceExists
 type FetchFileSpaceRequest struct {
 	SpaceName            string   `protobuf:"bytes,1,opt,name=space_name,json=spaceName,proto3" json:"space_name,omitempty"`
@@ -264,7 +446,7 @@ func (m *FetchFileSpaceRequest) Reset()         { *m = FetchFileSpaceRequest{} }
 func (m *FetchFileSpaceRequest) String() string { return proto.CompactTextString(m) }
 func (*FetchFileSpaceRequest) ProtoMessage()    {}
 func (*FetchFileSpaceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cac8f32ecfdd343c, []int{5}
+	return fileDescriptor_cac8f32ecfdd343c, []int{9}
 }
 
 func (m *FetchFileSpaceRequest) XXX_Unmarshal(b []byte) error {
@@ -304,7 +486,7 @@ func (m *FetchFileSpaceResponse) Reset()         { *m = FetchFileSpaceResponse{}
 func (m *FetchFileSpaceResponse) String() string { return proto.CompactTextString(m) }
 func (*FetchFileSpaceResponse) ProtoMessage()    {}
 func (*FetchFileSpaceResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cac8f32ecfdd343c, []int{6}
+	return fileDescriptor_cac8f32ecfdd343c, []int{10}
 }
 
 func (m *FetchFileSpaceResponse) XXX_Unmarshal(b []byte) error {
@@ -345,6 +527,10 @@ func init() {
 	proto.RegisterType((*Directory)(nil), "Directory")
 	proto.RegisterType((*CreateFileSpaceRequest)(nil), "CreateFileSpaceRequest")
 	proto.RegisterType((*CreateFileSpaceResponse)(nil), "CreateFileSpaceResponse")
+	proto.RegisterType((*CreateDirectoryRequest)(nil), "CreateDirectoryRequest")
+	proto.RegisterType((*CreateDirectoryResponse)(nil), "CreateDirectoryResponse")
+	proto.RegisterType((*CreateFileRequest)(nil), "CreateFileRequest")
+	proto.RegisterType((*CreateFileResponse)(nil), "CreateFileResponse")
 	proto.RegisterType((*FetchFileSpaceRequest)(nil), "FetchFileSpaceRequest")
 	proto.RegisterType((*FetchFileSpaceResponse)(nil), "FetchFileSpaceResponse")
 }
@@ -354,27 +540,33 @@ func init() {
 }
 
 var fileDescriptor_cac8f32ecfdd343c = []byte{
-	// 318 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0xcd, 0x6b, 0xb3, 0x40,
-	0x10, 0x87, 0xc9, 0x97, 0xd1, 0xc9, 0x9b, 0x04, 0x96, 0xb7, 0x46, 0x84, 0xd0, 0xb0, 0xd0, 0x92,
-	0x93, 0x07, 0x4b, 0x53, 0xe8, 0xad, 0x6d, 0xf0, 0x96, 0x1e, 0x36, 0x90, 0x43, 0x2f, 0xb2, 0xb5,
-	0xd3, 0x2a, 0x18, 0xb5, 0xee, 0xa6, 0xb4, 0xff, 0x7d, 0xd9, 0xd5, 0x48, 0x48, 0x3f, 0xa0, 0x27,
-	0x7d, 0x7e, 0x3a, 0xcf, 0x38, 0xe3, 0xc2, 0xe0, 0x39, 0x49, 0x51, 0x78, 0x45, 0x99, 0xcb, 0xdc,
-	0xfd, 0x27, 0x24, 0x97, 0xbb, 0x9a, 0xe8, 0x06, 0xcc, 0x20, 0x49, 0x71, 0x85, 0x92, 0x13, 0x17,
-	0x4c, 0xf5, 0x62, 0xc6, 0xb7, 0xe8, 0xb4, 0x66, 0xad, 0xb9, 0xc5, 0x1a, 0x26, 0x36, 0x18, 0x29,
-	0x66, 0x2f, 0x32, 0x76, 0xda, 0xfa, 0x49, 0x4d, 0x2a, 0x17, 0x31, 0xf7, 0x2f, 0x17, 0x4e, 0xa7,
-	0xca, 0x2b, 0xa2, 0x37, 0xd0, 0x55, 0xde, 0x5f, 0x9d, 0x53, 0xe8, 0x6e, 0x51, 0x72, 0x6d, 0x1c,
-	0xf8, 0x96, 0xb7, 0xff, 0x10, 0xa6, 0x63, 0x1a, 0x80, 0xb5, 0x4c, 0x4a, 0x8c, 0x64, 0x5e, 0x7e,
-	0x90, 0x33, 0x18, 0x3d, 0xed, 0x21, 0x3c, 0xb0, 0x0d, 0x9b, 0xf4, 0x5e, 0x29, 0x49, 0xd5, 0xd6,
-	0x69, 0xcf, 0x3a, 0x73, 0x8b, 0xe9, 0x7b, 0x7a, 0x05, 0xf6, 0x5d, 0x89, 0x5c, 0xa2, 0xa2, 0x75,
-	0xc1, 0x23, 0x64, 0xf8, 0xba, 0x43, 0x21, 0xc9, 0x14, 0x40, 0x28, 0x3e, 0x14, 0x5a, 0x3a, 0x51,
-	0x32, 0x7a, 0x0d, 0x93, 0x2f, 0x85, 0xa2, 0xc8, 0x33, 0x81, 0xe4, 0x14, 0x8c, 0x6a, 0x8d, 0xba,
-	0x6a, 0xe4, 0xf7, 0xbd, 0xb5, 0x46, 0x56, 0xc7, 0x74, 0x01, 0x27, 0x01, 0xca, 0x28, 0xfe, 0x6b,
-	0xcf, 0x0d, 0xd8, 0xc7, 0x75, 0x75, 0xcb, 0xff, 0xd0, 0xc3, 0xf7, 0x44, 0x48, 0x5d, 0x63, 0xb2,
-	0x0a, 0xc8, 0x39, 0x8c, 0x8b, 0x12, 0xdf, 0x42, 0xb5, 0xd4, 0x50, 0x6b, 0xea, 0x1f, 0x34, 0x54,
-	0x71, 0x63, 0xf1, 0x57, 0xd0, 0x53, 0x20, 0xc8, 0x12, 0xc6, 0x47, 0x43, 0x91, 0x89, 0xf7, 0xfd,
-	0x7e, 0x5c, 0xc7, 0xfb, 0x61, 0xfe, 0xdb, 0xfe, 0x43, 0x4f, 0x9f, 0x9f, 0x47, 0x43, 0x5f, 0x2e,
-	0x3e, 0x03, 0x00, 0x00, 0xff, 0xff, 0xde, 0xf1, 0x6d, 0xe2, 0x63, 0x02, 0x00, 0x00,
+	// 416 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x53, 0x4d, 0x6f, 0xda, 0x40,
+	0x10, 0x15, 0xdf, 0x78, 0xf8, 0x52, 0xb7, 0x2d, 0x58, 0x6e, 0x51, 0x91, 0xa5, 0x56, 0x9c, 0x7c,
+	0x70, 0x05, 0x95, 0x7a, 0x6b, 0x8b, 0xb8, 0x35, 0x8a, 0x8c, 0xc2, 0x21, 0x17, 0x6b, 0x63, 0x86,
+	0xd8, 0x12, 0x60, 0xc7, 0xbb, 0x44, 0xc9, 0x5f, 0xcc, 0xaf, 0x8a, 0x76, 0x6d, 0xaf, 0x2d, 0x9c,
+	0x44, 0xe4, 0xc4, 0xbe, 0x07, 0xf3, 0xde, 0xcc, 0xbc, 0x01, 0x3a, 0xdb, 0x60, 0x87, 0xcc, 0x8a,
+	0xe2, 0x90, 0x87, 0x46, 0x97, 0x71, 0xca, 0x8f, 0x29, 0x32, 0xd7, 0xd0, 0x5e, 0x06, 0x3b, 0xfc,
+	0x8f, 0x9c, 0x12, 0x03, 0xda, 0xe2, 0x87, 0x07, 0xba, 0x47, 0xbd, 0x32, 0xa9, 0x4c, 0x35, 0x47,
+	0x61, 0x32, 0x84, 0xe6, 0x0e, 0x0f, 0xb7, 0xdc, 0xd7, 0xab, 0xf2, 0x9b, 0x14, 0x09, 0x9e, 0xf9,
+	0xd4, 0x9e, 0xcd, 0xf5, 0x5a, 0xc2, 0x27, 0xc8, 0xfc, 0x03, 0x75, 0xa1, 0xfb, 0xa6, 0xe6, 0x18,
+	0xea, 0x7b, 0xe4, 0x54, 0x2a, 0x76, 0x6c, 0xcd, 0xca, 0x1a, 0x71, 0x24, 0x6d, 0x2e, 0x41, 0x5b,
+	0x04, 0x31, 0x7a, 0x3c, 0x8c, 0x1f, 0xc9, 0x77, 0xe8, 0x6f, 0x32, 0xe0, 0x16, 0xd4, 0x7a, 0x8a,
+	0xbd, 0x10, 0x92, 0x24, 0xb1, 0xd5, 0xab, 0x93, 0xda, 0x54, 0x73, 0xe4, 0xdb, 0xfc, 0x05, 0xc3,
+	0x7f, 0x31, 0x52, 0x8e, 0x02, 0xad, 0x22, 0xea, 0xa1, 0x83, 0x77, 0x47, 0x64, 0x9c, 0x8c, 0x01,
+	0x98, 0xc0, 0x45, 0x41, 0x4d, 0x32, 0x42, 0xcc, 0xfc, 0x0d, 0xa3, 0x52, 0x21, 0x8b, 0xc2, 0x03,
+	0x43, 0xf2, 0x0d, 0x9a, 0xc9, 0x1a, 0x65, 0x55, 0xdf, 0x6e, 0x59, 0x2b, 0x09, 0x9d, 0x94, 0x36,
+	0xaf, 0x32, 0x53, 0x35, 0x42, 0xc1, 0x54, 0x6c, 0xc0, 0x95, 0x3e, 0x99, 0xe9, 0x36, 0x73, 0x20,
+	0x5f, 0x41, 0x53, 0x23, 0xa5, 0xbb, 0xce, 0x89, 0xbc, 0xa5, 0x82, 0xec, 0xb9, 0x2d, 0x79, 0xf0,
+	0x21, 0x1f, 0xe7, 0xcc, 0x6e, 0xbe, 0x80, 0x04, 0x6e, 0x44, 0x55, 0xf2, 0x32, 0xbf, 0x4b, 0xca,
+	0x7d, 0xb1, 0xec, 0x0d, 0xe5, 0x54, 0x26, 0xdf, 0x75, 0xe4, 0xdb, 0x9c, 0x01, 0x29, 0x9a, 0x9c,
+	0xdb, 0xdb, 0x1c, 0x3e, 0x2f, 0x91, 0x7b, 0xfe, 0x7b, 0x23, 0x5a, 0xc3, 0xf0, 0xb4, 0x2e, 0xb5,
+	0xfc, 0x04, 0x0d, 0x7c, 0x08, 0x18, 0x97, 0x35, 0x6d, 0x27, 0x01, 0xe4, 0x07, 0x0c, 0xa2, 0x18,
+	0xef, 0xdd, 0xc2, 0xcc, 0xc9, 0x54, 0x3d, 0x41, 0x2b, 0x15, 0xfb, 0xa9, 0x02, 0x0d, 0x81, 0x18,
+	0x59, 0xc0, 0xe0, 0xe4, 0x08, 0xc8, 0xc8, 0x7a, 0xf9, 0x9e, 0x0c, 0xdd, 0x7a, 0xed, 0x5e, 0x94,
+	0x4a, 0x7e, 0xd1, 0x99, 0xca, 0xe9, 0x81, 0x28, 0x95, 0x72, 0xc4, 0x33, 0x80, 0xdc, 0x80, 0x10,
+	0xab, 0x14, 0xa7, 0xf1, 0xd1, 0x2a, 0x6f, 0xff, 0x6f, 0xeb, 0xba, 0x21, 0xff, 0xec, 0x37, 0x4d,
+	0xf9, 0xf1, 0xf3, 0x39, 0x00, 0x00, 0xff, 0xff, 0x23, 0xf6, 0x47, 0x06, 0x10, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -390,6 +582,8 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type FilesClient interface {
 	CreateFileSpace(ctx context.Context, in *CreateFileSpaceRequest, opts ...grpc.CallOption) (*CreateFileSpaceResponse, error)
+	CreateDirectory(ctx context.Context, in *CreateDirectoryRequest, opts ...grpc.CallOption) (*CreateDirectoryResponse, error)
+	CreateFile(ctx context.Context, in *CreateFileRequest, opts ...grpc.CallOption) (*CreateFileResponse, error)
 }
 
 type filesClient struct {
@@ -409,9 +603,29 @@ func (c *filesClient) CreateFileSpace(ctx context.Context, in *CreateFileSpaceRe
 	return out, nil
 }
 
+func (c *filesClient) CreateDirectory(ctx context.Context, in *CreateDirectoryRequest, opts ...grpc.CallOption) (*CreateDirectoryResponse, error) {
+	out := new(CreateDirectoryResponse)
+	err := c.cc.Invoke(ctx, "/Files/CreateDirectory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *filesClient) CreateFile(ctx context.Context, in *CreateFileRequest, opts ...grpc.CallOption) (*CreateFileResponse, error) {
+	out := new(CreateFileResponse)
+	err := c.cc.Invoke(ctx, "/Files/CreateFile", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FilesServer is the server API for Files service.
 type FilesServer interface {
 	CreateFileSpace(context.Context, *CreateFileSpaceRequest) (*CreateFileSpaceResponse, error)
+	CreateDirectory(context.Context, *CreateDirectoryRequest) (*CreateDirectoryResponse, error)
+	CreateFile(context.Context, *CreateFileRequest) (*CreateFileResponse, error)
 }
 
 // UnimplementedFilesServer can be embedded to have forward compatible implementations.
@@ -420,6 +634,12 @@ type UnimplementedFilesServer struct {
 
 func (*UnimplementedFilesServer) CreateFileSpace(ctx context.Context, req *CreateFileSpaceRequest) (*CreateFileSpaceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateFileSpace not implemented")
+}
+func (*UnimplementedFilesServer) CreateDirectory(ctx context.Context, req *CreateDirectoryRequest) (*CreateDirectoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDirectory not implemented")
+}
+func (*UnimplementedFilesServer) CreateFile(ctx context.Context, req *CreateFileRequest) (*CreateFileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateFile not implemented")
 }
 
 func RegisterFilesServer(s *grpc.Server, srv FilesServer) {
@@ -444,6 +664,42 @@ func _Files_CreateFileSpace_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Files_CreateDirectory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateDirectoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FilesServer).CreateDirectory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Files/CreateDirectory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FilesServer).CreateDirectory(ctx, req.(*CreateDirectoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Files_CreateFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FilesServer).CreateFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Files/CreateFile",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FilesServer).CreateFile(ctx, req.(*CreateFileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Files_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "Files",
 	HandlerType: (*FilesServer)(nil),
@@ -451,6 +707,14 @@ var _Files_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateFileSpace",
 			Handler:    _Files_CreateFileSpace_Handler,
+		},
+		{
+			MethodName: "CreateDirectory",
+			Handler:    _Files_CreateDirectory_Handler,
+		},
+		{
+			MethodName: "CreateFile",
+			Handler:    _Files_CreateFile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -25,8 +25,9 @@ func NewCreateDirectoryCommand(fileService service.FileService) *CreateDirectory
 		Action: func(c *cli.Context) error {
 			//fmt.Println("new task template: ", c.Args().First())
 			name := c.String("name")
-			return fileService.Create(name)
+			return fileService.CreateFileSpace(name)
 		},
+
 		OnUsageError: nil,
 		Subcommands:  nil, Flags: []cli.Flag{
 			&cli.StringFlag{
