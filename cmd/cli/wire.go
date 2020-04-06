@@ -5,6 +5,7 @@ package main
 import (
 	"github.com/Infinity-OJ/Server/internal/app/ctl"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/file"
+	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/problem"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/user"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/grpcclients"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/service"
@@ -27,6 +28,7 @@ var providerSet = wire.NewSet(
 	config.ProviderSet,
 	user.ProviderSet,
 	file.ProviderSet,
+	problem.ProviderSet,
 	service.ProviderSet,
 	consul.ProviderSet,
 	ctl.ProviderSet,

@@ -1,19 +1,15 @@
-package file
+package problem
 
 import (
 	"github.com/Infinity-OJ/Server/internal/app/ctl/service"
 	"github.com/urfave/cli/v2"
 )
 
-type CreateDirectoryCommand struct {
-	command *cli.Command
-}
-
-func NewCreateDirectoryCommand(fileService service.FileService) *CreateDirectoryCommand {
-	return &CreateDirectoryCommand{command: &cli.Command{
+func NewCreateProblemCommand(problemService service.ProblemService) *cli.Command {
+	return &cli.Command{
 		Name:         "create",
 		Aliases:      []string{"c"},
-		Usage:        "create a new directory",
+		Usage:        "create a new problem with a default page",
 		UsageText:    "",
 		Description:  "",
 		ArgsUsage:    "",
@@ -24,16 +20,24 @@ func NewCreateDirectoryCommand(fileService service.FileService) *CreateDirectory
 
 		Action: func(c *cli.Context) error {
 			//fmt.Println("new task template: ", c.Args().First())
-			name := c.String("name")
-			return fileService.Create(name)
+			title := c.String("title")
+			locale := c.String("locale")
+			_, err := problemService.Create(title, locale)
+			return err
 		},
 		OnUsageError: nil,
 		Subcommands:  nil, Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:     "name",
+				Name:     "title",
 				Required: true,
-				Aliases:  []string{"n"},
-				Usage:    "name for new file space",
+				Aliases:  []string{"t"},
+				Usage:    "title for this problem",
+			},
+			&cli.StringFlag{
+				Name:     "locale",
+				Required: true,
+				Aliases:  []string{"l"},
+				Usage:    "locale of this problem",
 			},
 		},
 		SkipFlagParsing:        false,
@@ -42,5 +46,5 @@ func NewCreateDirectoryCommand(fileService service.FileService) *CreateDirectory
 		UseShortOptionHandling: false,
 		HelpName:               "",
 		CustomHelpTemplate:     "",
-	}}
+	}
 }

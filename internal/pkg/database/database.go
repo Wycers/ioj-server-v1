@@ -31,7 +31,7 @@ func NewOptions(v *viper.Viper, logger *zap.Logger) (*Options, error) {
 // Init 初始化数据库
 func New(o *Options) (*gorm.DB, error) {
 	var err error
-	db, err := gorm.Open("postgres", "host=192.168.31.233 user=postgres password=postgres dbname=postgres sslmode=disable")
+	db, err := gorm.Open("postgres", "host=iris user=postgres password=postgres dbname=postgres sslmode=disable")
 	if err != nil {
 		return nil, errors.Wrap(err, "gorm open database connection error")
 	}
@@ -40,7 +40,7 @@ func New(o *Options) (*gorm.DB, error) {
 		db = db.Debug()
 	}
 
-	db.AutoMigrate(&models.User{}, &models.Profile{}, &models.Problem{})
+	db.AutoMigrate(&models.User{}, &models.Profile{}, &models.Page{}, &models.Problem{})
 
 	return db, nil
 }

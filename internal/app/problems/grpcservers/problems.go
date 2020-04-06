@@ -16,7 +16,7 @@ type ProblemService struct {
 }
 
 func (s *ProblemService) CreateProblem(ctx context.Context, req *proto.CreateProblemRequest) (res *proto.CreateProblemResponse, err error) {
-	if _, err := s.service.Create(req.Problem.Title); err != nil {
+	if _, err := s.service.Create(req.Title, req.Locale); err != nil {
 		return nil, errors.Wrapf(err, "CreateUser user failed")
 	} else {
 		res = &proto.CreateProblemResponse{

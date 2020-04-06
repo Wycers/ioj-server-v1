@@ -6,12 +6,12 @@ import (
 	"github.com/pkg/errors"
 )
 
-func NewUsersClient(client *grpc.Client) (proto.UsersClient, error) {
-	conn, err := client.Dial("Users")
+func NewProblemsClient(client *grpc.Client) (proto.ProblemsClient, error) {
+	conn, err := client.Dial("Problems")
 	if err != nil {
 		return nil, errors.Wrap(err, "user client dial error")
 	}
-	c := proto.NewUsersClient(conn)
+	c := proto.NewProblemsClient(conn)
 
 	return c, nil
 }

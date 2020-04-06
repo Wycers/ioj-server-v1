@@ -18,7 +18,7 @@ type Options struct {
 type FileManager interface {
 	SetBase(base string)
 	GetBase() string
-	CreateFile(fileName string) error
+	CreateFile(fileName string, bytes []byte) error
 	CreateDirectory(fileName string) error
 	isFileExists(fileName string) (bool, error)
 	isDirectoryExists(fileName string) (bool, error)

@@ -17,8 +17,7 @@ type DefaultFilesService struct {
 }
 
 func (d DefaultFilesService) CreateFileSpace(fileSpace string) error {
-	d.Repository.CreateFileSpace(fileSpace)
-	return nil
+	return d.Repository.CreateFileSpace(fileSpace)
 }
 
 func NewFileService(logger *zap.Logger, Repository repositories.FilesRepository) FilesService {

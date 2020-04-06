@@ -9,7 +9,7 @@ import (
 var specialKey = "imf1nlTy0j"
 
 type ProblemsService interface {
-	Create(title string) (p *models.Problem, err error)
+	Create(title, locale string) (p *models.Page, err error)
 }
 
 type DefaultProblemService struct {
@@ -17,8 +17,8 @@ type DefaultProblemService struct {
 	Repository repositories.ProblemRepository
 }
 
-func (s DefaultProblemService) Create(title string) (p *models.Problem, err error) {
-	if p, err = s.Repository.Create(title); err != nil {
+func (s DefaultProblemService) Create(title, locale string) (p *models.Page, err error) {
+	if p, err = s.Repository.Create(title, locale); err != nil {
 		return nil, err
 	}
 	return

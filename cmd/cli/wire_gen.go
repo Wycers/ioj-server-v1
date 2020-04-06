@@ -8,6 +8,7 @@ package main
 import (
 	"github.com/Infinity-OJ/Server/internal/app/ctl"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/file"
+	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/problem"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/user"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/grpcclients"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/service"
@@ -70,10 +71,16 @@ func CreateApp(cf string) (*cli.App, error) {
 	fileService := service.NewFileService(filesClient)
 	createDirectoryCommand := file.NewCreateDirectoryCommand(fileService)
 	fileCommand := file.NewFileCommand(createDirectoryCommand)
-	app := ctl.NewApp(command, fileCommand)
+	problemsClient, err := grpcclients.NewProblemsClient(client)
+	if err != nil {
+		return nil, err
+	}
+	problemService := service.NewProblemService(problemsClient)
+	problemCommand := problem.NewProblemCommand(problemService)
+	app := ctl.NewApp(command, fileCommand, problemCommand)
 	return app, nil
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(jaeger.ProviderSet, app.ProviderSet, log.ProviderSet, config.ProviderSet, user.ProviderSet, file.ProviderSet, service.ProviderSet, consul.ProviderSet, ctl.ProviderSet, grpc.ProviderSet, grpcclients.ProviderSet)
+var providerSet = wire.NewSet(jaeger.ProviderSet, app.ProviderSet, log.ProviderSet, config.ProviderSet, user.ProviderSet, file.ProviderSet, problem.ProviderSet, service.ProviderSet, consul.ProviderSet, ctl.ProviderSet, grpc.ProviderSet, grpcclients.ProviderSet)

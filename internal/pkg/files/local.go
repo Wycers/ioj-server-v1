@@ -2,7 +2,7 @@ package files
 
 import (
 	"errors"
-	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -42,8 +42,21 @@ func GetFileAbsPath(base, fileName string) (fileAbsPath string, err error) {
 	return
 }
 
-func (m *LocalFileManager) CreateFile(fileName string) error {
-	panic("implement me")
+func (m *LocalFileManager) CreateFile(fileName string, bytes []byte) (err error) {
+	filePath, err := GetFileAbsPath(m.base, fileName)
+	if err != nil {
+		return
+	}
+	if exist, err := m.isFileExists(filePath); err != nil {
+		return err
+	} else {
+		if exist {
+			return errors.New("file or directory exists")
+		} else {
+			err = ioutil.WriteFile(filePath, bytes, os.FileMode(0644))
+		}
+	}
+	return
 }
 
 func (m *LocalFileManager) CreateDirectory(fileName string) (err error) {
@@ -51,24 +64,20 @@ func (m *LocalFileManager) CreateDirectory(fileName string) (err error) {
 	if err != nil {
 		return
 	}
-	if exist, err := m.isFileExists(fileName); err != nil {
+	if exist, err := m.isFileExists(filePath); err != nil {
 		return err
 	} else {
 		if exist {
 			return errors.New("file or directory exists")
 		} else {
-			err = os.MkdirAll(filePath, os.ModePerm)
+			err = os.MkdirAll(filePath, os.FileMode(0644))
 		}
 	}
 	return
 }
 
-func (m *LocalFileManager) isFileExists(fileName string) (bool, error) {
-	path, err := GetFileAbsPath(m.base, fileName)
-	if err != nil {
-		return false, err
-	}
-	_, err = os.Stat(path)
+func (m *LocalFileManager) isFileExists(filePath string) (bool, error) {
+	_, err := os.Stat(filePath)
 	if err == nil {
 		return true, nil
 	}
