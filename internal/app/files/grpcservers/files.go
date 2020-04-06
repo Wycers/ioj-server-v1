@@ -13,20 +13,33 @@ type FilesServer struct {
 	service services.FilesService
 }
 
-func (f FilesServer) CreateDirectory(context.Context, *proto.CreateDirectoryRequest) (*proto.CreateDirectoryResponse, error) {
-	panic("implement me")
+func (f FilesServer) CreateDirectory(ctx context.Context, req *proto.CreateDirectoryRequest) (res *proto.CreateDirectoryResponse, err error) {
+	f.logger.Info("Create directory" + req.GetDirectory() + " in " + req.GetFileSpace())
+
+	if err := f.service.CreateDirectory(req.GetFileSpace(), req.GetDirectory()); err != nil {
+		f.logger.Error("Create directory error", zap.String("error:", err.Error()))
+		res = &proto.CreateDirectoryResponse{
+			Status: proto.Status_error,
+		}
+	} else {
+		res = &proto.CreateDirectoryResponse{
+			Status: proto.Status_success,
+		}
+	}
+	return
 }
 
 func (f FilesServer) CreateFile(ctx context.Context, req *proto.CreateFileRequest) (res *proto.CreateFileResponse, err error) {
 	f.logger.Info("Create file " + req.GetFilePath() + " in " + req.GetFileSpace())
 
 	if err := f.service.CreateFile(req.GetFileSpace(), req.GetFilePath(), req.GetData()); err != nil {
+		f.logger.Error("Create file error", zap.String("error:", err.Error()))
 		res = &proto.CreateFileResponse{
-			Status: 1,
+			Status: proto.Status_error,
 		}
 	} else {
 		res = &proto.CreateFileResponse{
-			Status: 0,
+			Status: proto.Status_success,
 		}
 	}
 	return

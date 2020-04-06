@@ -19,7 +19,7 @@ type DefaultFilesService struct {
 }
 
 func (d DefaultFilesService) CreateDirectory(fileSpace, directory string) error {
-	panic("implement me")
+	return d.Repository.CreateDirectory(fileSpace, directory)
 }
 
 func (d DefaultFilesService) CreateFile(fileSpace, fileName string, data []byte) error {

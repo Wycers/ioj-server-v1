@@ -3,30 +3,52 @@ package file
 import (
 	"fmt"
 	"io/ioutil"
+	"path"
 
 	"github.com/Infinity-OJ/Server/internal/app/ctl/service"
 	"github.com/urfave/cli/v2"
 )
 
-func uploadFile(fileService service.FileService, localFilePath, space, remoteFilePath string) (err error) {
+func uploadFile(fileService service.FileService, localFilePath, space, remoteDir string) (err error) {
 	fmt.Println(localFilePath)
 	fmt.Println(space)
-	fmt.Println(remoteFilePath)
+	fmt.Println(remoteDir)
 
 	dat, err := ioutil.ReadFile(localFilePath)
 	if err != nil {
 		return err
 	}
 
-	err = fileService.CreateFile(space, remoteFilePath+"XD.txt", dat)
+	err = fileService.CreateFile(space, path.Join(remoteDir, path.Base(localFilePath)), dat)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func uploadDirectory(fileService *service.FileService, localDir, remoteDir string) {
+func uploadDirectory(fileService service.FileService, base, localDir, space, remoteDir string) (err error) {
+	files, err := ioutil.ReadDir(path.Join(base, localDir))
+	if err != nil {
+		return
+	}
 
+	err = fileService.CreateDirectory(space, localDir)
+	if err != nil {
+		return
+	}
+
+	for _, f := range files {
+		if f.IsDir() {
+			if err = uploadDirectory(fileService, base, path.Join(localDir, f.Name()), space, path.Join(remoteDir, f.Name())); err != nil {
+				return
+			}
+		} else {
+			if err = uploadFile(fileService, path.Join(base, localDir, f.Name()), space, remoteDir); err != nil {
+				return
+			}
+		}
+	}
+	return
 }
 
 func NewUploadCommand(fileService service.FileService) *cli.Command {
@@ -44,20 +66,18 @@ func NewUploadCommand(fileService service.FileService) *cli.Command {
 
 		Action: func(c *cli.Context) error {
 			//fmt.Println("new task template: ", c.Args().First())
-			fmt.Println("?")
 			s := c.String("space")
 			p := c.String("path")
 			r := c.Bool("recursive")
 			if r {
-				//uploadDirectory(p)
+				if err := uploadDirectory(fileService, p, "", s, ""); err != nil {
+					return err
+				}
 			} else {
 				if err := uploadFile(fileService, p, s, ""); err != nil {
-					//fmt.Println(err.Error())
-					fmt.Println("???")
 					return err
 				}
 			}
-			fmt.Println(r)
 
 			return nil
 		},
