@@ -18,7 +18,7 @@ consul:
 grpc:
   port: 0
 jaeger:
-  serviceName: users
+  serviceName: problems
   reporter:
     localAgentHostPort: "127.0.0.1:6831"
   sampler:
