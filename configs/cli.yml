@@ -1,5 +1,5 @@
 app:
-  name: products
+  name: cli
 http:
   mode: release
   port: 8080

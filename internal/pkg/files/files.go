@@ -20,8 +20,8 @@ type FileManager interface {
 	GetBase() string
 	CreateFile(fileName string, bytes []byte) error
 	CreateDirectory(fileName string) error
-	isFileExists(fileName string) (bool, error)
-	isDirectoryExists(fileName string) (bool, error)
+	IsFileExists(fileName string) (bool, error)
+	IsDirectoryExists(fileName string) (bool, error)
 }
 
 func NewOptions(v *viper.Viper, logger *zap.Logger) (*Options, error) {

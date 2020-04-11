@@ -3,6 +3,8 @@ package ctl
 import (
 	"time"
 
+	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/submission"
+
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/file"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/problem"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/user"
@@ -10,7 +12,12 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func NewApp(userCommand user.Command, fileCommand file.Command, problemCommand problem.Command) *cli.App {
+func NewApp(
+	userCommand user.Command,
+	fileCommand file.Command,
+	problemCommand problem.Command,
+	submissionCommand submission.Command,
+) *cli.App {
 	app := &cli.App{
 		Name:                   "",
 		HelpName:               "",
@@ -19,7 +26,7 @@ func NewApp(userCommand user.Command, fileCommand file.Command, problemCommand p
 		ArgsUsage:              "",
 		Version:                "",
 		Description:            "",
-		Commands:               []*cli.Command{userCommand.Command, fileCommand.Command, problemCommand.Command},
+		Commands:               []*cli.Command{userCommand.Command, fileCommand.Command, problemCommand.Command, submissionCommand.Command},
 		Flags:                  nil,
 		EnableBashCompletion:   false,
 		HideHelp:               false,

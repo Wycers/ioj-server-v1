@@ -1,0 +1,46 @@
+syntax = "proto3";
+//import "google/protobuf/timestamp.proto";
+import "status.proto";
+option go_package = "proto";
+
+
+service Pages {
+  rpc CreatePage (CreatePageRequest) returns (CreatePageResponse);
+  rpc FetchPage (FetchPageRequest) returns (FetchPageResponse);
+}
+
+
+message CreatePageRequest {
+  string title = 1;
+  string locale = 2;
+}
+
+message CreatePageResponse {
+  Status status = 1;
+}
+
+message FetchPageRequest {
+  string Page_id = 1;
+}
+
+message FetchPageResponse {
+  Page page = 1;
+}
+
+message Page {
+  uint64 pid = 1;
+  string title = 2;
+  uint64 time_limit = 3;
+  uint64 memory_limit = 4;
+  string description = 5;
+  string input_format = 6;
+  string output_format = 7;
+  string example = 8;
+  string hint_and_limit = 9;
+  uint64 publicizer_id = 10;
+  string file_io_input_name = 11;
+  string file_io_output_name = 12;
+}
+
+
+

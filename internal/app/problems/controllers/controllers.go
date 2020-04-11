@@ -14,4 +14,4 @@ func CreateInitControllersFn(pc *ProblemController) http.InitControllers {
 	}
 }
 
-var ProviderSet = wire.NewSet(NewUsersController, CreateInitControllersFn)
+var ProviderSet = wire.NewSet(NewProblemsController, CreateInitControllersFn)

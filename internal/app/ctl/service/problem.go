@@ -10,7 +10,7 @@ import (
 )
 
 type ProblemService interface {
-	Create(title, locale string) (*models.Page, error)
+	CreateProblem(title, locale string) (*models.Page, error)
 }
 
 type DefaultProblemService struct {
@@ -23,7 +23,7 @@ func NewProblemService(problemSrv proto.ProblemsClient) ProblemService {
 	}
 }
 
-func (s *DefaultProblemService) Create(title, locale string) (*models.Page, error) {
+func (s *DefaultProblemService) CreateProblem(title, locale string) (*models.Page, error) {
 	// get detail
 	req := &proto.CreateProblemRequest{
 		Title:  title,
@@ -32,7 +32,7 @@ func (s *DefaultProblemService) Create(title, locale string) (*models.Page, erro
 
 	pd, err := s.problemSrv.CreateProblem(context.TODO(), req)
 	if err != nil {
-		return nil, errors.Wrap(err, "get rating error")
+		return nil, errors.Wrap(err, "create problem error")
 	}
 
 	fmt.Println(pd.GetStatus().String())

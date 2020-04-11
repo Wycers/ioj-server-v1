@@ -3,6 +3,7 @@
 package main
 
 import (
+	"github.com/Infinity-OJ/Server/internal/app/ctl/grpcclients"
 	"github.com/Infinity-OJ/Server/internal/app/problems"
 	"github.com/Infinity-OJ/Server/internal/app/problems/controllers"
 	"github.com/Infinity-OJ/Server/internal/app/problems/grpcservers"
@@ -29,6 +30,7 @@ var providerSet = wire.NewSet(
 	jaeger.ProviderSet,
 	http.ProviderSet,
 	grpc.ProviderSet,
+	grpcclients.ProviderSet,
 	problems.ProviderSet,
 	controllers.ProviderSet,
 	grpcservers.ProviderSet,

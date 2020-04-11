@@ -11,11 +11,16 @@ type FilesService interface {
 	CreateFileSpace(fileSpace string) error
 	CreateDirectory(fileSpace, directory string) error
 	CreateFile(fileSpace, fileName string, data []byte) error
+	FetchFile(fileSpace, fileName string) ([]byte, error)
 }
 
 type DefaultFilesService struct {
 	logger     *zap.Logger
 	Repository repositories.FilesRepository
+}
+
+func (d DefaultFilesService) FetchFile(fileSpace, fileName string) ([]byte, error) {
+	return d.Repository.FetchFile(fileName, fileName)
 }
 
 func (d DefaultFilesService) CreateDirectory(fileSpace, directory string) error {

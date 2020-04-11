@@ -9,7 +9,8 @@ import (
 )
 
 type ProblemRepository interface {
-	Create(title, locale string) (p *models.Page, err error)
+	CreateProblem(title, locale, publicSpace, privateSpace string) (p *models.Page, err error)
+	FindProblemById(problemId string) (p *models.Problem, err error)
 }
 
 type MysqlUsersRepository struct {
@@ -17,7 +18,15 @@ type MysqlUsersRepository struct {
 	db     *gorm.DB
 }
 
-func (m MysqlUsersRepository) Create(title, locale string) (page *models.Page, err error) {
+func (m MysqlUsersRepository) FindProblemById(problemId string) (p *models.Problem, err error) {
+	p = &models.Problem{}
+	if err = m.db.Where("problem_id = ?", problemId).First(&p).Error; err != nil {
+		p = nil
+	}
+	return
+}
+
+func (m MysqlUsersRepository) CreateProblem(title, locale, publicSpace, privateSpace string) (page *models.Page, err error) {
 	tx := m.db.Begin()
 	defer func() {
 		if r := recover(); r != nil {
@@ -30,9 +39,10 @@ func (m MysqlUsersRepository) Create(title, locale string) (page *models.Page, e
 	}
 
 	problem := &models.Problem{
-		Locale:    locale,
-		ProblemID: random.RandStringRunes(8),
-		FileSpace: "",
+		Locale:       locale,
+		ProblemId:    random.RandStringRunes(8),
+		PublicSpace:  publicSpace,
+		PrivateSpace: privateSpace,
 	}
 	if err = tx.Create(problem).Error; err != nil {
 		tx.Rollback()

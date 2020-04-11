@@ -6,6 +6,7 @@
 package controllers
 
 import (
+	"github.com/Infinity-OJ/Server/api/protobuf-spec"
 	"github.com/Infinity-OJ/Server/internal/app/problems/repositories"
 	"github.com/Infinity-OJ/Server/internal/app/problems/services"
 	"github.com/Infinity-OJ/Server/internal/pkg/config"
@@ -16,7 +17,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateUsersController(cf string, sto repositories.ProblemRepository) (*ProblemController, error) {
+func CreateUsersController(cf string, sto repositories.ProblemRepository, client proto.FilesClient) (*ProblemController, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err
@@ -29,8 +30,9 @@ func CreateUsersController(cf string, sto repositories.ProblemRepository) (*Prob
 	if err != nil {
 		return nil, err
 	}
-	problemsService := services.NewProblemService(logger, sto)
-	problemController := NewUsersController(logger, problemsService)
+	fileService := services.NewFileService(client)
+	problemsService := services.NewProblemService(logger, sto, fileService)
+	problemController := NewProblemsController(logger, problemsService)
 	return problemController, nil
 }
 

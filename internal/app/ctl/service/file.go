@@ -26,7 +26,7 @@ func (d *DefaultFileService) CreateDirectory(fileSpace, directory string) error 
 
 	fs, err := d.fileSrv.CreateDirectory(context.TODO(), req)
 	if err != nil {
-		return errors.Wrap(err, "get rating error")
+		return errors.Wrap(err, "create directory error")
 	}
 	fmt.Println(fs.Status)
 	return nil
@@ -54,7 +54,7 @@ func (d *DefaultFileService) CreateFileSpace(fileSpace string) error {
 
 	fs, err := d.fileSrv.CreateFileSpace(context.TODO(), req)
 	if err != nil {
-		return errors.Wrap(err, "get rating error")
+		return errors.Wrap(err, "create file space error")
 	}
 	fmt.Println(fs.Status)
 	return nil

@@ -32,11 +32,11 @@ func (s *UsersServer) CreateUser(ctx context.Context, req *proto.RegisterRequest
 
 func (s *UsersServer) CreateSession(ctx context.Context, req *proto.SigninRequest) (res *proto.SigninResponse, err error) {
 	if isValid, err := s.service.Verify(req.Username, req.Password); err != nil {
-		return nil, errors.Wrapf(err, "[Create Session] Query error")
+		return nil, errors.Wrapf(err, "[CreateProblem Session] Query error")
 	} else {
 		if isValid {
 			if token, err := jwt.GenerateToken(req.Username); err != nil {
-				return nil, errors.Wrapf(err, "[Create Session] Generate Token failed")
+				return nil, errors.Wrapf(err, "[CreateProblem Session] Generate Token failed")
 			} else {
 				res = &proto.SigninResponse{
 					Authorized: true,

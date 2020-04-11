@@ -1,0 +1,20 @@
+syntax = "proto3";
+//import "google/protobuf/timestamp.proto";
+import "status.proto";
+option go_package = "proto";
+
+
+service Submissions {
+    rpc CreateSubmission (CreateSubmissionRequest) returns (CreateSubmissionResponse);
+}
+
+
+message CreateSubmissionRequest {
+    uint64 submitter_id = 1;
+    string problem_id = 2;
+    string user_space = 3;
+}
+
+message CreateSubmissionResponse {
+    Status status = 1;
+}

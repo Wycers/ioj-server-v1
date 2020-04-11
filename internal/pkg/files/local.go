@@ -47,7 +47,7 @@ func (m *LocalFileManager) CreateFile(fileName string, bytes []byte) (err error)
 	if err != nil {
 		return
 	}
-	if exist, err := m.isFileExists(filePath); err != nil {
+	if exist, err := m.IsFileExists(filePath); err != nil {
 		return err
 	} else {
 		if exist {
@@ -64,7 +64,7 @@ func (m *LocalFileManager) CreateDirectory(fileName string) (err error) {
 	if err != nil {
 		return
 	}
-	if exist, err := m.isFileExists(filePath); err != nil {
+	if exist, err := m.IsFileExists(filePath); err != nil {
 		return err
 	} else {
 		if exist {
@@ -76,7 +76,7 @@ func (m *LocalFileManager) CreateDirectory(fileName string) (err error) {
 	return
 }
 
-func (m *LocalFileManager) isFileExists(filePath string) (bool, error) {
+func (m *LocalFileManager) IsFileExists(filePath string) (bool, error) {
 	_, err := os.Stat(filePath)
 	if err == nil {
 		return true, nil
@@ -87,6 +87,6 @@ func (m *LocalFileManager) isFileExists(filePath string) (bool, error) {
 	return true, err
 }
 
-func (m *LocalFileManager) isDirectoryExists(fileName string) (bool, error) {
+func (m *LocalFileManager) IsDirectoryExists(fileName string) (bool, error) {
 	panic("implement me")
 }

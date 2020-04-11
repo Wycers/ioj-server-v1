@@ -3,8 +3,9 @@ package models
 type Problem struct {
 	Model
 
-	Group     int    `gorm:"not null; unique_index:idx1; default: 0"`
-	Locale    string `json:"locale"`
-	ProblemID string `json:"pid" gorm:"unique_index:idx2"`
-	FileSpace string `json:"file_space"`
+	Group        int    `gorm:"not null; unique_index:idx2; default: 0"`
+	Locale       string `json:"locale"`
+	ProblemId    string `json:"pid" gorm:"unique_index:idx3"`
+	PublicSpace  string `json:"pub_space"`
+	PrivateSpace string `json:"pri_space"`
 }

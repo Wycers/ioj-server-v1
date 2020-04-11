@@ -14,7 +14,7 @@ type ProblemController struct {
 	service services.ProblemsService
 }
 
-func NewUsersController(logger *zap.Logger, s services.ProblemsService) *ProblemController {
+func NewProblemsController(logger *zap.Logger, s services.ProblemsService) *ProblemController {
 	return &ProblemController{
 		logger:  logger,
 		service: s,

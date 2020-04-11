@@ -24,6 +24,116 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type SubmitJudgementRequest struct {
+	PublicSpace          string   `protobuf:"bytes,1,opt,name=public_space,json=publicSpace,proto3" json:"public_space,omitempty"`
+	PrivateSpace         string   `protobuf:"bytes,2,opt,name=private_space,json=privateSpace,proto3" json:"private_space,omitempty"`
+	UserSpace            string   `protobuf:"bytes,3,opt,name=user_space,json=userSpace,proto3" json:"user_space,omitempty"`
+	TestCase             string   `protobuf:"bytes,4,opt,name=test_case,json=testCase,proto3" json:"test_case,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *SubmitJudgementRequest) Reset()         { *m = SubmitJudgementRequest{} }
+func (m *SubmitJudgementRequest) String() string { return proto.CompactTextString(m) }
+func (*SubmitJudgementRequest) ProtoMessage()    {}
+func (*SubmitJudgementRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_75d1ef1952898d1e, []int{0}
+}
+
+func (m *SubmitJudgementRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SubmitJudgementRequest.Unmarshal(m, b)
+}
+func (m *SubmitJudgementRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SubmitJudgementRequest.Marshal(b, m, deterministic)
+}
+func (m *SubmitJudgementRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SubmitJudgementRequest.Merge(m, src)
+}
+func (m *SubmitJudgementRequest) XXX_Size() int {
+	return xxx_messageInfo_SubmitJudgementRequest.Size(m)
+}
+func (m *SubmitJudgementRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SubmitJudgementRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SubmitJudgementRequest proto.InternalMessageInfo
+
+func (m *SubmitJudgementRequest) GetPublicSpace() string {
+	if m != nil {
+		return m.PublicSpace
+	}
+	return ""
+}
+
+func (m *SubmitJudgementRequest) GetPrivateSpace() string {
+	if m != nil {
+		return m.PrivateSpace
+	}
+	return ""
+}
+
+func (m *SubmitJudgementRequest) GetUserSpace() string {
+	if m != nil {
+		return m.UserSpace
+	}
+	return ""
+}
+
+func (m *SubmitJudgementRequest) GetTestCase() string {
+	if m != nil {
+		return m.TestCase
+	}
+	return ""
+}
+
+type SubmitJudgementResponse struct {
+	Status               Status   `protobuf:"varint,1,opt,name=status,proto3,enum=Status" json:"status,omitempty"`
+	Score                uint64   `protobuf:"varint,2,opt,name=score,proto3" json:"score,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *SubmitJudgementResponse) Reset()         { *m = SubmitJudgementResponse{} }
+func (m *SubmitJudgementResponse) String() string { return proto.CompactTextString(m) }
+func (*SubmitJudgementResponse) ProtoMessage()    {}
+func (*SubmitJudgementResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_75d1ef1952898d1e, []int{1}
+}
+
+func (m *SubmitJudgementResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SubmitJudgementResponse.Unmarshal(m, b)
+}
+func (m *SubmitJudgementResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SubmitJudgementResponse.Marshal(b, m, deterministic)
+}
+func (m *SubmitJudgementResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SubmitJudgementResponse.Merge(m, src)
+}
+func (m *SubmitJudgementResponse) XXX_Size() int {
+	return xxx_messageInfo_SubmitJudgementResponse.Size(m)
+}
+func (m *SubmitJudgementResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_SubmitJudgementResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SubmitJudgementResponse proto.InternalMessageInfo
+
+func (m *SubmitJudgementResponse) GetStatus() Status {
+	if m != nil {
+		return m.Status
+	}
+	return Status_success
+}
+
+func (m *SubmitJudgementResponse) GetScore() uint64 {
+	if m != nil {
+		return m.Score
+	}
+	return 0
+}
+
 type FetchFileHashRequest struct {
 	ProblemId            string   `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
 	Filename             string   `protobuf:"bytes,2,opt,name=filename,proto3" json:"filename,omitempty"`
@@ -36,7 +146,7 @@ func (m *FetchFileHashRequest) Reset()         { *m = FetchFileHashRequest{} }
 func (m *FetchFileHashRequest) String() string { return proto.CompactTextString(m) }
 func (*FetchFileHashRequest) ProtoMessage()    {}
 func (*FetchFileHashRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75d1ef1952898d1e, []int{0}
+	return fileDescriptor_75d1ef1952898d1e, []int{2}
 }
 
 func (m *FetchFileHashRequest) XXX_Unmarshal(b []byte) error {
@@ -83,7 +193,7 @@ func (m *FetchFileHashResponse) Reset()         { *m = FetchFileHashResponse{} }
 func (m *FetchFileHashResponse) String() string { return proto.CompactTextString(m) }
 func (*FetchFileHashResponse) ProtoMessage()    {}
 func (*FetchFileHashResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75d1ef1952898d1e, []int{1}
+	return fileDescriptor_75d1ef1952898d1e, []int{3}
 }
 
 func (m *FetchFileHashResponse) XXX_Unmarshal(b []byte) error {
@@ -118,54 +228,54 @@ func (m *FetchFileHashResponse) GetSha1() string {
 	return ""
 }
 
-type FetchFileRequest struct {
-	ProblemId            string   `protobuf:"bytes,1,opt,name=problem_id,json=problemId,proto3" json:"problem_id,omitempty"`
+type FetchJudgeFileRequest struct {
+	FileSpace            string   `protobuf:"bytes,1,opt,name=file_space,json=fileSpace,proto3" json:"file_space,omitempty"`
 	Filename             string   `protobuf:"bytes,2,opt,name=filename,proto3" json:"filename,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *FetchFileRequest) Reset()         { *m = FetchFileRequest{} }
-func (m *FetchFileRequest) String() string { return proto.CompactTextString(m) }
-func (*FetchFileRequest) ProtoMessage()    {}
-func (*FetchFileRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75d1ef1952898d1e, []int{2}
+func (m *FetchJudgeFileRequest) Reset()         { *m = FetchJudgeFileRequest{} }
+func (m *FetchJudgeFileRequest) String() string { return proto.CompactTextString(m) }
+func (*FetchJudgeFileRequest) ProtoMessage()    {}
+func (*FetchJudgeFileRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_75d1ef1952898d1e, []int{4}
 }
 
-func (m *FetchFileRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_FetchFileRequest.Unmarshal(m, b)
+func (m *FetchJudgeFileRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_FetchJudgeFileRequest.Unmarshal(m, b)
 }
-func (m *FetchFileRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_FetchFileRequest.Marshal(b, m, deterministic)
+func (m *FetchJudgeFileRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_FetchJudgeFileRequest.Marshal(b, m, deterministic)
 }
-func (m *FetchFileRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FetchFileRequest.Merge(m, src)
+func (m *FetchJudgeFileRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FetchJudgeFileRequest.Merge(m, src)
 }
-func (m *FetchFileRequest) XXX_Size() int {
-	return xxx_messageInfo_FetchFileRequest.Size(m)
+func (m *FetchJudgeFileRequest) XXX_Size() int {
+	return xxx_messageInfo_FetchJudgeFileRequest.Size(m)
 }
-func (m *FetchFileRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_FetchFileRequest.DiscardUnknown(m)
+func (m *FetchJudgeFileRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_FetchJudgeFileRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_FetchFileRequest proto.InternalMessageInfo
+var xxx_messageInfo_FetchJudgeFileRequest proto.InternalMessageInfo
 
-func (m *FetchFileRequest) GetProblemId() string {
+func (m *FetchJudgeFileRequest) GetFileSpace() string {
 	if m != nil {
-		return m.ProblemId
+		return m.FileSpace
 	}
 	return ""
 }
 
-func (m *FetchFileRequest) GetFilename() string {
+func (m *FetchJudgeFileRequest) GetFilename() string {
 	if m != nil {
 		return m.Filename
 	}
 	return ""
 }
 
-type FetchFileResponse struct {
+type FetchJudgeFileResponse struct {
 	Status               Status   `protobuf:"varint,1,opt,name=status,proto3,enum=Status" json:"status,omitempty"`
 	File                 []byte   `protobuf:"bytes,2,opt,name=file,proto3" json:"file,omitempty"`
 	Sha1                 string   `protobuf:"bytes,3,opt,name=sha1,proto3" json:"sha1,omitempty"`
@@ -174,46 +284,46 @@ type FetchFileResponse struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *FetchFileResponse) Reset()         { *m = FetchFileResponse{} }
-func (m *FetchFileResponse) String() string { return proto.CompactTextString(m) }
-func (*FetchFileResponse) ProtoMessage()    {}
-func (*FetchFileResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75d1ef1952898d1e, []int{3}
+func (m *FetchJudgeFileResponse) Reset()         { *m = FetchJudgeFileResponse{} }
+func (m *FetchJudgeFileResponse) String() string { return proto.CompactTextString(m) }
+func (*FetchJudgeFileResponse) ProtoMessage()    {}
+func (*FetchJudgeFileResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_75d1ef1952898d1e, []int{5}
 }
 
-func (m *FetchFileResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_FetchFileResponse.Unmarshal(m, b)
+func (m *FetchJudgeFileResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_FetchJudgeFileResponse.Unmarshal(m, b)
 }
-func (m *FetchFileResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_FetchFileResponse.Marshal(b, m, deterministic)
+func (m *FetchJudgeFileResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_FetchJudgeFileResponse.Marshal(b, m, deterministic)
 }
-func (m *FetchFileResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FetchFileResponse.Merge(m, src)
+func (m *FetchJudgeFileResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FetchJudgeFileResponse.Merge(m, src)
 }
-func (m *FetchFileResponse) XXX_Size() int {
-	return xxx_messageInfo_FetchFileResponse.Size(m)
+func (m *FetchJudgeFileResponse) XXX_Size() int {
+	return xxx_messageInfo_FetchJudgeFileResponse.Size(m)
 }
-func (m *FetchFileResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_FetchFileResponse.DiscardUnknown(m)
+func (m *FetchJudgeFileResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_FetchJudgeFileResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_FetchFileResponse proto.InternalMessageInfo
+var xxx_messageInfo_FetchJudgeFileResponse proto.InternalMessageInfo
 
-func (m *FetchFileResponse) GetStatus() Status {
+func (m *FetchJudgeFileResponse) GetStatus() Status {
 	if m != nil {
 		return m.Status
 	}
 	return Status_success
 }
 
-func (m *FetchFileResponse) GetFile() []byte {
+func (m *FetchJudgeFileResponse) GetFile() []byte {
 	if m != nil {
 		return m.File
 	}
 	return nil
 }
 
-func (m *FetchFileResponse) GetSha1() string {
+func (m *FetchJudgeFileResponse) GetSha1() string {
 	if m != nil {
 		return m.Sha1
 	}
@@ -233,7 +343,7 @@ func (m *FetchJudgementRequest) Reset()         { *m = FetchJudgementRequest{} }
 func (m *FetchJudgementRequest) String() string { return proto.CompactTextString(m) }
 func (*FetchJudgementRequest) ProtoMessage()    {}
 func (*FetchJudgementRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75d1ef1952898d1e, []int{4}
+	return fileDescriptor_75d1ef1952898d1e, []int{6}
 }
 
 func (m *FetchJudgementRequest) XXX_Unmarshal(b []byte) error {
@@ -291,7 +401,7 @@ func (m *FetchJudgementResponse) Reset()         { *m = FetchJudgementResponse{}
 func (m *FetchJudgementResponse) String() string { return proto.CompactTextString(m) }
 func (*FetchJudgementResponse) ProtoMessage()    {}
 func (*FetchJudgementResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75d1ef1952898d1e, []int{5}
+	return fileDescriptor_75d1ef1952898d1e, []int{7}
 }
 
 func (m *FetchJudgementResponse) XXX_Unmarshal(b []byte) error {
@@ -367,7 +477,7 @@ func (m *ReturnJudgementRequest) Reset()         { *m = ReturnJudgementRequest{}
 func (m *ReturnJudgementRequest) String() string { return proto.CompactTextString(m) }
 func (*ReturnJudgementRequest) ProtoMessage()    {}
 func (*ReturnJudgementRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75d1ef1952898d1e, []int{6}
+	return fileDescriptor_75d1ef1952898d1e, []int{8}
 }
 
 func (m *ReturnJudgementRequest) XXX_Unmarshal(b []byte) error {
@@ -420,7 +530,7 @@ func (m *ReturnJudgementResponse) Reset()         { *m = ReturnJudgementResponse
 func (m *ReturnJudgementResponse) String() string { return proto.CompactTextString(m) }
 func (*ReturnJudgementResponse) ProtoMessage()    {}
 func (*ReturnJudgementResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75d1ef1952898d1e, []int{7}
+	return fileDescriptor_75d1ef1952898d1e, []int{9}
 }
 
 func (m *ReturnJudgementResponse) XXX_Unmarshal(b []byte) error {
@@ -449,10 +559,12 @@ func (m *ReturnJudgementResponse) GetStatus() Status {
 }
 
 func init() {
+	proto.RegisterType((*SubmitJudgementRequest)(nil), "SubmitJudgementRequest")
+	proto.RegisterType((*SubmitJudgementResponse)(nil), "SubmitJudgementResponse")
 	proto.RegisterType((*FetchFileHashRequest)(nil), "FetchFileHashRequest")
 	proto.RegisterType((*FetchFileHashResponse)(nil), "FetchFileHashResponse")
-	proto.RegisterType((*FetchFileRequest)(nil), "FetchFileRequest")
-	proto.RegisterType((*FetchFileResponse)(nil), "FetchFileResponse")
+	proto.RegisterType((*FetchJudgeFileRequest)(nil), "FetchJudgeFileRequest")
+	proto.RegisterType((*FetchJudgeFileResponse)(nil), "FetchJudgeFileResponse")
 	proto.RegisterType((*FetchJudgementRequest)(nil), "FetchJudgementRequest")
 	proto.RegisterType((*FetchJudgementResponse)(nil), "FetchJudgementResponse")
 	proto.RegisterType((*ReturnJudgementRequest)(nil), "ReturnJudgementRequest")
@@ -464,37 +576,43 @@ func init() {
 }
 
 var fileDescriptor_75d1ef1952898d1e = []byte{
-	// 466 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0xdb, 0x6e, 0xd3, 0x40,
-	0x10, 0x55, 0x9a, 0x1b, 0x1e, 0x42, 0x9b, 0x0e, 0x6d, 0x1a, 0x19, 0x21, 0xc0, 0x4f, 0x48, 0x08,
-	0x4b, 0x84, 0x37, 0x1e, 0x90, 0xb8, 0xa8, 0x22, 0xa8, 0xdc, 0xcc, 0x1b, 0x42, 0xb2, 0xdc, 0x78,
-	0x68, 0x16, 0x65, 0xbd, 0xc6, 0xbb, 0x96, 0xe0, 0x13, 0xf8, 0x5d, 0xbe, 0x00, 0xed, 0x78, 0x6b,
-	0xa5, 0x76, 0xa2, 0x80, 0xd4, 0xa7, 0xec, 0x9e, 0x39, 0x39, 0x67, 0xf6, 0xec, 0x8e, 0x61, 0xfc,
-	0xbd, 0x4c, 0x2f, 0x48, 0x52, 0x66, 0x74, 0x98, 0x17, 0xca, 0x28, 0x7f, 0xa4, 0x4d, 0x62, 0x4a,
-	0xb7, 0x0b, 0x3e, 0xc1, 0xd1, 0x29, 0x99, 0xc5, 0xf2, 0x54, 0xac, 0xe8, 0x4d, 0xa2, 0x97, 0x11,
-	0xfd, 0x28, 0x49, 0x1b, 0xbc, 0x0b, 0x90, 0x17, 0xea, 0x7c, 0x45, 0x32, 0x16, 0xe9, 0xb4, 0x73,
-	0xbf, 0xf3, 0xd0, 0x8b, 0x3c, 0x87, 0xcc, 0x53, 0xf4, 0xe1, 0xc6, 0x37, 0xb1, 0xa2, 0x2c, 0x91,
-	0x34, 0xdd, 0xe3, 0x62, 0xbd, 0x0f, 0xce, 0xe0, 0xb8, 0x21, 0xa9, 0x73, 0x95, 0x69, 0xc2, 0x7b,
-	0x30, 0xa8, 0xbc, 0x59, 0x6f, 0x7f, 0x36, 0x0c, 0x3f, 0xf3, 0x36, 0x72, 0x30, 0x22, 0xf4, 0xf4,
-	0x32, 0x79, 0xe2, 0x14, 0x79, 0x1d, 0xbc, 0x83, 0x71, 0xad, 0x76, 0x0d, 0xcd, 0x7d, 0x85, 0xc3,
-	0x35, 0xb9, 0xff, 0x68, 0xcc, 0x2a, 0xb0, 0xda, 0x28, 0xe2, 0x75, 0xdd, 0x6c, 0x77, 0xad, 0xd9,
-	0x9f, 0xee, 0xe8, 0x6f, 0x2f, 0x43, 0x5f, 0xeb, 0xd8, 0x90, 0x36, 0x71, 0xae, 0x44, 0x66, 0xd8,
-	0xa5, 0x17, 0x79, 0x16, 0xf9, 0x68, 0x01, 0x2e, 0x0b, 0x49, 0xf1, 0x4a, 0x48, 0x61, 0xd8, 0xc5,
-	0x96, 0x85, 0xa4, 0x33, 0x0b, 0xe0, 0x03, 0x18, 0x49, 0x92, 0xaa, 0xf8, 0xe5, 0x08, 0x5d, 0x26,
-	0xdc, 0xac, 0x30, 0xa6, 0x04, 0x7f, 0x3a, 0x30, 0x69, 0x5a, 0xbb, 0xd3, 0xed, 0x48, 0xeb, 0xaa,
-	0x77, 0x77, 0x97, 0x77, 0xaf, 0xe5, 0x8d, 0x77, 0xc0, 0x2b, 0x35, 0x15, 0xf1, 0x42, 0xa5, 0x34,
-	0xed, 0x57, 0x81, 0x5b, 0xe0, 0x95, 0x4a, 0x09, 0x1f, 0x01, 0xda, 0xb8, 0x62, 0xa1, 0x62, 0x91,
-	0xe5, 0xa5, 0x89, 0xf9, 0x5a, 0x06, 0xcc, 0x3a, 0xb0, 0x95, 0xb9, 0x9a, 0x5b, 0xfc, 0x7d, 0x22,
-	0x09, 0x1f, 0xc3, 0xed, 0x4b, 0xb2, 0x2a, 0x4d, 0xcd, 0x1e, 0x32, 0x7b, 0x5c, 0xb1, 0x3f, 0x70,
-	0xc1, 0xd2, 0x83, 0x04, 0x26, 0x11, 0x99, 0xb2, 0xc8, 0x5a, 0x79, 0xef, 0xbc, 0xd1, 0x23, 0xe8,
-	0xeb, 0x85, 0x2a, 0xc8, 0x85, 0x5d, 0x6d, 0x70, 0x0c, 0x5d, 0xa9, 0x2f, 0xdc, 0x95, 0xda, 0x65,
-	0xf0, 0x0c, 0x4e, 0x5a, 0x16, 0xff, 0xf8, 0x6a, 0x66, 0xbf, 0xf7, 0x00, 0xea, 0xbf, 0x69, 0x7c,
-	0x0e, 0xb7, 0xf8, 0x86, 0xec, 0x4c, 0xd8, 0xe7, 0x87, 0xc7, 0xe1, 0xa6, 0xd1, 0xf3, 0x27, 0xe1,
-	0xe6, 0xf1, 0x99, 0x81, 0x57, 0x17, 0xf0, 0x30, 0x6c, 0x4e, 0x85, 0x8f, 0x61, 0xfb, 0x65, 0xbf,
-	0x80, 0xfd, 0xab, 0xaf, 0x02, 0x9d, 0x7a, 0x33, 0x31, 0xff, 0x24, 0xdc, 0x12, 0xe5, 0x6b, 0x38,
-	0x68, 0x54, 0x70, 0x1b, 0xd7, 0x9f, 0x86, 0x5b, 0xc2, 0x7a, 0x39, 0xfc, 0xd2, 0xe7, 0x0f, 0xce,
-	0xf9, 0x80, 0x7f, 0x9e, 0xfe, 0x0d, 0x00, 0x00, 0xff, 0xff, 0xe4, 0xb2, 0x31, 0x65, 0x99, 0x04,
-	0x00, 0x00,
+	// 569 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0xdb, 0x6e, 0xd3, 0x40,
+	0x10, 0x55, 0x9a, 0x5b, 0x3d, 0x4d, 0x9b, 0x68, 0x69, 0x93, 0xc8, 0x28, 0x02, 0xcc, 0x0b, 0x12,
+	0xc2, 0x12, 0xe5, 0x0d, 0x21, 0x24, 0x68, 0x55, 0x11, 0x54, 0x95, 0xe2, 0xbc, 0xf1, 0x62, 0x39,
+	0xce, 0xd0, 0x2c, 0x8a, 0xbd, 0xc6, 0xbb, 0x46, 0xf0, 0x2f, 0xfc, 0x18, 0xbf, 0xc1, 0x17, 0xa0,
+	0x9d, 0xdd, 0x44, 0xce, 0xc5, 0xb4, 0xf0, 0x94, 0xdd, 0x33, 0x27, 0x33, 0x67, 0xf6, 0xcc, 0x18,
+	0x7a, 0x5f, 0x8a, 0xd9, 0x0d, 0x26, 0x98, 0x2a, 0xe9, 0x67, 0xb9, 0x50, 0xc2, 0xed, 0x48, 0x15,
+	0xa9, 0xc2, 0xde, 0xbc, 0x9f, 0x35, 0xe8, 0x4f, 0x8a, 0x69, 0xc2, 0xd5, 0xfb, 0x25, 0x31, 0xc0,
+	0xaf, 0x05, 0x4a, 0xc5, 0x1e, 0x41, 0x27, 0x2b, 0xa6, 0x0b, 0x1e, 0x87, 0x32, 0x8b, 0x62, 0x1c,
+	0xd6, 0x1e, 0xd6, 0x9e, 0x38, 0xc1, 0x81, 0xc1, 0x26, 0x1a, 0x62, 0x8f, 0xe1, 0x30, 0xcb, 0xf9,
+	0xb7, 0x48, 0xa1, 0xe5, 0xec, 0x11, 0xa7, 0x63, 0x41, 0x43, 0x1a, 0x01, 0x14, 0x12, 0x73, 0xcb,
+	0xa8, 0x13, 0xc3, 0xd1, 0x88, 0x09, 0xdf, 0x07, 0x47, 0xa1, 0x54, 0x61, 0x1c, 0x49, 0x1c, 0x36,
+	0x28, 0xba, 0xaf, 0x81, 0xb3, 0x48, 0xa2, 0x77, 0x0d, 0x83, 0x2d, 0x75, 0x32, 0x13, 0xa9, 0x44,
+	0xf6, 0x00, 0x5a, 0xa6, 0x13, 0x12, 0x76, 0x74, 0xda, 0xf6, 0x27, 0x74, 0x0d, 0x2c, 0xcc, 0x8e,
+	0xa1, 0x29, 0x63, 0x91, 0x1b, 0x51, 0x8d, 0xc0, 0x5c, 0xbc, 0x8f, 0x70, 0x7c, 0x81, 0x2a, 0x9e,
+	0x5f, 0xf0, 0x05, 0xbe, 0x8b, 0xe4, 0x7c, 0xd9, 0xed, 0x08, 0x20, 0xcb, 0xc5, 0x74, 0x81, 0x49,
+	0xc8, 0x67, 0xb6, 0x57, 0xc7, 0x22, 0xe3, 0x19, 0x73, 0x61, 0xff, 0x33, 0x5f, 0x60, 0x1a, 0x25,
+	0xcb, 0x26, 0x57, 0x77, 0xef, 0x12, 0x4e, 0x36, 0x52, 0xde, 0x55, 0x22, 0x83, 0x86, 0x9c, 0x47,
+	0xcf, 0x6d, 0x46, 0x3a, 0x7b, 0x81, 0xcd, 0x46, 0x1d, 0xeb, 0x94, 0x25, 0x85, 0xba, 0xe4, 0x9a,
+	0x1b, 0x8e, 0x46, 0xcc, 0x3b, 0xfe, 0x4d, 0x61, 0x04, 0xfd, 0xcd, 0x9c, 0xff, 0x20, 0x51, 0xa7,
+	0xa1, 0x94, 0x9d, 0x80, 0xce, 0x2b, 0xd9, 0xf5, 0x92, 0xec, 0xef, 0x65, 0xd9, 0xe5, 0x31, 0x1a,
+	0x01, 0x90, 0xbf, 0x99, 0xe0, 0xa9, 0xa2, 0x2a, 0x8d, 0x80, 0x1c, 0xbf, 0xd6, 0x00, 0x85, 0x79,
+	0x82, 0xe1, 0x82, 0x27, 0x5c, 0x59, 0xab, 0x1c, 0x8d, 0x5c, 0x6a, 0x40, 0x0f, 0x61, 0x82, 0x89,
+	0xc8, 0x7f, 0x58, 0x42, 0x9d, 0x08, 0x07, 0x06, 0x23, 0x8a, 0xf7, 0xbb, 0x56, 0xee, 0x6e, 0x6d,
+	0x46, 0x6e, 0x31, 0x75, 0xbd, 0x76, 0xfd, 0xb6, 0xda, 0x8d, 0xad, 0xda, 0x7a, 0x78, 0x69, 0xb6,
+	0x63, 0x31, 0xc3, 0x61, 0xd3, 0xbc, 0xba, 0x06, 0xce, 0xc4, 0x0c, 0xd9, 0x53, 0x60, 0x64, 0x18,
+	0x17, 0x21, 0x4f, 0xb3, 0x42, 0x85, 0xe4, 0x4d, 0x8b, 0x58, 0x5d, 0x1d, 0x19, 0x8b, 0xb1, 0xc6,
+	0xaf, 0xa2, 0x04, 0xd9, 0x33, 0xb8, 0xb7, 0x24, 0x8b, 0x42, 0xad, 0xd8, 0x6d, 0x62, 0xf7, 0x0c,
+	0xfb, 0x03, 0x05, 0xae, 0xac, 0xa3, 0x01, 0xaa, 0x22, 0x4f, 0xb7, 0xde, 0xfb, 0xff, 0xf6, 0x82,
+	0xf5, 0xa0, 0x9e, 0xc8, 0x1b, 0x6b, 0xa9, 0x3e, 0x7a, 0x2f, 0x61, 0xb0, 0x55, 0xe2, 0x8e, 0x53,
+	0x73, 0xfa, 0x6b, 0x0f, 0x60, 0xf5, 0x37, 0xc9, 0xce, 0xa1, 0xbb, 0xb1, 0xc6, 0x6c, 0xe0, 0xef,
+	0xfe, 0xec, 0xb8, 0x43, 0xbf, 0x6a, 0xe3, 0x5f, 0xc3, 0x21, 0xf9, 0xac, 0x77, 0x4c, 0x0f, 0x31,
+	0x3b, 0xf1, 0x77, 0xad, 0xb2, 0xdb, 0xf7, 0x77, 0xaf, 0xe3, 0x2b, 0x70, 0x56, 0x01, 0x66, 0x49,
+	0x9b, 0x5b, 0xe6, 0x0e, 0xfc, 0x8a, 0x4d, 0x79, 0x03, 0x47, 0xeb, 0x53, 0xb6, 0x96, 0xa2, 0xdc,
+	0xc1, 0xc0, 0xaf, 0xb0, 0xe6, 0x1c, 0xba, 0x1b, 0x11, 0x56, 0xc5, 0x75, 0x87, 0x7e, 0xc5, 0xe3,
+	0xbf, 0x6d, 0x7f, 0x6a, 0xd2, 0xb7, 0x7b, 0xda, 0xa2, 0x9f, 0x17, 0x7f, 0x02, 0x00, 0x00, 0xff,
+	0xff, 0x1b, 0x49, 0x3e, 0xc0, 0xe4, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -509,8 +627,9 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type JudgementsClient interface {
+	SubmitJudgement(ctx context.Context, in *SubmitJudgementRequest, opts ...grpc.CallOption) (*SubmitJudgementResponse, error)
 	FetchHashFile(ctx context.Context, in *FetchFileHashRequest, opts ...grpc.CallOption) (*FetchFileHashResponse, error)
-	FetchFile(ctx context.Context, in *FetchFileRequest, opts ...grpc.CallOption) (*FetchFileResponse, error)
+	FetchFile(ctx context.Context, in *FetchJudgeFileRequest, opts ...grpc.CallOption) (*FetchJudgeFileResponse, error)
 	FetchJudgement(ctx context.Context, in *FetchJudgementRequest, opts ...grpc.CallOption) (*ReturnJudgementRequest, error)
 	ReturnJudgement(ctx context.Context, in *ReturnJudgementRequest, opts ...grpc.CallOption) (*ReturnJudgementResponse, error)
 }
@@ -523,6 +642,15 @@ func NewJudgementsClient(cc grpc.ClientConnInterface) JudgementsClient {
 	return &judgementsClient{cc}
 }
 
+func (c *judgementsClient) SubmitJudgement(ctx context.Context, in *SubmitJudgementRequest, opts ...grpc.CallOption) (*SubmitJudgementResponse, error) {
+	out := new(SubmitJudgementResponse)
+	err := c.cc.Invoke(ctx, "/Judgements/SubmitJudgement", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *judgementsClient) FetchHashFile(ctx context.Context, in *FetchFileHashRequest, opts ...grpc.CallOption) (*FetchFileHashResponse, error) {
 	out := new(FetchFileHashResponse)
 	err := c.cc.Invoke(ctx, "/Judgements/FetchHashFile", in, out, opts...)
@@ -532,8 +660,8 @@ func (c *judgementsClient) FetchHashFile(ctx context.Context, in *FetchFileHashR
 	return out, nil
 }
 
-func (c *judgementsClient) FetchFile(ctx context.Context, in *FetchFileRequest, opts ...grpc.CallOption) (*FetchFileResponse, error) {
-	out := new(FetchFileResponse)
+func (c *judgementsClient) FetchFile(ctx context.Context, in *FetchJudgeFileRequest, opts ...grpc.CallOption) (*FetchJudgeFileResponse, error) {
+	out := new(FetchJudgeFileResponse)
 	err := c.cc.Invoke(ctx, "/Judgements/FetchFile", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -561,8 +689,9 @@ func (c *judgementsClient) ReturnJudgement(ctx context.Context, in *ReturnJudgem
 
 // JudgementsServer is the server API for Judgements service.
 type JudgementsServer interface {
+	SubmitJudgement(context.Context, *SubmitJudgementRequest) (*SubmitJudgementResponse, error)
 	FetchHashFile(context.Context, *FetchFileHashRequest) (*FetchFileHashResponse, error)
-	FetchFile(context.Context, *FetchFileRequest) (*FetchFileResponse, error)
+	FetchFile(context.Context, *FetchJudgeFileRequest) (*FetchJudgeFileResponse, error)
 	FetchJudgement(context.Context, *FetchJudgementRequest) (*ReturnJudgementRequest, error)
 	ReturnJudgement(context.Context, *ReturnJudgementRequest) (*ReturnJudgementResponse, error)
 }
@@ -571,10 +700,13 @@ type JudgementsServer interface {
 type UnimplementedJudgementsServer struct {
 }
 
+func (*UnimplementedJudgementsServer) SubmitJudgement(ctx context.Context, req *SubmitJudgementRequest) (*SubmitJudgementResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubmitJudgement not implemented")
+}
 func (*UnimplementedJudgementsServer) FetchHashFile(ctx context.Context, req *FetchFileHashRequest) (*FetchFileHashResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FetchHashFile not implemented")
 }
-func (*UnimplementedJudgementsServer) FetchFile(ctx context.Context, req *FetchFileRequest) (*FetchFileResponse, error) {
+func (*UnimplementedJudgementsServer) FetchFile(ctx context.Context, req *FetchJudgeFileRequest) (*FetchJudgeFileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FetchFile not implemented")
 }
 func (*UnimplementedJudgementsServer) FetchJudgement(ctx context.Context, req *FetchJudgementRequest) (*ReturnJudgementRequest, error) {
@@ -586,6 +718,24 @@ func (*UnimplementedJudgementsServer) ReturnJudgement(ctx context.Context, req *
 
 func RegisterJudgementsServer(s *grpc.Server, srv JudgementsServer) {
 	s.RegisterService(&_Judgements_serviceDesc, srv)
+}
+
+func _Judgements_SubmitJudgement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitJudgementRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JudgementsServer).SubmitJudgement(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Judgements/SubmitJudgement",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JudgementsServer).SubmitJudgement(ctx, req.(*SubmitJudgementRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Judgements_FetchHashFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -607,7 +757,7 @@ func _Judgements_FetchHashFile_Handler(srv interface{}, ctx context.Context, dec
 }
 
 func _Judgements_FetchFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FetchFileRequest)
+	in := new(FetchJudgeFileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -619,7 +769,7 @@ func _Judgements_FetchFile_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/Judgements/FetchFile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JudgementsServer).FetchFile(ctx, req.(*FetchFileRequest))
+		return srv.(JudgementsServer).FetchFile(ctx, req.(*FetchJudgeFileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -664,6 +814,10 @@ var _Judgements_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "Judgements",
 	HandlerType: (*JudgementsServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SubmitJudgement",
+			Handler:    _Judgements_SubmitJudgement_Handler,
+		},
 		{
 			MethodName: "FetchHashFile",
 			Handler:    _Judgements_FetchHashFile_Handler,

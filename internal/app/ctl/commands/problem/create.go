@@ -22,7 +22,7 @@ func NewCreateProblemCommand(problemService service.ProblemService) *cli.Command
 			//fmt.Println("new task template: ", c.Args().First())
 			title := c.String("title")
 			locale := c.String("locale")
-			_, err := problemService.Create(title, locale)
+			_, err := problemService.CreateProblem(title, locale)
 			return err
 		},
 		OnUsageError: nil,

@@ -6,6 +6,7 @@
 package main
 
 import (
+	"github.com/Infinity-OJ/Server/internal/app/ctl/grpcclients"
 	"github.com/Infinity-OJ/Server/internal/app/problems"
 	"github.com/Infinity-OJ/Server/internal/app/problems/controllers"
 	"github.com/Infinity-OJ/Server/internal/app/problems/grpcservers"
@@ -54,9 +55,10 @@ func CreateApp(cf string) (*app.Application, error) {
 		return nil, err
 	}
 	problemRepository := repositories.NewMysqlUsersRepository(logger, db)
-	problemsService := services.NewProblemService(logger, problemRepository)
-	problemController := controllers.NewUsersController(logger, problemsService)
-	initControllers := controllers.CreateInitControllersFn(problemController)
+	consulOptions, err := consul.NewOptions(viper)
+	if err != nil {
+		return nil, err
+	}
 	configuration, err := jaeger.NewConfiguration(viper, logger)
 	if err != nil {
 		return nil, err
@@ -65,16 +67,28 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
+	clientOptions, err := grpc.NewClientOptions(viper, tracer)
+	if err != nil {
+		return nil, err
+	}
+	client, err := grpc.NewClient(consulOptions, clientOptions)
+	if err != nil {
+		return nil, err
+	}
+	filesClient, err := grpcclients.NewFilesClient(client)
+	if err != nil {
+		return nil, err
+	}
+	fileService := services.NewFileService(filesClient)
+	problemsService := services.NewProblemService(logger, problemRepository, fileService)
+	problemController := controllers.NewProblemsController(logger, problemsService)
+	initControllers := controllers.CreateInitControllersFn(problemController)
 	engine := http.NewRouter(httpOptions, logger, initControllers, tracer)
-	consulOptions, err := consul.NewOptions(viper)
+	apiClient, err := consul.New(consulOptions)
 	if err != nil {
 		return nil, err
 	}
-	client, err := consul.New(consulOptions)
-	if err != nil {
-		return nil, err
-	}
-	server, err := http.New(httpOptions, logger, engine, client)
+	server, err := http.New(httpOptions, logger, engine, apiClient)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +101,7 @@ func CreateApp(cf string) (*app.Application, error) {
 		return nil, err
 	}
 	initServers := grpcservers.CreateInitServersFn(problemService)
-	grpcServer, err := grpc.NewServer(serverOptions, logger, initServers, client, tracer)
+	grpcServer, err := grpc.NewServer(serverOptions, logger, initServers, apiClient, tracer)
 	if err != nil {
 		return nil, err
 	}
@@ -100,4 +114,4 @@ func CreateApp(cf string) (*app.Application, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, database.ProviderSet, services.ProviderSet, repositories.ProviderSet, consul.ProviderSet, jaeger.ProviderSet, http.ProviderSet, grpc.ProviderSet, problems.ProviderSet, controllers.ProviderSet, grpcservers.ProviderSet)
+var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, database.ProviderSet, services.ProviderSet, repositories.ProviderSet, consul.ProviderSet, jaeger.ProviderSet, http.ProviderSet, grpc.ProviderSet, grpcclients.ProviderSet, problems.ProviderSet, controllers.ProviderSet, grpcservers.ProviderSet)

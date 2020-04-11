@@ -45,7 +45,7 @@ func (s *DefaultUserService) CreateUser(c context.Context, username, password, e
 
 	pd, err := s.usersSrv.CreateUser(c, req)
 	if err != nil {
-		return nil, errors.Wrap(err, "get rating error")
+		return nil, errors.Wrap(err, "create user error")
 	}
 
 	s.logger.Info("User Created!", zap.String("username", pd.User.Username))

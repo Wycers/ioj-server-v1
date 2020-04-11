@@ -5,57 +5,70 @@ option go_package = "proto";
 
 
 service Judgements {
-    rpc FetchHashFile (FetchFileHashRequest) returns (FetchFileHashResponse);
-    rpc FetchFile (FetchFileRequest) returns (FetchFileResponse);
-    rpc FetchJudgement (FetchJudgementRequest) returns (ReturnJudgementRequest);
-    rpc ReturnJudgement (ReturnJudgementRequest) returns (ReturnJudgementResponse);
+  rpc SubmitJudgement(SubmitJudgementRequest) returns (SubmitJudgementResponse);
+  rpc FetchHashFile (FetchFileHashRequest) returns (FetchFileHashResponse);
+  rpc FetchFile (FetchJudgeFileRequest) returns (FetchJudgeFileResponse);
+  rpc FetchJudgement (FetchJudgementRequest) returns (ReturnJudgementRequest);
+  rpc ReturnJudgement (ReturnJudgementRequest) returns (ReturnJudgementResponse);
+}
+
+message SubmitJudgementRequest {
+  string public_space = 1;
+  string private_space = 2;
+  string user_space = 3;
+  string test_case = 4;
+}
+
+message SubmitJudgementResponse {
+  Status status = 1;
+  uint64 score = 2;
 }
 
 
 message FetchFileHashRequest {
-    string problem_id = 1;
-    string filename = 2;
+  string problem_id = 1;
+  string filename = 2;
 }
 
 message FetchFileHashResponse {
-    Status status = 1;
-    string sha1 = 2;
+  Status status = 1;
+  string sha1 = 2;
 }
 
-message FetchFileRequest {
-    string problem_id = 1;
-    string filename = 2;
+message FetchJudgeFileRequest {
+  string file_space = 1;
+  string filename = 2;
 }
 
-message FetchFileResponse {
-    Status status = 1;
-    bytes file = 2;
-    string sha1 = 3;
+message FetchJudgeFileResponse {
+  Status status = 1;
+  bytes file = 2;
+  string sha1 = 3;
 }
 
 message FetchJudgementRequest {
-    uint64 test_point = 1;
-    uint64 time_limit = 2;
-    uint64 memory_limit = 3;
+  uint64 test_point = 1;
+  uint64 time_limit = 2;
+  uint64 memory_limit = 3;
 }
 
 
 message FetchJudgementResponse {
-    string problem_id = 1;
-    uint64 time_limit = 3;
-    uint64 memory_limit = 4;
-    string user_code = 5;
-    string file_io_input_name = 6;
-    string file_io_output_name = 7;
+  string problem_id = 1;
+  uint64 time_limit = 3;
+  uint64 memory_limit = 4;
+  string user_code = 5;
+  string file_io_input_name = 6;
+  string file_io_output_name = 7;
 }
 
 
 message ReturnJudgementRequest {
-    Status status = 1;
-    uint64 score = 2;
-    string msg = 3;
+  Status status = 1;
+  uint64 score = 2;
+  string msg = 3;
 }
 
 message ReturnJudgementResponse {
-    Status status = 1;
+  Status status = 1;
 }

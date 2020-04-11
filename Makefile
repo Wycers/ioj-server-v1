@@ -1,7 +1,7 @@
 
 
 
-apps = 'problems' 'users' 'server' 'files'
+apps = 'problems' 'users' 'server' 'files' 'submissions' 'judgements'
 
 .PHONY: run
 run: proto wire
@@ -21,8 +21,6 @@ run-cli: proto wire
 .PHONY: wire
 wire:
 	wire ./...
-
-
 
 .PHONY: proto
 proto:

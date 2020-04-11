@@ -3,6 +3,7 @@
 package controllers
 
 import (
+	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
 	"github.com/Infinity-OJ/Server/internal/app/problems/repositories"
 	"github.com/Infinity-OJ/Server/internal/app/problems/services"
 	"github.com/Infinity-OJ/Server/internal/pkg/config"
@@ -20,6 +21,6 @@ var testProviderSet = wire.NewSet(
 	ProviderSet,
 )
 
-func CreateUsersController(cf string, sto repositories.ProblemRepository) (*ProblemController, error) {
+func CreateUsersController(cf string, sto repositories.ProblemRepository, client proto.FilesClient) (*ProblemController, error) {
 	panic(wire.Build(testProviderSet))
 }

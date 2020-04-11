@@ -33,7 +33,7 @@ func (s *DefaultUserService) Create(username, password, email string) (*models.U
 
 	pd, err := s.userSrv.CreateUser(context.TODO(), req)
 	if err != nil {
-		return nil, errors.Wrap(err, "get rating error")
+		return nil, errors.Wrap(err, "create user error")
 	}
 
 	fmt.Println(pd.User.Password)
