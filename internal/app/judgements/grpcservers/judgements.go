@@ -3,33 +3,42 @@ package grpcservers
 import (
 	"context"
 
+	"github.com/pkg/errors"
+
 	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
 	"github.com/Infinity-OJ/Server/internal/app/judgements/services"
 	"go.uber.org/zap"
 )
 
 type JudgementsService struct {
-	logger      *zap.Logger
-	service     services.JudgementsService
-	fileService proto.FilesClient
+	logger  *zap.Logger
+	service services.JudgementsService
 }
 
-func (s *JudgementsService) SubmitJudgement(context.Context, *proto.SubmitJudgementRequest) (*proto.SubmitJudgementResponse, error) {
-	panic("implement me")
+func (s *JudgementsService) SubmitJudgement(ctx context.Context, req *proto.SubmitJudgementRequest) (res *proto.SubmitJudgementResponse, err error) {
+	err = s.service.CreateJudgement(req.GetSubmissionId(), req.GetPublicSpace(), req.GetPrivateSpace(), req.GetUserSpace(), req.GetTestCase())
+	if err != nil {
+		res = &proto.SubmitJudgementResponse{
+			Status: proto.Status_error,
+			Score:  0,
+		}
+		return nil, errors.Wrap(err, "create judgement failed")
+	}
+	res = &proto.SubmitJudgementResponse{
+		Status: proto.Status_success,
+		Score:  0,
+	}
+	return
 }
 
 func (s *JudgementsService) FetchFile(ctx context.Context, req *proto.FetchJudgeFileRequest) (res *proto.FetchJudgeFileResponse, err error) {
-	fetchReq := proto.FetchFileRequest{
-		SpaceName: req.FileSpace,
-		FilePath:  req.Filename,
-	}
-	fetchRes, err := s.fileService.FetchFile(ctx, &fetchReq)
+	fetchRes, err := s.service.FetchFile(req.GetFileSpace(), req.GetFilename())
 	if err != nil {
 		return
 	}
 	res = &proto.FetchJudgeFileResponse{
 		Status: proto.Status_success,
-		File:   fetchRes.File.Data,
+		File:   fetchRes,
 		Sha1:   "",
 	}
 	return
@@ -47,10 +56,9 @@ func (s *JudgementsService) ReturnJudgement(context.Context, *proto.ReturnJudgem
 	panic("implement me")
 }
 
-func NewJudgementsServer(logger *zap.Logger, ps services.JudgementsService, fs proto.FilesClient) (*JudgementsService, error) {
+func NewJudgementsServer(logger *zap.Logger, js services.JudgementsService) (*JudgementsService, error) {
 	return &JudgementsService{
-		logger:      logger,
-		service:     ps,
-		fileService: fs,
+		logger:  logger,
+		service: js,
 	}, nil
 }

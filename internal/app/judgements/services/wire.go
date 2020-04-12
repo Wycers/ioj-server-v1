@@ -1,9 +1,10 @@
 // +build wireinject
 
-package grpcservers
+package services
 
 import (
-	"github.com/Infinity-OJ/Server/internal/app/judgements/services"
+	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
+	"github.com/Infinity-OJ/Server/internal/app/judgements/repositories"
 	"github.com/Infinity-OJ/Server/internal/pkg/config"
 	"github.com/Infinity-OJ/Server/internal/pkg/database"
 	"github.com/Infinity-OJ/Server/internal/pkg/log"
@@ -17,6 +18,10 @@ var testProviderSet = wire.NewSet(
 	ProviderSet,
 )
 
-func CreateJudgementsServer(cf string, service services.JudgementsService) (*JudgementsService, error) {
+func CreateJudgementsService(
+	cf string,
+	sto repositories.JudgementsRepository,
+	filesClient proto.FilesClient,
+) (JudgementsService, error) {
 	panic(wire.Build(testProviderSet))
 }

@@ -20,6 +20,7 @@ type FileManager interface {
 	GetBase() string
 	CreateFile(fileName string, bytes []byte) error
 	CreateDirectory(fileName string) error
+	FetchFile(fileName string) ([]byte, error)
 	IsFileExists(fileName string) (bool, error)
 	IsDirectoryExists(fileName string) (bool, error)
 }

@@ -15,7 +15,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateUsersServer(cf string, service services.SubmissionsService) (*SubmissionService, error) {
+func CreateSubmissionsServer(cf string, service services.SubmissionsService) (*SubmissionService, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func CreateUsersServer(cf string, service services.SubmissionsService) (*Submiss
 	if err != nil {
 		return nil, err
 	}
-	submissionService, err := NewUsersServer(logger, service)
+	submissionService, err := NewSubmissionsServer(logger, service)
 	if err != nil {
 		return nil, err
 	}

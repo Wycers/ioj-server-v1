@@ -7,7 +7,7 @@ import (
 )
 
 func NewJudgementsClient(client *grpc.Client) (proto.JudgementsClient, error) {
-	conn, err := client.Dial("Problems")
+	conn, err := client.Dial("Judgements")
 	if err != nil {
 		return nil, errors.Wrap(err, "user client dial error")
 	}

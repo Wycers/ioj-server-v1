@@ -79,7 +79,8 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	judgementsService := services.NewJudgementsService(logger, judgementsRepository, filesClient)
+	filesService := services.NewFilesService(filesClient)
+	judgementsService := services.NewJudgementsService(logger, judgementsRepository, filesService)
 	judgementController := controllers.NewJudgementsController(logger, judgementsService)
 	initControllers := controllers.CreateInitControllersFn(judgementController)
 	engine := http.NewRouter(httpOptions, logger, initControllers, tracer)
@@ -95,7 +96,7 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	grpcserversJudgementsService, err := grpcservers.NewJudgementsServer(logger, judgementsService, filesClient)
+	grpcserversJudgementsService, err := grpcservers.NewJudgementsServer(logger, judgementsService)
 	if err != nil {
 		return nil, err
 	}

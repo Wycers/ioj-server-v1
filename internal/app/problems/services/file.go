@@ -28,7 +28,9 @@ func (d *DefaultFileService) CreateDirectory(fileSpace, directory string) error 
 	if err != nil {
 		return errors.Wrap(err, "create directory error")
 	}
-	fmt.Println(fs.Status)
+	if fs.GetStatus() == proto.Status_error {
+		return errors.New("Create directory failed")
+	}
 	return nil
 }
 

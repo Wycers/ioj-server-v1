@@ -13,10 +13,11 @@ service Judgements {
 }
 
 message SubmitJudgementRequest {
-  string public_space = 1;
-  string private_space = 2;
-  string user_space = 3;
-  string test_case = 4;
+  uint64 submission_id = 1;
+  string public_space = 2;
+  string private_space = 3;
+  string user_space = 4;
+  string test_case = 5;
 }
 
 message SubmitJudgementResponse {

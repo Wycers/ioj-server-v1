@@ -2,7 +2,8 @@ package services
 
 import (
 	"fmt"
-	"log"
+
+	"github.com/pkg/errors"
 
 	"github.com/Infinity-OJ/Server/internal/app/submissions/repositories"
 	"github.com/Infinity-OJ/Server/internal/pkg/models"
@@ -31,7 +32,7 @@ func (d DefaultSubmissionService) Create(submitterID uint64, problemId string, u
 		return nil, err
 	}
 
-	d.Judge(s)
+	err = d.Judge(s)
 	return
 }
 
@@ -47,27 +48,39 @@ func (d DefaultSubmissionService) Judge(submission *models.Submission) error {
 
 	meta, err := d.FileService.FetchMetaFile(problem.PrivateSpace)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "judge error: fetch meta file error")
 	}
 
 	m := Meta{}
 	err = yaml.Unmarshal(meta, &m)
 	if err != nil {
-		log.Fatalf("error: %v", err)
+		d.logger.Error("error: %v", zap.Error(err))
+		return errors.Wrap(err, "judge error: parse meta file error")
 	}
+
+	fmt.Println(problem.PublicSpace)
+	fmt.Println(problem.PrivateSpace)
 	for k, v := range m.TestCases {
 		fmt.Println(k, v)
-		if err := d.JudgementService.Create(problem.PublicSpace, problem.PrivateSpace, submission.UserSpace, v); err != nil {
-			return err
+		if err := d.JudgementService.Create(submission.ID, problem.PublicSpace, problem.PrivateSpace, submission.UserSpace, v); err != nil {
+			return errors.Wrap(err, "judge error: submit judgement error")
 		}
 	}
 	return nil
 }
 
-func NewSubmissionService(logger *zap.Logger, ProblemService ProblemsService, Repository repositories.SubmissionRepository) SubmissionsService {
+func NewSubmissionService(
+	logger *zap.Logger,
+	ProblemService ProblemsService,
+	Repository repositories.SubmissionRepository,
+	FileService FilesService,
+	JudgementService JudgementsService,
+) SubmissionsService {
 	return &DefaultSubmissionService{
-		logger:         logger.With(zap.String("type", "DefaultSubmissionService")),
-		ProblemService: ProblemService,
-		Repository:     Repository,
+		logger:           logger.With(zap.String("type", "DefaultSubmissionService")),
+		ProblemService:   ProblemService,
+		FileService:      FileService,
+		JudgementService: JudgementService,
+		Repository:       Repository,
 	}
 }

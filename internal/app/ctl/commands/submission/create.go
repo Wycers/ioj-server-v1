@@ -20,7 +20,10 @@ func NewCreateSubmissionCommand(submissionService service.SubmissionService) *Cr
 		Before:       nil,
 		After:        nil,
 		Action: func(c *cli.Context) error {
-			if err := submissionService.Create(0, "test", "userSpace"); err != nil {
+			submitterId := c.Uint64("submitterId")
+			problemId := c.String("problemId")
+			userSpace := c.String("fileSpace")
+			if err := submissionService.Create(submitterId, problemId, userSpace); err != nil {
 				return err
 			}
 			return nil

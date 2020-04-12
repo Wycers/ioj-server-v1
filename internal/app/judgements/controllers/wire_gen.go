@@ -30,7 +30,8 @@ func CreateJudgementsController(cf string, sto repositories.JudgementsRepository
 	if err != nil {
 		return nil, err
 	}
-	judgementsService := services.NewJudgementsService(logger, sto, client)
+	filesService := services.NewFilesService(client)
+	judgementsService := services.NewJudgementsService(logger, sto, filesService)
 	judgementController := NewJudgementsController(logger, judgementsService)
 	return judgementController, nil
 }

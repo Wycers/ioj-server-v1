@@ -9,17 +9,17 @@ import (
 )
 
 type FilesService interface {
-	FetchMetaFile(privateSpace string) (data []byte, err error)
+	FetchFile(fileSpace, fileName string) (data []byte, err error)
 }
 
 type DefaultFilesService struct {
 	fileSrv proto.FilesClient
 }
 
-func (d DefaultFilesService) FetchMetaFile(privateSpace string) (data []byte, err error) {
+func (d DefaultFilesService) FetchFile(fileSpace, fileName string) (data []byte, err error) {
 	req := &proto.FetchFileRequest{
-		SpaceName: privateSpace,
-		FilePath:  "meta.yaml",
+		SpaceName: fileSpace,
+		FilePath:  fileName,
 	}
 
 	res, err := d.fileSrv.FetchFile(context.TODO(), req)

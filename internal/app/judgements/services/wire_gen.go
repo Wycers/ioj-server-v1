@@ -7,7 +7,7 @@ package services
 
 import (
 	"github.com/Infinity-OJ/Server/api/protobuf-spec"
-	"github.com/Infinity-OJ/Server/internal/app/submissions/repositories"
+	"github.com/Infinity-OJ/Server/internal/app/judgements/repositories"
 	"github.com/Infinity-OJ/Server/internal/pkg/config"
 	"github.com/Infinity-OJ/Server/internal/pkg/database"
 	"github.com/Infinity-OJ/Server/internal/pkg/log"
@@ -16,7 +16,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateSubmissionsService(cf string, sto repositories.SubmissionRepository, problemsClient proto.ProblemsClient, filesClient proto.FilesClient, judgementsClient proto.JudgementsClient) (SubmissionsService, error) {
+func CreateJudgementsService(cf string, sto repositories.JudgementsRepository, filesClient proto.FilesClient) (JudgementsService, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err
@@ -29,11 +29,9 @@ func CreateSubmissionsService(cf string, sto repositories.SubmissionRepository, 
 	if err != nil {
 		return nil, err
 	}
-	problemsService := NewProblemService(problemsClient)
 	filesService := NewFilesService(filesClient)
-	judgementsService := NewJudgementsService(judgementsClient)
-	submissionsService := NewSubmissionService(logger, problemsService, sto, filesService, judgementsService)
-	return submissionsService, nil
+	judgementsService := NewJudgementsService(logger, sto, filesService)
+	return judgementsService, nil
 }
 
 // wire.go:

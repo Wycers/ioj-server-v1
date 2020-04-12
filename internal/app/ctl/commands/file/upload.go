@@ -1,7 +1,6 @@
 package file
 
 import (
-	"fmt"
 	"io/ioutil"
 	"path"
 
@@ -10,10 +9,6 @@ import (
 )
 
 func uploadFile(fileService service.FileService, localFilePath, space, remoteDir string) (err error) {
-	fmt.Println(localFilePath)
-	fmt.Println(space)
-	fmt.Println(remoteDir)
-
 	dat, err := ioutil.ReadFile(localFilePath)
 	if err != nil {
 		return err

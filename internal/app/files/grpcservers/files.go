@@ -14,7 +14,7 @@ type FilesServer struct {
 }
 
 func (f FilesServer) FetchFile(ctx context.Context, req *proto.FetchFileRequest) (res *proto.FetchFileResponse, err error) {
-	f.logger.Info("Fetch file" + req.GetFilePath() + " in " + req.GetSpaceName())
+	f.logger.Info("Fetch file " + req.GetFilePath() + " in " + req.GetSpaceName())
 
 	if data, err := f.service.FetchFile(req.GetSpaceName(), req.GetFilePath()); err != nil {
 		res = &proto.FetchFileResponse{

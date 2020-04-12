@@ -30,7 +30,9 @@ func (m *FileManager) IsFileExists(fileSpace, fileName string) bool {
 }
 
 func (m *FileManager) FetchFile(fileSpace, fileName string) ([]byte, error) {
-	panic("implement me")
+	filePath := path.Join(fileSpace, fileName)
+	return m.fm.FetchFile(filePath)
+
 }
 
 func (m *FileManager) CreateDirectory(fileSpace, directory string) error {

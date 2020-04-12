@@ -1,7 +1,6 @@
 package services
 
 import (
-	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
 	"github.com/pkg/errors"
 
 	"github.com/Infinity-OJ/Server/internal/app/judgements/repositories"
@@ -9,15 +8,29 @@ import (
 )
 
 type JudgementsService interface {
+	CreateJudgement(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error
 	FetchJudgement() *repositories.Judgement
 	FinishJudgement(token string, score uint64) error
+	FetchFile(fileSpace, fileName string) ([]byte, error)
 }
 
 type DefaultJudgementsService struct {
 	logger      *zap.Logger
 	Repository  repositories.JudgementsRepository
 	mp          map[string]*repositories.Judgement
-	fileService proto.FilesClient
+	FileService FilesService
+}
+
+func (d DefaultJudgementsService) FetchFile(fileSpace, fileName string) ([]byte, error) {
+	return d.FileService.FetchFile(fileSpace, fileName)
+}
+
+func (d DefaultJudgementsService) CreateJudgement(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error {
+	err := d.Repository.Create(submissionId, publicSpace, privateSpace, userSpace, testCase)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 //func dosomething(ctx context.Context, judgement *repositories.Judgement) {
@@ -65,11 +78,11 @@ func (d DefaultJudgementsService) FinishJudgement(token string, score uint64) er
 	return nil
 }
 
-func NewJudgementsService(logger *zap.Logger, Repository repositories.JudgementsRepository, fileSerivce proto.FilesClient) JudgementsService {
+func NewJudgementsService(logger *zap.Logger, Repository repositories.JudgementsRepository, filesService FilesService) JudgementsService {
 	return &DefaultJudgementsService{
-		logger:      logger.With(zap.String("type", "DefaultJudgementservice")),
+		logger:      logger.With(zap.String("type", "DefaultJudgementService")),
 		Repository:  Repository,
 		mp:          make(map[string]*repositories.Judgement),
-		fileService: fileSerivce,
+		FileService: filesService,
 	}
 }

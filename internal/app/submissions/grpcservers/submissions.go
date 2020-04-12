@@ -26,7 +26,7 @@ func (s *SubmissionService) CreateSubmission(ctx context.Context, req *proto.Cre
 	return
 }
 
-func NewUsersServer(logger *zap.Logger, ps services.SubmissionsService) (*SubmissionService, error) {
+func NewSubmissionsServer(logger *zap.Logger, ps services.SubmissionsService) (*SubmissionService, error) {
 	return &SubmissionService{
 		logger:  logger,
 		service: ps,

@@ -18,6 +18,12 @@ var testProviderSet = wire.NewSet(
 	ProviderSet,
 )
 
-func CreateSubmissionsService(cf string, sto repositories.SubmissionRepository, problemsClient proto.ProblemsClient, client proto.FilesClient) (SubmissionsService, error) {
+func CreateSubmissionsService(
+	cf string,
+	sto repositories.SubmissionRepository,
+	problemsClient proto.ProblemsClient,
+	filesClient proto.FilesClient,
+	judgementsClient proto.JudgementsClient,
+) (SubmissionsService, error) {
 	panic(wire.Build(testProviderSet))
 }

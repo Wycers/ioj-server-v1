@@ -10,6 +10,7 @@ require (
 	github.com/gin-contrib/zap v0.0.0-20191128031730-d12829f8f61b
 	github.com/gin-gonic/gin v1.5.0
 	github.com/golang/protobuf v1.3.5
+	github.com/google/uuid v1.1.1
 	github.com/google/wire v0.4.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0

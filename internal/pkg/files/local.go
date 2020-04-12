@@ -2,6 +2,7 @@ package files
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -11,6 +12,27 @@ import (
 
 type LocalFileManager struct {
 	base string
+}
+
+func (m *LocalFileManager) FetchFile(fileName string) ([]byte, error) {
+	filePath, err := GetFileAbsPath(m.base, fileName)
+	fmt.Println(filePath)
+	if err != nil {
+		return nil, err
+	}
+	if exist, err := m.IsFileExists(filePath); err != nil {
+		return nil, err
+	} else {
+		if exist {
+			dat, err := ioutil.ReadFile(filePath)
+			if err != nil {
+				return nil, err
+			}
+			return dat, nil
+		} else {
+			return nil, errors.New("file or directory does not exist")
+		}
+	}
 }
 
 func (m *LocalFileManager) GetBase() string {

@@ -6,6 +6,8 @@ import (
 	"sync/atomic"
 	"unsafe"
 
+	"github.com/Infinity-OJ/Server/internal/pkg/models"
+
 	"github.com/Infinity-OJ/Server/internal/pkg/utils/random"
 
 	"github.com/jinzhu/gorm"
@@ -15,20 +17,29 @@ import (
 type Mutex struct {
 	sync.Mutex
 }
+
+const mutexLocked = 1 << iota
+
+func (m *Mutex) TryLock() bool {
+	return atomic.CompareAndSwapInt32((*int32)(unsafe.Pointer(&m.Mutex)), 0, mutexLocked)
+}
+
 type Judgement struct {
 	Mutex  Mutex
 	Status string
 	Token  string
 	Time   uint64
 	Done   chan bool
-}
 
-func (m *Mutex) TryLock() bool {
-	return atomic.CompareAndSwapInt32((*int32)(unsafe.Pointer(&m.Mutex)), 0, mutexLocked)
+	PublicSpace  string
+	PrivateSpace string
+	UserSpace    string
+	TestCase     string
+	Obj          *models.Judgement
 }
 
 type JudgementsRepository interface {
-	Create() error
+	Create(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error
 	Fetch() *Judgement
 }
 
@@ -37,8 +48,6 @@ type MysqlJudgementsRepository struct {
 	db     *gorm.DB
 	queue  *list.List
 }
-
-const mutexLocked = 1 << iota
 
 func (m MysqlJudgementsRepository) Fetch() *Judgement {
 	var next *list.Element
@@ -58,9 +67,30 @@ func (m MysqlJudgementsRepository) Fetch() *Judgement {
 	return nil
 }
 
-func (m MysqlJudgementsRepository) Create() error {
-	m.queue.PushBack(Judgement{})
-	panic("implement me")
+func (m MysqlJudgementsRepository) Create(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error {
+	judgement := &models.Judgement{
+		SubmissionID: submissionId,
+		TestCase:     testCase,
+		Score:        0,
+		Status:       models.Pending,
+	}
+
+	if err := m.db.Create(&judgement).Error; err != nil {
+		return nil
+	}
+
+	m.queue.PushBack(Judgement{
+		Mutex:        Mutex{},
+		Status:       "",
+		Token:        random.RandStringRunes(8),
+		Done:         make(chan bool),
+		PublicSpace:  publicSpace,
+		PrivateSpace: privateSpace,
+		UserSpace:    userSpace,
+		TestCase:     testCase,
+		Obj:          judgement,
+	})
+	return nil
 }
 
 func NewMysqlJudgementsRepository(logger *zap.Logger, db *gorm.DB) JudgementsRepository {

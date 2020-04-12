@@ -20,7 +20,7 @@ type DefaultFilesService struct {
 }
 
 func (d DefaultFilesService) FetchFile(fileSpace, fileName string) ([]byte, error) {
-	return d.Repository.FetchFile(fileName, fileName)
+	return d.Repository.FetchFile(fileSpace, fileName)
 }
 
 func (d DefaultFilesService) CreateDirectory(fileSpace, directory string) error {

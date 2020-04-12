@@ -16,7 +16,20 @@ type ProblemService struct {
 }
 
 func (s *ProblemService) FetchProblem(ctx context.Context, req *proto.FetchProblemRequest) (res *proto.FetchProblemResponse, err error) {
-	panic("implement me")
+	if p, err := s.service.FetchProblem(req.GetProblemId()); err != nil {
+		return nil, errors.Wrapf(err, "Fetch problem failed")
+	} else {
+		res = &proto.FetchProblemResponse{
+			Problem: &proto.Problem{
+				Group:        int32(p.Group),
+				Locale:       p.Locale,
+				ProblemId:    p.ProblemId,
+				PublicSpace:  p.PublicSpace,
+				PrivateSpace: p.PrivateSpace,
+			},
+		}
+	}
+	return
 }
 
 func (s *ProblemService) CreateProblem(ctx context.Context, req *proto.CreateProblemRequest) (res *proto.CreateProblemResponse, err error) {

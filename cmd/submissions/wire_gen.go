@@ -80,7 +80,17 @@ func CreateApp(cf string) (*app.Application, error) {
 		return nil, err
 	}
 	submissionRepository := repositories.NewMysqlSubmissionsRepository(logger, db)
-	submissionsService := services.NewSubmissionService(logger, problemsService, submissionRepository)
+	filesClient, err := grpcclients.NewFilesClient(client)
+	if err != nil {
+		return nil, err
+	}
+	filesService := services.NewFilesService(filesClient)
+	judgementsClient, err := grpcclients.NewJudgementsClient(client)
+	if err != nil {
+		return nil, err
+	}
+	judgementsService := services.NewJudgementsService(judgementsClient)
+	submissionsService := services.NewSubmissionService(logger, problemsService, submissionRepository, filesService, judgementsService)
 	submissionController := controllers.NewSubmissionsController(logger, submissionsService)
 	initControllers := controllers.CreateInitControllersFn(submissionController)
 	engine := http.NewRouter(httpOptions, logger, initControllers, tracer)
@@ -96,7 +106,7 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	submissionService, err := grpcservers.NewUsersServer(logger, submissionsService)
+	submissionService, err := grpcservers.NewSubmissionsServer(logger, submissionsService)
 	if err != nil {
 		return nil, err
 	}

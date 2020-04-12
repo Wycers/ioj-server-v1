@@ -15,4 +15,4 @@ func CreateInitServersFn(
 	}
 }
 
-var ProviderSet = wire.NewSet(NewUsersServer, CreateInitServersFn)
+var ProviderSet = wire.NewSet(NewSubmissionsServer, CreateInitServersFn)

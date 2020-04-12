@@ -17,6 +17,6 @@ var testProviderSet = wire.NewSet(
 	ProviderSet,
 )
 
-func CreateUsersServer(cf string, service services.SubmissionsService) (*SubmissionService, error) {
+func CreateSubmissionsServer(cf string, service services.SubmissionsService) (*SubmissionService, error) {
 	panic(wire.Build(testProviderSet))
 }

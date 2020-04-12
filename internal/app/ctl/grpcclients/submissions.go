@@ -7,9 +7,9 @@ import (
 )
 
 func NewSubmissionsClient(client *grpc.Client) (proto.SubmissionsClient, error) {
-	conn, err := client.Dial("Files")
+	conn, err := client.Dial("Submissions")
 	if err != nil {
-		return nil, errors.Wrap(err, "user client dial error")
+		return nil, errors.Wrap(err, "submission client dial error")
 	}
 	c := proto.NewSubmissionsClient(conn)
 

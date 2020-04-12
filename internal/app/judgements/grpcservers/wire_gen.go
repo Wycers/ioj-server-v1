@@ -6,7 +6,6 @@
 package grpcservers
 
 import (
-	"github.com/Infinity-OJ/Server/api/protobuf-spec"
 	"github.com/Infinity-OJ/Server/internal/app/judgements/services"
 	"github.com/Infinity-OJ/Server/internal/pkg/config"
 	"github.com/Infinity-OJ/Server/internal/pkg/database"
@@ -16,7 +15,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateJudgementsServer(cf string, service services.JudgementsService, client proto.FilesClient) (*JudgementsService, error) {
+func CreateJudgementsServer(cf string, service services.JudgementsService) (*JudgementsService, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err
@@ -29,7 +28,7 @@ func CreateJudgementsServer(cf string, service services.JudgementsService, clien
 	if err != nil {
 		return nil, err
 	}
-	judgementsService, err := NewJudgementsServer(logger, service, client)
+	judgementsService, err := NewJudgementsServer(logger, service)
 	if err != nil {
 		return nil, err
 	}
