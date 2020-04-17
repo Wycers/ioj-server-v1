@@ -10,15 +10,26 @@ import (
 type JudgementsService interface {
 	CreateJudgement(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error
 	FetchJudgement() *repositories.Judgement
+	FetchJudgementByToken(token string) *repositories.Judgement
 	FinishJudgement(token string, score uint64) error
 	FetchFile(fileSpace, fileName string) ([]byte, error)
+	List()
 }
 
 type DefaultJudgementsService struct {
 	logger      *zap.Logger
 	Repository  repositories.JudgementsRepository
-	mp          map[string]*repositories.Judgement
+	Map         map[string]*repositories.Judgement
 	FileService FilesService
+}
+
+func (d DefaultJudgementsService) FetchJudgementByToken(token string) *repositories.Judgement {
+	judgement, ok := d.Map[token]
+	if ok {
+		return judgement
+	} else {
+		return nil
+	}
 }
 
 func (d DefaultJudgementsService) FetchFile(fileSpace, fileName string) ([]byte, error) {
@@ -31,6 +42,10 @@ func (d DefaultJudgementsService) CreateJudgement(submissionId uint64, publicSpa
 		return err
 	}
 	return nil
+}
+
+func (d DefaultJudgementsService) List() {
+	d.Repository.List()
 }
 
 //func dosomething(ctx context.Context, judgement *repositories.Judgement) {
@@ -50,7 +65,9 @@ func (d DefaultJudgementsService) CreateJudgement(submissionId uint64, publicSpa
 
 func (d DefaultJudgementsService) FetchJudgement() *repositories.Judgement {
 	judgement := d.Repository.Fetch()
-	d.mp[judgement.Token] = judgement
+	if judgement != nil {
+		d.Map[judgement.Token] = judgement
+	}
 	return judgement
 	//go func() {
 	//	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(judgement.Time)*time.Millisecond)
@@ -67,7 +84,7 @@ func (d DefaultJudgementsService) FetchJudgement() *repositories.Judgement {
 }
 
 func (d DefaultJudgementsService) FinishJudgement(token string, score uint64) error {
-	judgement, ok := d.mp[token]
+	judgement, ok := d.Map[token]
 	if ok {
 		if judgement.Status == "idle" {
 			judgement.Done <- true
@@ -82,7 +99,7 @@ func NewJudgementsService(logger *zap.Logger, Repository repositories.Judgements
 	return &DefaultJudgementsService{
 		logger:      logger.With(zap.String("type", "DefaultJudgementService")),
 		Repository:  Repository,
-		mp:          make(map[string]*repositories.Judgement),
+		Map:         make(map[string]*repositories.Judgement),
 		FileService: filesService,
 	}
 }

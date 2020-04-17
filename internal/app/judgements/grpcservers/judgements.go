@@ -2,6 +2,8 @@ package grpcservers
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 
@@ -13,6 +15,11 @@ import (
 type JudgementsService struct {
 	logger  *zap.Logger
 	service services.JudgementsService
+}
+
+func (s *JudgementsService) ListJudgements(ctx context.Context, request *proto.ListRequest) (*proto.ListResponse, error) {
+	s.service.List()
+	return &proto.ListResponse{}, nil
 }
 
 func (s *JudgementsService) SubmitJudgement(ctx context.Context, req *proto.SubmitJudgementRequest) (res *proto.SubmitJudgementResponse, err error) {
@@ -32,28 +39,74 @@ func (s *JudgementsService) SubmitJudgement(ctx context.Context, req *proto.Subm
 }
 
 func (s *JudgementsService) FetchFile(ctx context.Context, req *proto.FetchJudgeFileRequest) (res *proto.FetchJudgeFileResponse, err error) {
-	fetchRes, err := s.service.FetchFile(req.GetFileSpace(), req.GetFilename())
-	if err != nil {
-		return
+	judgement := s.service.FetchJudgementByToken(req.GetToken())
+	if judgement != nil {
+		space := ""
+		switch strings.ToLower(req.GetSpace()) {
+		case "public":
+			space = judgement.PublicSpace
+			break
+		case "private":
+			space = judgement.PrivateSpace
+			break
+		case "user":
+			space = judgement.UserSpace
+			break
+		default:
+			return nil, errors.New("invalid space type")
+		}
+
+		fetchRes, err := s.service.FetchFile(space, req.GetFilename())
+
+		if err != nil {
+			return nil, err
+		}
+		res = &proto.FetchJudgeFileResponse{
+			Status: proto.Status_success,
+			File:   fetchRes,
+			Sha1:   "",
+		}
+		return res, nil
+	} else {
+		panic("No such judgement")
 	}
-	res = &proto.FetchJudgeFileResponse{
-		Status: proto.Status_success,
-		File:   fetchRes,
-		Sha1:   "",
-	}
-	return
 }
 
 func (s *JudgementsService) FetchHashFile(context.Context, *proto.FetchFileHashRequest) (*proto.FetchFileHashResponse, error) {
 	panic("implement me")
 }
 
-func (s *JudgementsService) FetchJudgement(context.Context, *proto.FetchJudgementRequest) (*proto.ReturnJudgementRequest, error) {
-	panic("implement me")
+func (s *JudgementsService) FetchJudgement(ctx context.Context, req *proto.FetchJudgementRequest) (res *proto.FetchJudgementResponse, err error) {
+	fmt.Println(req.GetMemoryLimit())
+	fmt.Println(req.GetTimeLimit())
+
+	judgement := s.service.FetchJudgement()
+
+	if judgement == nil {
+		res = &proto.FetchJudgementResponse{}
+	} else {
+		res = &proto.FetchJudgementResponse{
+			Token:                judgement.Token,
+			TestCase:             judgement.TestCase,
+			TimeLimit:            0,
+			MemoryLimit:          0,
+			FileIoInputName:      "",
+			FileIoOutputName:     "",
+			XXX_NoUnkeyedLiteral: struct{}{},
+			XXX_unrecognized:     nil,
+			XXX_sizecache:        0,
+		}
+
+	}
+
+	return
 }
 
-func (s *JudgementsService) ReturnJudgement(context.Context, *proto.ReturnJudgementRequest) (*proto.ReturnJudgementResponse, error) {
-	panic("implement me")
+func (s *JudgementsService) ReturnJudgement(ctx context.Context, req *proto.ReturnJudgementRequest) (*proto.ReturnJudgementResponse, error) {
+	fmt.Println(req.GetToken())
+	fmt.Println(req.GetStatus())
+	fmt.Println(req.GetMsg())
+	return nil, nil
 }
 
 func NewJudgementsServer(logger *zap.Logger, js services.JudgementsService) (*JudgementsService, error) {

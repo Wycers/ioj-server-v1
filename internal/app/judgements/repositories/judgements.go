@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"container/list"
+	"fmt"
 	"sync"
 	"sync/atomic"
 	"unsafe"
@@ -41,12 +42,23 @@ type Judgement struct {
 type JudgementsRepository interface {
 	Create(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error
 	Fetch() *Judgement
+	List()
 }
 
 type MysqlJudgementsRepository struct {
 	logger *zap.Logger
 	db     *gorm.DB
 	queue  *list.List
+}
+
+func (m MysqlJudgementsRepository) List() {
+	for e := m.queue.Front(); e != nil; e = e.Next() {
+		judgement, ok := e.Value.(Judgement)
+		if !ok {
+			fmt.Println("...")
+		}
+		fmt.Printf("TestCase: %s\nStatus: %s\n", judgement.TestCase, judgement.Status)
+	}
 }
 
 func (m MysqlJudgementsRepository) Fetch() *Judgement {

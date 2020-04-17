@@ -3,6 +3,8 @@ package ctl
 import (
 	"time"
 
+	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/judgement"
+
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/submission"
 
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/file"
@@ -17,16 +19,23 @@ func NewApp(
 	fileCommand file.Command,
 	problemCommand problem.Command,
 	submissionCommand submission.Command,
+	judgementCommand judgement.Command,
 ) *cli.App {
 	app := &cli.App{
-		Name:                   "",
-		HelpName:               "",
-		Usage:                  "",
-		UsageText:              "",
-		ArgsUsage:              "",
-		Version:                "",
-		Description:            "",
-		Commands:               []*cli.Command{userCommand.Command, fileCommand.Command, problemCommand.Command, submissionCommand.Command},
+		Name:        "",
+		HelpName:    "",
+		Usage:       "",
+		UsageText:   "",
+		ArgsUsage:   "",
+		Version:     "",
+		Description: "",
+		Commands: []*cli.Command{
+			userCommand.Command,
+			fileCommand.Command,
+			problemCommand.Command,
+			submissionCommand.Command,
+			judgementCommand.Command,
+		},
 		Flags:                  nil,
 		EnableBashCompletion:   false,
 		HideHelp:               false,

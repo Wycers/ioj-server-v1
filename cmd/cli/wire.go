@@ -5,6 +5,7 @@ package main
 import (
 	"github.com/Infinity-OJ/Server/internal/app/ctl"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/file"
+	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/judgement"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/problem"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/submission"
 	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/user"
@@ -31,6 +32,7 @@ var providerSet = wire.NewSet(
 	file.ProviderSet,
 	problem.ProviderSet,
 	submission.ProviderSet,
+	judgement.ProviderSet,
 	service.ProviderSet,
 	consul.ProviderSet,
 	ctl.ProviderSet,
