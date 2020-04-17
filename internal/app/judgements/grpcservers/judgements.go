@@ -2,7 +2,6 @@ package grpcservers
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -77,9 +76,6 @@ func (s *JudgementsService) FetchHashFile(context.Context, *proto.FetchFileHashR
 }
 
 func (s *JudgementsService) FetchJudgement(ctx context.Context, req *proto.FetchJudgementRequest) (res *proto.FetchJudgementResponse, err error) {
-	fmt.Println(req.GetMemoryLimit())
-	fmt.Println(req.GetTimeLimit())
-
 	judgement := s.service.FetchJudgement()
 
 	if judgement == nil {
@@ -96,17 +92,24 @@ func (s *JudgementsService) FetchJudgement(ctx context.Context, req *proto.Fetch
 			XXX_unrecognized:     nil,
 			XXX_sizecache:        0,
 		}
-
 	}
 
 	return
 }
 
-func (s *JudgementsService) ReturnJudgement(ctx context.Context, req *proto.ReturnJudgementRequest) (*proto.ReturnJudgementResponse, error) {
-	fmt.Println(req.GetToken())
-	fmt.Println(req.GetStatus())
-	fmt.Println(req.GetMsg())
-	return nil, nil
+func (s *JudgementsService) ReturnJudgement(ctx context.Context, req *proto.ReturnJudgementRequest) (res *proto.ReturnJudgementResponse, err error) {
+	err = s.service.FinishJudgement(req.GetToken(), req.GetScore(), req.GetMsg())
+
+	if err != nil {
+		res = &proto.ReturnJudgementResponse{
+			Status: proto.Status_error,
+		}
+	} else {
+		res = &proto.ReturnJudgementResponse{
+			Status: proto.Status_success,
+		}
+	}
+	return
 }
 
 func NewJudgementsServer(logger *zap.Logger, js services.JudgementsService) (*JudgementsService, error) {

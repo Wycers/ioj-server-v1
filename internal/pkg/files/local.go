@@ -2,7 +2,6 @@ package files
 
 import (
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -16,7 +15,6 @@ type LocalFileManager struct {
 
 func (m *LocalFileManager) FetchFile(fileName string) ([]byte, error) {
 	filePath, err := GetFileAbsPath(m.base, fileName)
-	fmt.Println(filePath)
 	if err != nil {
 		return nil, err
 	}

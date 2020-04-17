@@ -4,8 +4,6 @@ import (
 	"container/list"
 	"fmt"
 	"sync"
-	"sync/atomic"
-	"unsafe"
 
 	"github.com/Infinity-OJ/Server/internal/pkg/models"
 
@@ -15,18 +13,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type Mutex struct {
-	sync.Mutex
-}
-
-const mutexLocked = 1 << iota
-
-func (m *Mutex) TryLock() bool {
-	return atomic.CompareAndSwapInt32((*int32)(unsafe.Pointer(&m.Mutex)), 0, mutexLocked)
-}
-
 type Judgement struct {
-	Mutex  Mutex
 	Status string
 	Token  string
 	Time   uint64
@@ -49,6 +36,7 @@ type MysqlJudgementsRepository struct {
 	logger *zap.Logger
 	db     *gorm.DB
 	queue  *list.List
+	mutex  *sync.Mutex
 }
 
 func (m MysqlJudgementsRepository) List() {
@@ -57,24 +45,27 @@ func (m MysqlJudgementsRepository) List() {
 		if !ok {
 			fmt.Println("...")
 		}
-		fmt.Printf("TestCase: %s\nStatus: %s\n", judgement.TestCase, judgement.Status)
+		fmt.Printf("Address: %x\nTestCase: %s\nStatus: %s\n", e.Value, judgement.TestCase, judgement.Status)
 	}
 }
 
 func (m MysqlJudgementsRepository) Fetch() *Judgement {
+	m.mutex.Lock()
+	defer m.mutex.Unlock()
+
 	var next *list.Element
 	for e := m.queue.Front(); e != nil; e = next {
 		next = e.Next()
-		judgement, ok := e.Value.(Judgement)
-		if !ok {
+		judgement, ok := e.Value.(*Judgement)
+		if !ok || judgement.Status == "done" {
 			m.queue.Remove(e)
+			continue
 		}
-		if judgement.Mutex.TryLock() {
-			judgement.Status = "idle"
-			judgement.Token = random.RandStringRunes(8)
-			judgement.Done = make(chan bool)
-			return &judgement
-		}
+
+		judgement.Status = "idle"
+		judgement.Token = random.RandStringRunes(8)
+		judgement.Done = make(chan bool)
+		return judgement
 	}
 	return nil
 }
@@ -91,8 +82,7 @@ func (m MysqlJudgementsRepository) Create(submissionId uint64, publicSpace, priv
 		return nil
 	}
 
-	m.queue.PushBack(Judgement{
-		Mutex:        Mutex{},
+	m.queue.PushBack(&Judgement{
 		Status:       "",
 		Token:        random.RandStringRunes(8),
 		Done:         make(chan bool),
@@ -110,5 +100,6 @@ func NewMysqlJudgementsRepository(logger *zap.Logger, db *gorm.DB) JudgementsRep
 		logger: logger.With(zap.String("type", "JudgementsRepository")),
 		db:     db,
 		queue:  list.New(),
+		mutex:  &sync.Mutex{},
 	}
 }

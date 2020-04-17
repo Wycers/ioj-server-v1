@@ -8,9 +8,17 @@ service Judgements {
   rpc SubmitJudgement(SubmitJudgementRequest) returns (SubmitJudgementResponse);
   rpc FetchHashFile (FetchFileHashRequest) returns (FetchFileHashResponse);
   rpc FetchFile (FetchJudgeFileRequest) returns (FetchJudgeFileResponse);
-  rpc FetchJudgement (FetchJudgementRequest) returns (ReturnJudgementRequest);
+  rpc FetchJudgement (FetchJudgementRequest) returns (FetchJudgementResponse);
   rpc ReturnJudgement (ReturnJudgementRequest) returns (ReturnJudgementResponse);
+  rpc ListJudgements(ListRequest) returns (ListResponse);
 }
+message ListRequest {
+  string user_id = 1;
+  string problem_id = 2;
+  uint64 submission_id = 3;
+  uint64 judgement_id = 4;
+}
+message ListResponse {}
 
 message SubmitJudgementRequest {
   uint64 submission_id = 1;
@@ -37,8 +45,9 @@ message FetchFileHashResponse {
 }
 
 message FetchJudgeFileRequest {
-  string file_space = 1;
-  string filename = 2;
+  string token = 1;
+  string space = 2;
+  string filename = 3;
 }
 
 message FetchJudgeFileResponse {
@@ -55,19 +64,22 @@ message FetchJudgementRequest {
 
 
 message FetchJudgementResponse {
-  string problem_id = 1;
+  string token = 1;
+  string test_case = 2;
+
   uint64 time_limit = 3;
   uint64 memory_limit = 4;
-  string user_code = 5;
-  string file_io_input_name = 6;
-  string file_io_output_name = 7;
+
+  string file_io_input_name = 5;
+  string file_io_output_name = 6;
 }
 
 
 message ReturnJudgementRequest {
-  Status status = 1;
-  uint64 score = 2;
-  string msg = 3;
+  string token = 1;
+  Status status = 2;
+  uint64 score = 3;
+  string msg = 4;
 }
 
 message ReturnJudgementResponse {

@@ -1,6 +1,8 @@
 package services
 
 import (
+	"fmt"
+
 	"github.com/pkg/errors"
 
 	"github.com/Infinity-OJ/Server/internal/app/judgements/repositories"
@@ -11,7 +13,7 @@ type JudgementsService interface {
 	CreateJudgement(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error
 	FetchJudgement() *repositories.Judgement
 	FetchJudgementByToken(token string) *repositories.Judgement
-	FinishJudgement(token string, score uint64) error
+	FinishJudgement(token string, score uint64, msg string) error
 	FetchFile(fileSpace, fileName string) ([]byte, error)
 	List()
 }
@@ -65,6 +67,8 @@ func (d DefaultJudgementsService) List() {
 
 func (d DefaultJudgementsService) FetchJudgement() *repositories.Judgement {
 	judgement := d.Repository.Fetch()
+	fmt.Println((*judgement).Token)
+	fmt.Printf("%x\n", &judgement)
 	if judgement != nil {
 		d.Map[judgement.Token] = judgement
 	}
@@ -83,11 +87,13 @@ func (d DefaultJudgementsService) FetchJudgement() *repositories.Judgement {
 	//}
 }
 
-func (d DefaultJudgementsService) FinishJudgement(token string, score uint64) error {
+func (d DefaultJudgementsService) FinishJudgement(token string, score uint64, msg string) error {
 	judgement, ok := d.Map[token]
+	fmt.Println(token)
+	fmt.Printf("%x\n", &judgement)
 	if ok {
 		if judgement.Status == "idle" {
-			judgement.Done <- true
+			judgement.Status = "done"
 		}
 	} else {
 		return errors.New("qwq")
