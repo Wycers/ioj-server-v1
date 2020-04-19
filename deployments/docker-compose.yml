@@ -1,21 +1,69 @@
 version: '3'
 services:
-  details:
-    image: users
-    command: ./wait-for db:3306 -t 30 -- ./app
+  server:
+    build:
+      context: ..
+      dockerfile: "build/server/Dockerfile"
+    command: ./app
     depends_on:
       - db
       - consul
       - jaeger-agent
     ports:
       - "8081:8081"
+  judgements:
+    build:
+      context: ..
+      dockerfile: "build/judgements/Dockerfile"
+    command: ./wait-for db:5432 -t 30 -- ./app
+    depends_on:
+      - db
+      - consul
+      - jaeger-agent
+  users:
+    build:
+      context: ..
+      dockerfile: "build/users/Dockerfile"
+    command: ./wait-for db:5432 -t 30 -- ./app
+    depends_on:
+      - db
+      - consul
+      - jaeger-agent
+  problems:
+    build:
+      context: ..
+      dockerfile: "build/problems/Dockerfile"
+    command: ./wait-for db:5432 -t 30 -- ./app
+    depends_on:
+      - db
+      - consul
+      - jaeger-agent
+    ports:
+      - "8081:8081"
+  submissions:
+    build:
+      context: ..
+      dockerfile: "build/submissions/Dockerfile"
+    command: ./wait-for db:5432 -t 30 -- ./app
+    depends_on:
+      - db
+      - consul
+      - jaeger-agent
+  files:
+    build:
+      context: ..
+      dockerfile: "build/files/Dockerfile"
+    command: ./wait-for db:5432 -t 30 -- ./app
+    depends_on:
+      - db
+      - consul
+      - jaeger-agent
   db:
-    image: mariadb:latest
+    image: postgres:latest
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: products
-      MYSQL_USER: products
-      MYSQL_PASSWORD: 123456
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
   consul:
     image: consul:1.7
     environment:
@@ -45,7 +93,6 @@ services:
     restart: on-failure
     depends_on:
       - cassandra-schema
-
   jaeger-query:
     image: jaegertracing/jaeger-query
     command: ["--cassandra.keyspace=jaeger_v1_dc1", "--cassandra.servers=cassandra"]
@@ -93,7 +140,7 @@ services:
     ports:
       - 9093:9093
   grafana-db:
-    image: mariadb:latest
+    image: postgres:latest
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: grafana
