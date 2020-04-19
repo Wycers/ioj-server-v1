@@ -3,17 +3,19 @@
 
 apps = 'problems' 'users' 'server' 'files' 'submissions' 'judgements'
 
-.PHONY: run
-run: proto wire
+.PHONY: build
+build: proto wire
 	for app in $(apps) ;\
 	do \
-		go build -o build/$$app ./cmd/$$app/; \
+		go build -o dist/$$app ./cmd/$$app/; \
+		GOOS=linux GOARCH="amd64" go build -o dist/$$app-linux-amd64 ./cmd/$$app/; \
 	done
+.PHONY: run
+run:
 	for app in $(apps) ;\
 	do \
 		./build/$$app -f configs/$$app.yml  & \
 	done
-
 .PHONY: run-cli
 run-cli: proto wire
 	go build ./cmd/cli

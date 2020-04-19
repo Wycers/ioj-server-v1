@@ -1,0 +1,8 @@
+site_name: Grafonnet
+theme:
+  name: 'material'
+  palette:
+    primary: 'Deep orange'
+    accent: 'Orange'
+pages:
+  - Home: 'index.md'

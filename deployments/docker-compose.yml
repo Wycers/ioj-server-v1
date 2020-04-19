@@ -16,10 +16,8 @@ services:
       MYSQL_DATABASE: products
       MYSQL_USER: products
       MYSQL_PASSWORD: 123456
-    volumes:
-      - ../scripts/products.sql:/docker-entrypoint-initdb.d/products.sql
   consul:
-    image: consul:1.4
+    image: consul:1.7
     environment:
       - "CONSUL_BIND_INTERFACE=eth0"
       - "CONSUL_ALLOW_PRIVILEGED_PORTS="
