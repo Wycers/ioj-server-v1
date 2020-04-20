@@ -93,7 +93,8 @@ func (s *Server) Start() error {
 		s.port = netutil.GetAvailablePort()
 	}
 
-	s.host = "127.0.0.1" // netutil.GetLocalIP4()
+	s.host = netutil.GetLocalIP4()
+	//s.host = "127.0.0.1"
 
 	if s.host == "" {
 		return errors.New("get local ipv4 error")

@@ -27,3 +27,8 @@ wire:
 .PHONY: proto
 proto:
 	protoc -I api/protobuf-spec ./api/protobuf-spec/*.proto --go_out=plugins=grpc:api/protobuf-spec
+
+
+.PHONY: deploy
+deploy:
+	docker-compose -f deployments/docker-compose.yml up --build

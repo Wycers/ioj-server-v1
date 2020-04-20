@@ -11,13 +11,13 @@ log:
   level: "debug"
   stdout: false
 consul:
-  addr: 127.0.0.1:8500
+  addr: localhost:8500
 grpc:
   port: 0
 jaeger:
   serviceName: cli
   reporter:
-    localAgentHostPort: "127.0.0.1:6831"
+    localAgentHostPort: localhost:6831
   sampler:
     type: const
     param: 1

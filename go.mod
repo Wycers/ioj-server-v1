@@ -9,7 +9,8 @@ require (
 	github.com/gin-contrib/pprof v1.2.1
 	github.com/gin-contrib/zap v0.0.0-20191128031730-d12829f8f61b
 	github.com/gin-gonic/gin v1.5.0
-	github.com/golang/protobuf v1.3.5
+	github.com/golang/protobuf v1.4.0-rc.4.0.20200313231945-b860323f09d0
+	github.com/google/subcommands v1.2.0 // indirect
 	github.com/google/uuid v1.1.1
 	github.com/google/wire v0.4.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
@@ -30,8 +31,9 @@ require (
 	github.com/urfave/cli v1.22.2 // indirect
 	github.com/urfave/cli/v2 v2.1.1
 	go.uber.org/zap v1.13.0
-	golang.org/x/tools v0.0.0-20200313205530-4303120df7d8 // indirect
+	golang.org/x/tools v0.0.0-20200420001825-978e26b7c37c // indirect
 	google.golang.org/grpc v1.27.1
+	google.golang.org/protobuf v1.21.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gopkg.in/yaml.v2 v2.2.8
 )

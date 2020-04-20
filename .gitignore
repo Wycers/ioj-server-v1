@@ -17,3 +17,4 @@
 .idea
 *.log
 build/*
+dist/*

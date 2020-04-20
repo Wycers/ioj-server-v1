@@ -82,15 +82,12 @@ func (s *JudgementsService) FetchJudgement(ctx context.Context, req *proto.Fetch
 		res = &proto.FetchJudgementResponse{}
 	} else {
 		res = &proto.FetchJudgementResponse{
-			Token:                judgement.Token,
-			TestCase:             judgement.TestCase,
-			TimeLimit:            0,
-			MemoryLimit:          0,
-			FileIoInputName:      "",
-			FileIoOutputName:     "",
-			XXX_NoUnkeyedLiteral: struct{}{},
-			XXX_unrecognized:     nil,
-			XXX_sizecache:        0,
+			Token:            judgement.Token,
+			TestCase:         judgement.TestCase,
+			TimeLimit:        0,
+			MemoryLimit:      0,
+			FileIoInputName:  "",
+			FileIoOutputName: "",
 		}
 	}
 

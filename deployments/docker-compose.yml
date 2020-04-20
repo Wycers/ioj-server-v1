@@ -38,8 +38,6 @@ services:
       - db
       - consul
       - jaeger-agent
-    ports:
-      - "8081:8081"
   submissions:
     build:
       context: ..
@@ -59,7 +57,7 @@ services:
       - consul
       - jaeger-agent
   db:
-    image: postgres:latest
+    image: postgres:alpine
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
@@ -140,7 +138,7 @@ services:
     ports:
       - 9093:9093
   grafana-db:
-    image: postgres:latest
+    image: mariadb:latest
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: grafana

@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-var configFile = flag.String("f", "file.yml", "set config file which viper will loading.")
+var configFile = flag.String("f", "files.yml", "set config file which viper will loading.")
 
 func TestFilesRepository_Get(t *testing.T) {
 	flag.Parse()
