@@ -10,6 +10,14 @@ build: wire
 		go build -o dist/$$app ./cmd/$$app/; \
 		GOOS=linux GOARCH="amd64" go build -o dist/$$app-linux-amd64 ./cmd/$$app/; \
 	done
+
+.PHONY: dev
+dev:
+	for app in $(apps) ;\
+	do \
+		CompileDaemon -build="go build -o ./dist/$$app.exe ./cmd/$$app/" -command="./dist/$$app.exe -f configs/$$app.yml" & \
+	done
+
 .PHONY: run
 run:
 	for app in $(apps) ;\
