@@ -32,3 +32,8 @@ proto:
 .PHONY: deploy
 deploy:
 	docker-compose -f deployments/docker-compose.yml up --build
+
+
+.PHONY: mock
+mock:
+	mockery --all
