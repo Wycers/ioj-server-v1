@@ -6,6 +6,7 @@
 package main
 
 import (
+	"github.com/google/wire"
 	"github.com/infinity-oj/server/internal/app/judgements"
 	"github.com/infinity-oj/server/internal/app/judgements/controllers"
 	"github.com/infinity-oj/server/internal/app/judgements/grpcclients"
@@ -20,7 +21,6 @@ import (
 	"github.com/infinity-oj/server/internal/pkg/log"
 	"github.com/infinity-oj/server/internal/pkg/transports/grpc"
 	"github.com/infinity-oj/server/internal/pkg/transports/http"
-	"github.com/google/wire"
 )
 
 // Injectors from wire.go:

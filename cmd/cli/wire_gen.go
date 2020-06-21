@@ -21,6 +21,7 @@ import (
 	"github.com/infinity-oj/server/internal/pkg/jaeger"
 	"github.com/infinity-oj/server/internal/pkg/log"
 	"github.com/infinity-oj/server/internal/pkg/transports/grpc"
+	"github.com/urfave/cli/v2"
 )
 
 // Injectors from wire.go:

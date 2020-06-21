@@ -6,10 +6,10 @@
 package services
 
 import (
+	"github.com/google/wire"
 	"github.com/infinity-oj/api/protobuf-spec"
 	"github.com/infinity-oj/server/internal/pkg/config"
 	"github.com/infinity-oj/server/internal/pkg/log"
-	"github.com/google/wire"
 )
 
 // Injectors from wire.go:

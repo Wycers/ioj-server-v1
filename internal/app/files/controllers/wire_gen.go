@@ -6,12 +6,12 @@
 package controllers
 
 import (
+	"github.com/google/wire"
 	"github.com/infinity-oj/server/internal/app/files/repositories"
 	"github.com/infinity-oj/server/internal/app/files/services"
 	"github.com/infinity-oj/server/internal/pkg/config"
 	"github.com/infinity-oj/server/internal/pkg/database"
 	"github.com/infinity-oj/server/internal/pkg/log"
-	"github.com/google/wire"
 )
 
 // Injectors from wire.go:

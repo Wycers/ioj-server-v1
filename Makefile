@@ -4,7 +4,7 @@
 apps = 'problems' 'users' 'server' 'files' 'submissions' 'judgements'
 
 .PHONY: build
-build: proto wire
+build: wire
 	for app in $(apps) ;\
 	do \
 		go build -o dist/$$app ./cmd/$$app/; \
@@ -14,7 +14,7 @@ build: proto wire
 run:
 	for app in $(apps) ;\
 	do \
-		./build/$$app -f configs/$$app.yml  & \
+		./dist/$$app -f configs/$$app.yml  & \
 	done
 .PHONY: run-cli
 run-cli: proto wire
