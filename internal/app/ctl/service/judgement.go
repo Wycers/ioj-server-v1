@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
+	proto "github.com/infinity-oj/api/protobuf-spec"
 )
 
 type JudgementService interface {

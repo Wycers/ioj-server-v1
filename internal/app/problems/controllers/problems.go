@@ -3,8 +3,8 @@ package controllers
 import (
 	"fmt"
 
-	"github.com/Infinity-OJ/Server/internal/app/problems/services"
-	"github.com/Infinity-OJ/Server/internal/pkg/jwt"
+	"github.com/infinity-oj/server/internal/app/problems/services"
+	"github.com/infinity-oj/server/internal/pkg/jwt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )

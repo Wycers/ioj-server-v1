@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Infinity-OJ/Server/internal/pkg/transports/http/middlewares/ginprom"
-	"github.com/Infinity-OJ/Server/internal/pkg/utils/netutil"
+	"github.com/infinity-oj/server/internal/pkg/transports/http/middlewares/ginprom"
+	"github.com/infinity-oj/server/internal/pkg/utils/netutil"
 	"github.com/gin-contrib/pprof"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"

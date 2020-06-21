@@ -6,19 +6,19 @@
 package main
 
 import (
-	"github.com/Infinity-OJ/Server/internal/app/users"
-	"github.com/Infinity-OJ/Server/internal/app/users/controllers"
-	"github.com/Infinity-OJ/Server/internal/app/users/grpcservers"
-	"github.com/Infinity-OJ/Server/internal/app/users/repositories"
-	"github.com/Infinity-OJ/Server/internal/app/users/services"
-	"github.com/Infinity-OJ/Server/internal/pkg/app"
-	"github.com/Infinity-OJ/Server/internal/pkg/config"
-	"github.com/Infinity-OJ/Server/internal/pkg/consul"
-	"github.com/Infinity-OJ/Server/internal/pkg/database"
-	"github.com/Infinity-OJ/Server/internal/pkg/jaeger"
-	"github.com/Infinity-OJ/Server/internal/pkg/log"
-	"github.com/Infinity-OJ/Server/internal/pkg/transports/grpc"
-	"github.com/Infinity-OJ/Server/internal/pkg/transports/http"
+	"github.com/infinity-oj/server/internal/app/users"
+	"github.com/infinity-oj/server/internal/app/users/controllers"
+	"github.com/infinity-oj/server/internal/app/users/grpcservers"
+	"github.com/infinity-oj/server/internal/app/users/repositories"
+	"github.com/infinity-oj/server/internal/app/users/services"
+	"github.com/infinity-oj/server/internal/pkg/app"
+	"github.com/infinity-oj/server/internal/pkg/config"
+	"github.com/infinity-oj/server/internal/pkg/consul"
+	"github.com/infinity-oj/server/internal/pkg/database"
+	"github.com/infinity-oj/server/internal/pkg/jaeger"
+	"github.com/infinity-oj/server/internal/pkg/log"
+	"github.com/infinity-oj/server/internal/pkg/transports/grpc"
+	"github.com/infinity-oj/server/internal/pkg/transports/http"
 	"github.com/google/wire"
 )
 

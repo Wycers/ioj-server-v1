@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/Infinity-OJ/Server/internal/app/submissions/services"
+	"github.com/infinity-oj/server/internal/app/submissions/services"
 	"go.uber.org/zap"
 )
 

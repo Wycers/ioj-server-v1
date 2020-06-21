@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
-	"github.com/Infinity-OJ/Server/internal/pkg/models"
+	proto "github.com/infinity-oj/api/protobuf-spec"
+	"github.com/infinity-oj/server/internal/pkg/models"
 	"github.com/pkg/errors"
 )
 

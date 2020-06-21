@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/Infinity-OJ/Server/internal/app/files/repositories"
+	"github.com/infinity-oj/server/internal/app/files/repositories"
 	"go.uber.org/zap"
 )
 

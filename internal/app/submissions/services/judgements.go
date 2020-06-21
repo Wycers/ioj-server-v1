@@ -6,7 +6,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
+	proto "github.com/infinity-oj/api/protobuf-spec"
 )
 
 type JudgementsService interface {

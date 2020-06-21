@@ -9,7 +9,7 @@ import (
 	_ "github.com/mbobakov/grpc-consul-resolver" // It's important
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
-	"github.com/Infinity-OJ/Server/internal/pkg/consul"
+	"github.com/infinity-oj/server/internal/pkg/consul"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"time"

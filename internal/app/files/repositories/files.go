@@ -3,7 +3,7 @@ package repositories
 import (
 	"path"
 
-	"github.com/Infinity-OJ/Server/internal/pkg/files"
+	"github.com/infinity-oj/server/internal/pkg/files"
 	"go.uber.org/zap"
 )
 

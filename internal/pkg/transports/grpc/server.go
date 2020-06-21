@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/Infinity-OJ/Server/internal/pkg/utils/netutil"
+	"github.com/infinity-oj/server/internal/pkg/utils/netutil"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"

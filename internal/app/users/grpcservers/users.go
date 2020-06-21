@@ -3,9 +3,9 @@ package grpcservers
 import (
 	"context"
 
-	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
-	"github.com/Infinity-OJ/Server/internal/app/users/services"
-	"github.com/Infinity-OJ/Server/internal/pkg/jwt"
+	proto "github.com/infinity-oj/api/protobuf-spec"
+	"github.com/infinity-oj/server/internal/app/users/services"
+	"github.com/infinity-oj/server/internal/pkg/jwt"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 )

@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/Infinity-OJ/Server/internal/pkg/models"
+	"github.com/infinity-oj/server/internal/pkg/models"
 	"github.com/google/wire"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"

@@ -5,7 +5,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/Infinity-OJ/Server/internal/app/judgements/repositories"
+	"github.com/infinity-oj/server/internal/app/judgements/repositories"
 	"go.uber.org/zap"
 )
 

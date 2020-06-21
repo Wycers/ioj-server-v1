@@ -1,9 +1,9 @@
 package judgements
 
 import (
-	"github.com/Infinity-OJ/Server/internal/pkg/app"
-	"github.com/Infinity-OJ/Server/internal/pkg/transports/grpc"
-	"github.com/Infinity-OJ/Server/internal/pkg/transports/http"
+	"github.com/infinity-oj/server/internal/pkg/app"
+	"github.com/infinity-oj/server/internal/pkg/transports/grpc"
+	"github.com/infinity-oj/server/internal/pkg/transports/http"
 	"github.com/google/wire"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"

@@ -5,8 +5,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/Infinity-OJ/Server/internal/app/submissions/repositories"
-	"github.com/Infinity-OJ/Server/internal/pkg/models"
+	"github.com/infinity-oj/server/internal/app/submissions/repositories"
+	"github.com/infinity-oj/server/internal/pkg/models"
 	"go.uber.org/zap"
 	"gopkg.in/yaml.v2"
 )

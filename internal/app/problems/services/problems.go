@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/Infinity-OJ/Server/internal/app/problems/repositories"
-	"github.com/Infinity-OJ/Server/internal/pkg/models"
+	"github.com/infinity-oj/server/internal/app/problems/repositories"
+	"github.com/infinity-oj/server/internal/pkg/models"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"

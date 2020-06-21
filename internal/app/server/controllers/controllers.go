@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/Infinity-OJ/Server/internal/pkg/transports/http"
+	"github.com/infinity-oj/server/internal/pkg/transports/http"
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 )

@@ -5,8 +5,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	proto "github.com/Infinity-OJ/Server/api/protobuf-spec"
-	"github.com/Infinity-OJ/Server/internal/app/submissions/services"
+	proto "github.com/infinity-oj/api/protobuf-spec"
+	"github.com/infinity-oj/server/internal/app/submissions/services"
 	"go.uber.org/zap"
 )
 

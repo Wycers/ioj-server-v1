@@ -7,8 +7,8 @@ import (
 	"syscall"
 
 	"github.com/google/wire"
-	"github.com/Infinity-OJ/Server/internal/pkg/transports/grpc"
-	"github.com/Infinity-OJ/Server/internal/pkg/transports/http"
+	"github.com/infinity-oj/server/internal/pkg/transports/grpc"
+	"github.com/infinity-oj/server/internal/pkg/transports/http"
 	"go.uber.org/zap"
 )
 

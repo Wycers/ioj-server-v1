@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/Infinity-OJ/Server/internal/app/server/services"
+	"github.com/infinity-oj/server/internal/app/server/services"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )

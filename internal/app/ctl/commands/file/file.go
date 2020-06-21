@@ -3,7 +3,7 @@ package file
 import (
 	"fmt"
 
-	"github.com/Infinity-OJ/Server/internal/app/ctl/service"
+	"github.com/infinity-oj/server/internal/app/ctl/service"
 
 	"github.com/google/wire"
 	"github.com/urfave/cli/v2"

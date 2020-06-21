@@ -6,22 +6,21 @@
 package main
 
 import (
-	"github.com/Infinity-OJ/Server/internal/app/ctl"
-	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/file"
-	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/judgement"
-	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/problem"
-	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/submission"
-	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/user"
-	"github.com/Infinity-OJ/Server/internal/app/ctl/grpcclients"
-	"github.com/Infinity-OJ/Server/internal/app/ctl/service"
-	"github.com/Infinity-OJ/Server/internal/pkg/app"
-	"github.com/Infinity-OJ/Server/internal/pkg/config"
-	"github.com/Infinity-OJ/Server/internal/pkg/consul"
-	"github.com/Infinity-OJ/Server/internal/pkg/jaeger"
-	"github.com/Infinity-OJ/Server/internal/pkg/log"
-	"github.com/Infinity-OJ/Server/internal/pkg/transports/grpc"
 	"github.com/google/wire"
-	"github.com/urfave/cli/v2"
+	"github.com/infinity-oj/server/internal/app/ctl"
+	"github.com/infinity-oj/server/internal/app/ctl/commands/file"
+	"github.com/infinity-oj/server/internal/app/ctl/commands/judgement"
+	"github.com/infinity-oj/server/internal/app/ctl/commands/problem"
+	"github.com/infinity-oj/server/internal/app/ctl/commands/submission"
+	"github.com/infinity-oj/server/internal/app/ctl/commands/user"
+	"github.com/infinity-oj/server/internal/app/ctl/grpcclients"
+	"github.com/infinity-oj/server/internal/app/ctl/service"
+	"github.com/infinity-oj/server/internal/pkg/app"
+	"github.com/infinity-oj/server/internal/pkg/config"
+	"github.com/infinity-oj/server/internal/pkg/consul"
+	"github.com/infinity-oj/server/internal/pkg/jaeger"
+	"github.com/infinity-oj/server/internal/pkg/log"
+	"github.com/infinity-oj/server/internal/pkg/transports/grpc"
 )
 
 // Injectors from wire.go:

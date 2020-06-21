@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Infinity-OJ/Server/internal/pkg/jwt"
+	"github.com/infinity-oj/server/internal/pkg/jwt"
 	"github.com/gin-gonic/gin"
 )
 

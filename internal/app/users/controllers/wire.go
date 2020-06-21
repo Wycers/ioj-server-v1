@@ -3,11 +3,11 @@
 package controllers
 
 import (
-	"github.com/Infinity-OJ/Server/internal/app/users/repositories"
-	"github.com/Infinity-OJ/Server/internal/app/users/services"
-	"github.com/Infinity-OJ/Server/internal/pkg/config"
-	"github.com/Infinity-OJ/Server/internal/pkg/database"
-	"github.com/Infinity-OJ/Server/internal/pkg/log"
+	"github.com/infinity-oj/server/internal/app/users/repositories"
+	"github.com/infinity-oj/server/internal/app/users/services"
+	"github.com/infinity-oj/server/internal/pkg/config"
+	"github.com/infinity-oj/server/internal/pkg/database"
+	"github.com/infinity-oj/server/internal/pkg/log"
 	"github.com/google/wire"
 )
 

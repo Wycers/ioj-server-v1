@@ -3,13 +3,13 @@ package ctl
 import (
 	"time"
 
-	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/judgement"
+	"github.com/infinity-oj/server/internal/app/ctl/commands/judgement"
 
-	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/submission"
+	"github.com/infinity-oj/server/internal/app/ctl/commands/submission"
 
-	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/file"
-	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/problem"
-	"github.com/Infinity-OJ/Server/internal/app/ctl/commands/user"
+	"github.com/infinity-oj/server/internal/app/ctl/commands/file"
+	"github.com/infinity-oj/server/internal/app/ctl/commands/problem"
+	"github.com/infinity-oj/server/internal/app/ctl/commands/user"
 	"github.com/google/wire"
 	"github.com/urfave/cli/v2"
 )

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/Infinity-OJ/Server/internal/pkg/models"
+	"github.com/infinity-oj/server/internal/pkg/models"
 
-	"github.com/Infinity-OJ/Server/internal/pkg/utils/random"
+	"github.com/infinity-oj/server/internal/pkg/utils/random"
 
 	"github.com/jinzhu/gorm"
 	"go.uber.org/zap"

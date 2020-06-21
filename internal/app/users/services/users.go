@@ -1,10 +1,10 @@
 package services
 
 import (
-	"github.com/Infinity-OJ/Server/internal/app/users/repositories"
-	"github.com/Infinity-OJ/Server/internal/pkg/models"
-	"github.com/Infinity-OJ/Server/internal/pkg/utils/crypto"
-	"github.com/Infinity-OJ/Server/internal/pkg/utils/random"
+	"github.com/infinity-oj/server/internal/app/users/repositories"
+	"github.com/infinity-oj/server/internal/pkg/models"
+	"github.com/infinity-oj/server/internal/pkg/utils/crypto"
+	"github.com/infinity-oj/server/internal/pkg/utils/random"
 	"go.uber.org/zap"
 )
 

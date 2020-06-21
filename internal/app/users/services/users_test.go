@@ -2,8 +2,8 @@ package services
 
 import (
 	"flag"
-	"github.com/Infinity-OJ/Server/internal/pkg/models"
-	"github.com/Infinity-OJ/Server/mocks"
+	"github.com/infinity-oj/server/internal/pkg/models"
+	"github.com/infinity-oj/server/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"

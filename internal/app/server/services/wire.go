@@ -3,9 +3,9 @@
 package services
 
 import (
-	"github.com/Infinity-OJ/Server/api/protobuf-spec"
-	"github.com/Infinity-OJ/Server/internal/pkg/config"
-	"github.com/Infinity-OJ/Server/internal/pkg/log"
+	"github.com/infinity-oj/api/protobuf-spec"
+	"github.com/infinity-oj/server/internal/pkg/config"
+	"github.com/infinity-oj/server/internal/pkg/log"
 	"github.com/google/wire"
 )
 
