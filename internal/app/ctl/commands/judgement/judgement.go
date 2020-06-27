@@ -18,6 +18,7 @@ var ProviderSet = wire.NewSet(NewJudgementCommand)
 func NewJudgementCommand(judgementService service.JudgementService) Command {
 	var subCommands = []*cli.Command{
 		NewListJudgementsCommand(judgementService),
+		NewCreateJudgementsCommand(judgementService),
 	}
 	return Command{Command: &cli.Command{
 		Name:        "judgement",

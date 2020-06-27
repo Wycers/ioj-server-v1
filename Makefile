@@ -24,8 +24,8 @@ run:
 	do \
 		./dist/$$app -f configs/$$app.yml  & \
 	done
-.PHONY: run-cli
-run-cli: proto wire
+.PHONY: cli
+cli: wire
 	go build ./cmd/cli
 
 .PHONY: wire

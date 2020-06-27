@@ -10,7 +10,7 @@ type ListJudgementCommand = cli.Command
 func NewListJudgementsCommand(judgementService service.JudgementService) *ListJudgementCommand {
 	return &ListJudgementCommand{
 		Name:         "list",
-		Aliases:      []string{"c"},
+		Aliases:      []string{"l"},
 		Usage:        "list all judgements",
 		UsageText:    "",
 		Description:  "",
