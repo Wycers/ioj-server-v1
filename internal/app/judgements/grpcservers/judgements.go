@@ -16,12 +16,40 @@ type JudgementsService struct {
 	service services.JudgementsService
 }
 
+func (s *JudgementsService) FetchJudgementTask(ctx context.Context, request *proto.FetchJudgementTaskRequest) (*proto.FetchJudgementTaskResponse, error) {
+	taskType := request.GetType()
+
+	task, _ := s.service.FetchJudgementTask(taskType)
+
+	if task == nil {
+		return nil, nil
+	}
+
+	rsp := &proto.FetchJudgementTaskResponse{
+		Token:     "",
+		Arguments: nil,
+		Slots:     nil,
+	}
+
+	return rsp, nil
+
+}
+
+func (s *JudgementsService) ReturnJudgementTask(ctx context.Context, request *proto.ReturnJudgementTaskRequest) (*proto.ReturnJudgementTaskResponse, error) {
+	panic("implement me")
+}
+
+func (s *JudgementsService) mustEmbedUnimplementedJudgementsServer() {
+	panic("implement me")
+}
+
 func (s *JudgementsService) ListJudgements(ctx context.Context, request *proto.ListRequest) (*proto.ListResponse, error) {
 	s.service.List()
 	return &proto.ListResponse{}, nil
 }
 
 func (s *JudgementsService) SubmitJudgement(ctx context.Context, req *proto.SubmitJudgementRequest) (res *proto.SubmitJudgementResponse, err error) {
+
 	err = s.service.CreateJudgement(req.GetSubmissionId(), req.GetPublicSpace(), req.GetPrivateSpace(), req.GetUserSpace(), req.GetTestCase())
 	if err != nil {
 		res = &proto.SubmitJudgementResponse{

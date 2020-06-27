@@ -16,6 +16,8 @@ type JudgementsService interface {
 	FinishJudgement(token string, score uint64, msg string) error
 	FetchFile(fileSpace, fileName string) ([]byte, error)
 	List()
+
+	FetchJudgementTask(string) (*repositories.Task, [][]byte)
 }
 
 type DefaultJudgementsService struct {
@@ -23,6 +25,20 @@ type DefaultJudgementsService struct {
 	Repository  repositories.JudgementsRepository
 	Map         map[string]*repositories.Judgement
 	FileService FilesService
+}
+
+type TaskInputs struct {
+	Arguments map[string]interface{}
+	Slots     [][]byte
+}
+
+func (d DefaultJudgementsService) FetchJudgementTask(taskType string) (*repositories.Task, [][]byte) {
+	task := d.Repository.FetchTask(taskType)
+	if task == nil {
+		return nil, nil
+	}
+
+	return task, nil
 }
 
 func (d DefaultJudgementsService) FetchJudgementByToken(token string) *repositories.Judgement {

@@ -1,0 +1,1021 @@
+{
+  "last_node_id": 41,
+  "last_link_id": 55,
+  "nodes": [
+    {
+      "id": 10,
+      "type": "executor/elf",
+      "pos": [
+        926,
+        534
+      ],
+      "size": {
+        "0": 304,
+        "1": 46
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Binary File (elf)",
+          "type": "elf",
+          "link": 25
+        },
+        {
+          "name": "Input data （text)",
+          "type": "text",
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Output data （text)",
+          "type": "text",
+          "links": [
+            21
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 5,
+      "type": "basic/file",
+      "pos": [
+        602,
+        553
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "url",
+          "type": 0,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "",
+          "links": [
+            16
+          ]
+        }
+      ],
+      "properties": {
+        "url": "test input1",
+        "type": "text"
+      },
+      "boxcolor": "red"
+    },
+    {
+      "id": 17,
+      "type": "basic/file",
+      "pos": [
+        598,
+        656
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "url",
+          "type": 0,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "",
+          "links": [
+            28
+          ]
+        }
+      ],
+      "properties": {
+        "url": "test input2",
+        "type": "text"
+      },
+      "boxcolor": "red"
+    },
+    {
+      "id": 15,
+      "type": "executor/elf",
+      "pos": [
+        924,
+        639
+      ],
+      "size": {
+        "0": 304,
+        "1": 46
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Binary File (elf)",
+          "type": "elf",
+          "link": 26
+        },
+        {
+          "name": "Input data （text)",
+          "type": "text",
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Output data （text)",
+          "type": "text",
+          "links": [
+            31
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 6,
+      "type": "basic/file",
+      "pos": [
+        320,
+        435
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "url",
+          "type": 0,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "",
+          "links": [
+            24,
+            40
+          ]
+        }
+      ],
+      "properties": {
+        "url": "user file",
+        "type": "text"
+      },
+      "boxcolor": "red"
+    },
+    {
+      "id": 28,
+      "type": "builder/Clang",
+      "pos": [
+        562,
+        853
+      ],
+      "size": {
+        "0": 295.6000061035156,
+        "1": 58
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Source File (cpp)",
+          "type": "cpp",
+          "link": 40
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Binary File (elf)",
+          "type": "elf",
+          "links": [
+            39
+          ]
+        }
+      ],
+      "properties": {},
+      "widgets_values": [
+        "-Wall -O3"
+      ]
+    },
+    {
+      "id": 14,
+      "type": "builder/Clang",
+      "pos": [
+        560,
+        438
+      ],
+      "size": {
+        "0": 295.6000061035156,
+        "1": 58
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Source File (cpp)",
+          "type": "cpp",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Binary File (elf)",
+          "type": "elf",
+          "links": [
+            25,
+            26,
+            41
+          ]
+        }
+      ],
+      "properties": {},
+      "widgets_values": [
+        "-Wall -O2 "
+      ]
+    },
+    {
+      "id": 32,
+      "type": "executor/elf",
+      "pos": [
+        933,
+        821
+      ],
+      "size": {
+        "0": 304,
+        "1": 46
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Binary File (elf)",
+          "type": "elf",
+          "link": 41
+        },
+        {
+          "name": "Input data （text)",
+          "type": "text",
+          "link": 42
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Output data （text)",
+          "type": "text",
+          "links": [
+            43
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 16,
+      "type": "executor/elf",
+      "pos": [
+        935,
+        940
+      ],
+      "size": {
+        "0": 304,
+        "1": 46
+      },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Binary File (elf)",
+          "type": "elf",
+          "link": 39
+        },
+        {
+          "name": "Input data （text)",
+          "type": "text",
+          "link": 29
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Output data （text)",
+          "type": "text",
+          "links": [
+            33
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 40,
+      "type": "math/operation",
+      "pos": [
+        1752,
+        580
+      ],
+      "size": [
+        100,
+        60
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "A",
+          "type": "number,array,object",
+          "link": 52
+        },
+        {
+          "name": "B",
+          "type": "number",
+          "link": 53
+        }
+      ],
+      "outputs": [
+        {
+          "name": "=",
+          "type": "number",
+          "links": [
+            54
+          ]
+        }
+      ],
+      "properties": {
+        "A": 1,
+        "B": 1,
+        "OP": "+"
+      }
+    },
+    {
+      "id": 41,
+      "type": "math/operation",
+      "pos": [
+        2054,
+        615
+      ],
+      "size": [
+        100,
+        60
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "A",
+          "type": "number,array,object",
+          "link": 54
+        },
+        {
+          "name": "B",
+          "type": "number",
+          "link": 55
+        }
+      ],
+      "outputs": [
+        {
+          "name": "=",
+          "type": "number",
+          "links": null
+        }
+      ],
+      "properties": {
+        "A": 1,
+        "B": 1,
+        "OP": "+"
+      }
+    },
+    {
+      "id": 33,
+      "type": "comparor/simple_comparor",
+      "pos": [
+        1535,
+        803
+      ],
+      "size": {
+        "0": 161.1999969482422,
+        "1": 46
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Standard data",
+          "type": 0,
+          "link": 44
+        },
+        {
+          "name": "data",
+          "type": 0,
+          "link": 43
+        }
+      ],
+      "outputs": [
+        {
+          "name": "score",
+          "type": "number",
+          "links": [
+            47,
+            50
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 35,
+      "type": "math/condition",
+      "pos": [
+        1746,
+        756
+      ],
+      "size": [
+        80,
+        60
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "A",
+          "type": "number",
+          "link": 47
+        },
+        {
+          "name": "B",
+          "type": "number",
+          "link": 48
+        }
+      ],
+      "outputs": [
+        {
+          "name": "true",
+          "type": "boolean",
+          "links": [
+            49
+          ]
+        },
+        {
+          "name": "false",
+          "type": "boolean",
+          "links": null
+        }
+      ],
+      "properties": {
+        "A": 1,
+        "B": 1,
+        "OP": ">"
+      }
+    },
+    {
+      "id": 20,
+      "type": "comparor/simple_comparor",
+      "pos": [
+        1533,
+        618
+      ],
+      "size": {
+        "0": 161.1999969482422,
+        "1": 46
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Standard data",
+          "type": 0,
+          "link": 30
+        },
+        {
+          "name": "data",
+          "type": 0,
+          "link": 31
+        }
+      ],
+      "outputs": [
+        {
+          "name": "score",
+          "type": "number",
+          "links": [
+            53
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 9,
+      "type": "comparor/simple_comparor",
+      "pos": [
+        1534,
+        513
+      ],
+      "size": {
+        "0": 161.1999969482422,
+        "1": 46
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Standard data",
+          "type": 0,
+          "link": 13
+        },
+        {
+          "name": "data",
+          "type": 0,
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "name": "score",
+          "type": "number",
+          "links": [
+            52
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 4,
+      "type": "basic/file",
+      "pos": [
+        1275,
+        481
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "url",
+          "type": 0,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "url": "test output1",
+        "type": "text"
+      },
+      "boxcolor": "red"
+    },
+    {
+      "id": 36,
+      "type": "math/gate",
+      "pos": [
+        1870,
+        833
+      ],
+      "size": {
+        "0": 140,
+        "1": 66
+      },
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "v",
+          "type": "boolean",
+          "link": 49
+        },
+        {
+          "name": "A",
+          "type": 0,
+          "link": 50
+        },
+        {
+          "name": "B",
+          "type": 0,
+          "link": 51
+        }
+      ],
+      "outputs": [
+        {
+          "name": "out",
+          "links": [
+            55
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 18,
+      "type": "basic/file",
+      "pos": [
+        598,
+        998
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "url",
+          "type": 0,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "",
+          "links": [
+            29,
+            42
+          ]
+        }
+      ],
+      "properties": {
+        "url": "test input3",
+        "type": "text"
+      },
+      "boxcolor": "red"
+    },
+    {
+      "id": 21,
+      "type": "comparor/simple_comparor",
+      "pos": [
+        1535,
+        920
+      ],
+      "size": {
+        "0": 161.1999969482422,
+        "1": 46
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Standard data",
+          "type": 0,
+          "link": 32
+        },
+        {
+          "name": "data",
+          "type": 0,
+          "link": 33
+        }
+      ],
+      "outputs": [
+        {
+          "name": "score",
+          "type": "number",
+          "links": [
+            48,
+            51
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 19,
+      "type": "basic/file",
+      "pos": [
+        1274,
+        588
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "url",
+          "type": 0,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "",
+          "links": [
+            30
+          ]
+        }
+      ],
+      "properties": {
+        "url": "test output2",
+        "type": "text"
+      },
+      "boxcolor": "red"
+    },
+    {
+      "id": 22,
+      "type": "basic/file",
+      "pos": [
+        1273,
+        750
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "url",
+          "type": 0,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "",
+          "links": [
+            32,
+            44
+          ]
+        }
+      ],
+      "properties": {
+        "url": "test output3",
+        "type": "text"
+      },
+      "boxcolor": "red"
+    }
+  ],
+  "links":  [
+    [
+      13,
+      4,
+      0,
+      9,
+      0,
+      0
+    ],
+    [
+      16,
+      5,
+      0,
+      10,
+      1,
+      "text"
+    ],
+    [
+      21,
+      10,
+      0,
+      9,
+      1,
+      0
+    ],
+    [
+      24,
+      6,
+      0,
+      14,
+      0,
+      "cpp"
+    ],
+    [
+      25,
+      14,
+      0,
+      10,
+      0,
+      "elf"
+    ],
+    [
+      26,
+      14,
+      0,
+      15,
+      0,
+      "elf"
+    ],
+    [
+      28,
+      17,
+      0,
+      15,
+      1,
+      "text"
+    ],
+    [
+      29,
+      18,
+      0,
+      16,
+      1,
+      "text"
+    ],
+    [
+      30,
+      19,
+      0,
+      20,
+      0,
+      0
+    ],
+    [
+      31,
+      15,
+      0,
+      20,
+      1,
+      0
+    ],
+    [
+      32,
+      22,
+      0,
+      21,
+      0,
+      0
+    ],
+    [
+      33,
+      16,
+      0,
+      21,
+      1,
+      0
+    ],
+    [
+      39,
+      28,
+      0,
+      16,
+      0,
+      "elf"
+    ],
+    [
+      40,
+      6,
+      0,
+      28,
+      0,
+      "cpp"
+    ],
+    [
+      41,
+      14,
+      0,
+      32,
+      0,
+      "elf"
+    ],
+    [
+      42,
+      18,
+      0,
+      32,
+      1,
+      "text"
+    ],
+    [
+      43,
+      32,
+      0,
+      33,
+      1,
+      0
+    ],
+    [
+      44,
+      22,
+      0,
+      33,
+      0,
+      0
+    ],
+    [
+      47,
+      33,
+      0,
+      35,
+      0,
+      "number"
+    ],
+    [
+      48,
+      21,
+      0,
+      35,
+      1,
+      "number"
+    ],
+    [
+      49,
+      35,
+      0,
+      36,
+      0,
+      "boolean"
+    ],
+    [
+      50,
+      33,
+      0,
+      36,
+      1,
+      0
+    ],
+    [
+      51,
+      21,
+      0,
+      36,
+      2,
+      0
+    ],
+    [
+      52,
+      9,
+      0,
+      40,
+      0,
+      "number,array,object"
+    ],
+    [
+      53,
+      20,
+      0,
+      40,
+      1,
+      "number"
+    ],
+    [
+      54,
+      40,
+      0,
+      41,
+      0,
+      "number,array,object"
+    ],
+    [
+      55,
+      36,
+      0,
+      41,
+      1,
+      "number"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "version": 0.465
+}
