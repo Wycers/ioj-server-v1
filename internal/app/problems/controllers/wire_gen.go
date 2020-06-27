@@ -17,7 +17,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateUsersController(cf string, sto repositories.ProblemRepository, client proto.FilesClient) (*ProblemController, error) {
+func CreateUsersController(cf string, sto repositories.ProblemRepository, client protobuf_spec.FilesClient) (*ProblemController, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err

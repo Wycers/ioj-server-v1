@@ -16,6 +16,6 @@ var testProviderSet = wire.NewSet(
 	ProviderSet,
 )
 
-func CreateDetailRepository(f string) (JudgementsRepository, error) {
+func CreateJudgementsRepository(f string) (JudgementsRepository, error) {
 	panic(wire.Build(testProviderSet))
 }

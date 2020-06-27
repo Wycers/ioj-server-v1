@@ -14,7 +14,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateProductsService(cf string, usersClients proto.UsersClient) (ProductsService, error) {
+func CreateProductsService(cf string, usersClients protobuf_spec.UsersClient) (ProductsService, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err

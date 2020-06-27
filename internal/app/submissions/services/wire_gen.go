@@ -16,7 +16,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateSubmissionsService(cf string, sto repositories.SubmissionRepository, problemsClient proto.ProblemsClient, filesClient proto.FilesClient, judgementsClient proto.JudgementsClient) (SubmissionsService, error) {
+func CreateSubmissionsService(cf string, sto repositories.SubmissionRepository, problemsClient protobuf_spec.ProblemsClient, filesClient protobuf_spec.FilesClient, judgementsClient protobuf_spec.JudgementsClient) (SubmissionsService, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err

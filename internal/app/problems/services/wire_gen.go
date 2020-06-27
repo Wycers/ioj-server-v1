@@ -16,7 +16,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateUsersService(cf string, sto repositories.ProblemRepository, client proto.FilesClient) (ProblemsService, error) {
+func CreateUsersService(cf string, sto repositories.ProblemRepository, client protobuf_spec.FilesClient) (ProblemsService, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err

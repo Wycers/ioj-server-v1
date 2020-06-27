@@ -8,7 +8,7 @@ require (
 	github.com/gin-contrib/pprof v1.2.1
 	github.com/gin-contrib/zap v0.0.0-20191128031730-d12829f8f61b
 	github.com/gin-gonic/gin v1.5.0
-	github.com/golang/protobuf v1.4.0-rc.4.0.20200313231945-b860323f09d0
+	github.com/golang/protobuf v1.4.2
 	github.com/google/uuid v1.1.1
 	github.com/google/wire v0.4.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
@@ -18,7 +18,7 @@ require (
 	github.com/hashicorp/go-msgpack v0.5.5 // indirect
 	github.com/hashicorp/go-sockaddr v1.0.2 // indirect
 	github.com/hashicorp/memberlist v0.1.6 // indirect
-	github.com/infinity-oj/api v0.0.0-20200417145613-5a13c1434ae0
+	github.com/infinity-oj/api v0.0.0-20200626161947-522da3794a86
 	github.com/jinzhu/gorm v1.9.12
 	github.com/mbobakov/grpc-consul-resolver v1.4.1
 	github.com/miekg/dns v1.1.26 // indirect
@@ -33,8 +33,7 @@ require (
 	github.com/urfave/cli/v2 v2.1.1
 	go.uber.org/zap v1.13.0
 	golang.org/x/tools v0.0.0-20200420001825-978e26b7c37c // indirect
-	google.golang.org/grpc v1.27.1
-	google.golang.org/protobuf v1.21.0 // indirect
+	google.golang.org/grpc v1.30.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gopkg.in/yaml.v2 v2.2.8
 )

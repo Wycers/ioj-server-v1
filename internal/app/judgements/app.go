@@ -1,10 +1,10 @@
 package judgements
 
 import (
+	"github.com/google/wire"
 	"github.com/infinity-oj/server/internal/pkg/app"
 	"github.com/infinity-oj/server/internal/pkg/transports/grpc"
 	"github.com/infinity-oj/server/internal/pkg/transports/http"
-	"github.com/google/wire"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"

@@ -1,7 +1,7 @@
 package grpcclients
 
 import (
-	"github.com/infinity-oj/api/protobuf-spec"
+	proto "github.com/infinity-oj/api/protobuf-spec"
 	"github.com/infinity-oj/server/internal/pkg/transports/grpc"
 	"github.com/pkg/errors"
 )

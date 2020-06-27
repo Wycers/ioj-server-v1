@@ -15,6 +15,10 @@ type SubmissionService struct {
 	service services.SubmissionsService
 }
 
+func (s *SubmissionService) mustEmbedUnimplementedSubmissionsServer() {
+	panic("implement me")
+}
+
 func (s *SubmissionService) CreateSubmission(ctx context.Context, req *proto.CreateSubmissionRequest) (res *proto.CreateSubmissionResponse, err error) {
 	if _, err := s.service.Create(req.GetSubmitterId(), req.GetProblemId(), req.GetUserSpace()); err != nil {
 		return nil, errors.Wrapf(err, "Create submission failed")

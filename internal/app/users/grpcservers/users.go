@@ -15,6 +15,10 @@ type UsersServer struct {
 	service services.UsersService
 }
 
+func (s *UsersServer) mustEmbedUnimplementedUsersServer() {
+	panic("implement me")
+}
+
 func (s *UsersServer) CreateUser(ctx context.Context, req *proto.RegisterRequest) (res *proto.RegisterResponse, err error) {
 	if u, err := s.service.Create(req.Username, req.Password, req.Email); err != nil {
 		return nil, errors.Wrapf(err, "CreateUser user failed")

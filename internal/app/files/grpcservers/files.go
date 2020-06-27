@@ -13,6 +13,10 @@ type FilesServer struct {
 	service services.FilesService
 }
 
+func (f FilesServer) mustEmbedUnimplementedFilesServer() {
+	panic("implement me")
+}
+
 func (f FilesServer) FetchFile(ctx context.Context, req *proto.FetchFileRequest) (res *proto.FetchFileResponse, err error) {
 	f.logger.Info("Fetch file " + req.GetFilePath() + " in " + req.GetSpaceName())
 

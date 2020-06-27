@@ -14,7 +14,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateDetailRepository(f string) (JudgementsRepository, error) {
+func CreateJudgementsRepository(f string) (JudgementsRepository, error) {
 	viper, err := config.New(f)
 	if err != nil {
 		return nil, err

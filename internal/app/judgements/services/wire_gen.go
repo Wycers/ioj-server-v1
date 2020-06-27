@@ -16,7 +16,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateJudgementsService(cf string, sto repositories.JudgementsRepository, filesClient proto.FilesClient) (JudgementsService, error) {
+func CreateJudgementsService(cf string, sto repositories.JudgementsRepository, filesClient protobuf_spec.FilesClient) (JudgementsService, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err
