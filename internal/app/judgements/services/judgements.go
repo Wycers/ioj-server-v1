@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
 	"github.com/infinity-oj/server/internal/app/judgements/repositories"
@@ -33,12 +34,11 @@ type TaskInputs struct {
 }
 
 func (d DefaultJudgementsService) FetchJudgementTask(taskType string) (*repositories.Task, [][]byte) {
-	task := d.Repository.FetchTask(taskType)
+	task, inputs := d.Repository.FetchTask(taskType)
 	if task == nil {
 		return nil, nil
 	}
-
-	return task, nil
+	return task, inputs
 }
 
 func (d DefaultJudgementsService) FetchJudgementByToken(token string) *repositories.Judgement {
@@ -55,7 +55,7 @@ func (d DefaultJudgementsService) FetchFile(fileSpace, fileName string) ([]byte,
 }
 
 func (d DefaultJudgementsService) CreateJudgement(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error {
-	err := d.Repository.Create(submissionId, publicSpace, privateSpace, userSpace, testCase)
+	err := d.Repository.Create(submissionId, publicSpace, privateSpace, userSpace)
 	if err != nil {
 		return err
 	}
@@ -83,24 +83,13 @@ func (d DefaultJudgementsService) List() {
 
 func (d DefaultJudgementsService) FetchJudgement() *repositories.Judgement {
 	judgement := d.Repository.Fetch()
-	fmt.Println((*judgement).Token)
-	fmt.Printf("%x\n", &judgement)
+
+	token := uuid.New().String()
 	if judgement != nil {
-		d.Map[judgement.Token] = judgement
+		d.Map[token] = judgement
 	}
+
 	return judgement
-	//go func() {
-	//	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(judgement.Time)*time.Millisecond)
-	//	defer cancel()
-	//	dosomething(ctx, judgement)
-	//	judgement.Done <- true
-	//}()
-	//select {
-	//case res := <-done:
-	//	fmt.Println(time.Now(), res, id)
-	//case <-time.After(time.Duration(10) * time.Second):
-	//	fmt.Println(time.Now(), "timeout ", 10)
-	//}
 }
 
 func (d DefaultJudgementsService) FinishJudgement(token string, score uint64, msg string) error {
