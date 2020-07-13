@@ -84,6 +84,22 @@ func (m MysqlJudgementsRepository) Update(judgement *models.Judgement) error {
 func (m MysqlJudgementsRepository) List() {
 	fmt.Println("=== START ===")
 
+	for te := m.queue.Front(); te != nil; te = te.Next() {
+		judgementElement, ok := te.Value.(*JudgementElement)
+
+		if !ok {
+			fmt.Println(te.Value)
+			continue
+		}
+
+		fmt.Printf("type: %s\n idle: %v\n, inputs: %+v\n, outputs: %+v\n\n",
+			judgementElement.Type,
+			judgementElement.Idle,
+			judgementElement.Inputs,
+			judgementElement.Properties,
+		)
+	}
+
 	fmt.Println("==== END ====")
 }
 
