@@ -3,9 +3,12 @@ package models
 type Judgement struct {
 	Model
 
-	SubmissionID uint64
+	JudgementId string
+	Type        string
+	Status      JudgeStatus `sql:"type:judge_status"`
 
-	TestCase string
-	Score    uint
-	Status   JudgeStatus `sql:"type:judge_status"`
+	Property string
+
+	Inputs  string
+	Outputs string
 }

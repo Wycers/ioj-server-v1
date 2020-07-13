@@ -1,4 +1,4 @@
-package repositories
+package nodeEngine
 
 import "fmt"
 
@@ -83,7 +83,7 @@ func (g *Graph) findLinkById(id int) *Link {
 	}
 }
 
-func (g *Graph) findLinkBySourcePort(id, slot int) []*Link {
+func (g *Graph) FindLinkBySourcePort(id, slot int) []*Link {
 	var res []*Link
 	for _, v := range g.Links {
 		if v.Source.Id == id && v.Source.Slot == slot {

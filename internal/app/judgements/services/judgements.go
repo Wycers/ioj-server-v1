@@ -1,17 +1,14 @@
 package services
 
 import (
-	"fmt"
-
-	"github.com/google/uuid"
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/infinity-oj/server/internal/app/judgements/repositories"
 	"go.uber.org/zap"
 )
 
 type JudgementsService interface {
-	CreateJudgement(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error
+	Create(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error
 	FetchJudgement() *repositories.Judgement
 	FetchJudgementByToken(token string) *repositories.Judgement
 	FinishJudgement(token string, score uint64, msg string) error
@@ -24,8 +21,8 @@ type JudgementsService interface {
 type DefaultJudgementsService struct {
 	logger      *zap.Logger
 	Repository  repositories.JudgementsRepository
-	Map         map[string]*repositories.Judgement
 	FileService FilesService
+	tokenMap    map[string]*repositories.JudgementElement
 }
 
 type TaskInputs struct {
@@ -33,9 +30,9 @@ type TaskInputs struct {
 	Slots     [][]byte
 }
 
-func (d DefaultJudgementsService) FetchJudgementTask(taskType string) (*repositories.Task, [][]byte) {
-	task, inputs := d.Repository.FetchTask(taskType)
-	if task == nil {
+func (d DefaultJudgementsService) FetchJudgement(taskType string) (*repositories.Task, [][]byte) {
+	judgement := d.Repository.FetchJudgementInQueue(taskType)
+	if judgement == nil {
 		return nil, nil
 	}
 	return task, inputs
@@ -54,8 +51,8 @@ func (d DefaultJudgementsService) FetchFile(fileSpace, fileName string) ([]byte,
 	return d.FileService.FetchFile(fileSpace, fileName)
 }
 
-func (d DefaultJudgementsService) CreateJudgement(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error {
-	err := d.Repository.Create(submissionId, publicSpace, privateSpace, userSpace)
+func (d DefaultJudgementsService) Create() error {
+	judgement, err := d.Repository.Create()
 	if err != nil {
 		return err
 	}
@@ -81,36 +78,27 @@ func (d DefaultJudgementsService) List() {
 //
 //}
 
-func (d DefaultJudgementsService) FetchJudgement() *repositories.Judgement {
+func (d DefaultJudgementsService) FetchJudgement() (*repositories.Judgement, error) {
 	judgement := d.Repository.Fetch()
-
-	token := uuid.New().String()
-	if judgement != nil {
-		d.Map[token] = judgement
-	}
 
 	return judgement
 }
 
-func (d DefaultJudgementsService) FinishJudgement(token string, score uint64, msg string) error {
-	judgement, ok := d.Map[token]
-	fmt.Println(token)
-	fmt.Printf("%x\n", &judgement)
-	if ok {
-		if judgement.Status == "idle" {
-			judgement.Status = "done"
-		}
-	} else {
-		return errors.New("qwq")
+func (d DefaultJudgementsService) FinishJudgement(token string, outputs [][]byte) error {
+	element, ok := d.tokenMap[token]
+	if !ok {
+		return errors.New("unknown judgement")
 	}
-	return nil
+
+	err := d.Repository.ReturnJudgementInQueue(element, outputs)
+	return err
 }
 
 func NewJudgementsService(logger *zap.Logger, Repository repositories.JudgementsRepository, filesService FilesService) JudgementsService {
 	return &DefaultJudgementsService{
 		logger:      logger.With(zap.String("type", "DefaultJudgementService")),
 		Repository:  Repository,
-		Map:         make(map[string]*repositories.Judgement),
 		FileService: filesService,
+		tokenMap:    make(map[string]*repositories.JudgementElement),
 	}
 }

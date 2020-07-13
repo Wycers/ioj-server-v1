@@ -3,6 +3,7 @@ package models
 type Submission struct {
 	Model
 
+	SubmissionId string
 	// submitter ID of this submission
 	SubmitterId uint64
 	Submitter   User
