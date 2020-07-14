@@ -16,8 +16,6 @@ type Submission struct {
 	TimeUsed   uint
 	MemoryUsed uint
 
-	Judgements []Judgement
-
 	Score  uint
 	Status JudgeStatus `sql:"type:judge_status"`
 }

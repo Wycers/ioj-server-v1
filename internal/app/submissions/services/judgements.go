@@ -14,7 +14,7 @@ type DefaultJudgementsService struct {
 	judgementsSrv proto.JudgementsClient
 }
 
-//func (s *DefaultJudgementsService) Create(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error {
+// func (s *DefaultJudgementsService) Create(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error {
 //	req := &proto.SubmitJudgementRequest{
 //		SubmissionId: submissionId,
 //		PublicSpace:  publicSpace,
@@ -29,7 +29,8 @@ type DefaultJudgementsService struct {
 //		fmt.Println(res.Status, res.Score)
 //	}
 //	return nil
-//}
+// }
+
 func (s *DefaultJudgementsService) Create(class, property string, inputs [][]byte) error {
 
 	return nil

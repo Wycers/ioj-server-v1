@@ -114,7 +114,6 @@ func (m MysqlSubmissionsRepository) Create(submitterId uint64, problemId, userSp
 		SubmissionId: uuid.New().String(),
 		SubmitterId:  submitterId,
 		ProblemID:    problemId,
-		Judgements:   nil,
 		UserSpace:    userSpace,
 		Status:       models.Pending,
 	}

@@ -16,14 +16,15 @@ var specialKey = "imf1nlTy0j"
 
 type SubmissionsService interface {
 	Create(submitterID uint64, problemID string, userSpace string) (s *models.Submission, err error)
-	Judge(submission *models.Submission) error
+
+	DeliverJudgement(submissionId string) error
 }
 
 type DefaultSubmissionService struct {
 	logger           *zap.Logger
-	ProblemService   ProblemsService
+	problemService   ProblemsService
 	JudgementService JudgementsService
-	FileService      FilesService
+	fileService      FilesService
 	Repository       repositories.SubmissionRepository
 }
 
@@ -42,12 +43,12 @@ type Meta struct {
 }
 
 func (d DefaultSubmissionService) Judge(submission *models.Submission) error {
-	problem, err := d.ProblemService.Fetch(submission.ProblemID)
+	problem, err := d.problemService.Fetch(submission.ProblemID)
 	if err != nil {
 		return err
 	}
 
-	meta, err := d.FileService.FetchMetaFile(problem.PrivateSpace)
+	meta, err := d.fileService.FetchMetaFile(problem.PrivateSpace)
 	if err != nil {
 		return errors.Wrap(err, "judge error: fetch meta file error")
 	}
@@ -63,19 +64,24 @@ func (d DefaultSubmissionService) Judge(submission *models.Submission) error {
 	fmt.Println(problem.PrivateSpace)
 	for k, v := range m.TestCases {
 		fmt.Println(k, v)
-		//if err := d.JudgementService.Create(submission.ID, problem.PublicSpace, problem.PrivateSpace, submission.UserSpace, v); err != nil {
-		//	return errors.Wrap(err, "judge error: submit judgement error")
-		//}
+		// if err := d.JudgementService.Create(submission.ID, problem.PublicSpace, problem.PrivateSpace, submission.UserSpace, v); err != nil {
+		// 	return errors.Wrap(err, "judge error: submit judgement error")
+		// }
 	}
 	return nil
 }
 
-func (d DefaultSubmissionService) DispatchJudgement(submissionId string) error {
+func (d DefaultSubmissionService) DeliverJudgement(submissionId string) error {
 
 	submission, err := d.Repository.FetchSubmissionBySubmissionId(submissionId)
 	if err != nil {
 		return err
 	}
+
+	// problem, err := d.problemService.Fetch(submission.ProblemID)
+	// if err != nil {
+	// 	return err
+	// }
 
 	submissionElement := d.Repository.CreateSubmissionInQueue(submission)
 
@@ -94,6 +100,7 @@ func (d DefaultSubmissionService) DispatchJudgement(submissionId string) error {
 			string(upstreamProperty),
 			upstream.Inputs,
 		)
+
 		if err != nil {
 
 		}
@@ -115,8 +122,8 @@ func NewSubmissionService(
 	}()
 	return &DefaultSubmissionService{
 		logger:           logger.With(zap.String("type", "DefaultSubmissionService")),
-		ProblemService:   ProblemService,
-		FileService:      FileService,
+		problemService:   ProblemService,
+		fileService:      FileService,
 		JudgementService: JudgementService,
 		Repository:       Repository,
 	}
