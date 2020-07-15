@@ -35,14 +35,6 @@ func (s *JudgementsService) FetchJudgementTask(ctx context.Context, request *pro
 
 }
 
-func (s *JudgementsService) ReturnJudgementTask(ctx context.Context, request *proto.ReturnJudgementTaskRequest) (*proto.ReturnJudgementTaskResponse, error) {
-	panic("implement me")
-}
-
-func (s *JudgementsService) mustEmbedUnimplementedJudgementsServer() {
-	panic("implement me")
-}
-
 func (s *JudgementsService) ListJudgements(ctx context.Context, request *proto.ListRequest) (*proto.ListResponse, error) {
 	s.service.List()
 	return &proto.ListResponse{}, nil
@@ -135,6 +127,18 @@ func (s *JudgementsService) ReturnJudgement(ctx context.Context, req *proto.Retu
 		}
 	}
 	return
+}
+
+func (s *JudgementsService) CreateJudgement(ctx context.Context, request *proto.CreateJudgementRequest) (*proto.CreateJudgementResponse, error) {
+	panic("implement me")
+}
+
+func (s *JudgementsService) PullJudgement(ctx context.Context, request *proto.PullJudgementRequest) (*proto.PullJudgementResponse, error) {
+	panic("implement me")
+}
+
+func (s *JudgementsService) PushJudgement(ctx context.Context, request *proto.PushJudgementRequest) (*proto.PushJudgementResponse, error) {
+	panic("implement me")
 }
 
 func NewJudgementsServer(logger *zap.Logger, js services.JudgementsService) (*JudgementsService, error) {

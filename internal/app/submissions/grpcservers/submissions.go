@@ -30,6 +30,14 @@ func (s *SubmissionService) CreateSubmission(ctx context.Context, req *proto.Cre
 	return
 }
 
+func (s *SubmissionService) DispatchJudge(ctx context.Context, request *proto.DispatchJudgeRequest) (*proto.DispatchJudgeResponse, error) {
+	panic("implement me")
+}
+
+func (s *SubmissionService) ReturnJudgement(ctx context.Context, request *proto.ReturnJudgementRequest) (*proto.ReturnJudgementResponse, error) {
+	panic("implement me")
+}
+
 func NewSubmissionsServer(logger *zap.Logger, ps services.SubmissionsService) (*SubmissionService, error) {
 	return &SubmissionService{
 		logger:  logger,
