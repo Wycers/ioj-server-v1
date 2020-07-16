@@ -21,6 +21,8 @@ func (s *JudgementsService) ListJudgements(ctx context.Context, request *proto.L
 }
 
 func (s *JudgementsService) CreateJudgement(ctx context.Context, request *proto.CreateJudgementRequest) (*proto.CreateJudgementResponse, error) {
+	tp := request.Type
+
 	arguments := make(map[string]string)
 	for _, v := range request.Arguments {
 		if _, ok := arguments[v.Key]; ok {
@@ -35,8 +37,7 @@ func (s *JudgementsService) CreateJudgement(ctx context.Context, request *proto.
 		inputs = append(inputs, input)
 	}
 
-
-	_, err := s.service.Create("type", arguments, inputs)
+	_, err := s.service.Create(tp, arguments, inputs)
 	if err != nil {
 		return nil, err
 	}
@@ -90,12 +91,12 @@ func (s *JudgementsService) PushJudgement(ctx context.Context, request *proto.Pu
 		output := v.Value
 		outputs = append(outputs, output)
 	}
-	
+
 	err := s.service.PushJudgement(token, outputs)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	response := &proto.PushJudgementResponse{
 		Status: proto.Status_success,
 	}

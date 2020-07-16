@@ -75,6 +75,7 @@ func (d DefaultSubmissionService) DeliverJudgement(submissionId string) error {
 
 	submission, err := d.Repository.FetchSubmissionBySubmissionId(submissionId)
 	if err != nil {
+		d.logger.Error("error:", zap.Error(err), zap.String("submissionId", submissionId))
 		return err
 	}
 
@@ -90,6 +91,10 @@ func (d DefaultSubmissionService) DeliverJudgement(submissionId string) error {
 	for _, upstream := range upstreams {
 
 		upstreamType := upstream.Type
+
+		d.logger.Info("create judgement",
+			zap.String("type", upstreamType),
+		)
 
 		err = d.JudgementService.Create(
 			context.TODO(),

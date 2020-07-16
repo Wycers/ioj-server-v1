@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 
 	proto "github.com/infinity-oj/api/protobuf-spec"
 )
@@ -15,7 +16,6 @@ type DefaultJudgementsService struct {
 }
 
 func (s *DefaultJudgementsService) Create(ctx context.Context, tp string, properties map[string]string, inputs [][]byte) error {
-
 
 	var arguments []*proto.Argument
 	for k, v := range properties {
@@ -41,6 +41,7 @@ func (s *DefaultJudgementsService) Create(ctx context.Context, tp string, proper
 		Arguments:    arguments,
 		Slots:        slots,
 	}
+	fmt.Println(tp)
 
 	_, err := s.judgementsSrv.CreateJudgement(ctx, request)
 	if err != nil {
@@ -49,7 +50,6 @@ func (s *DefaultJudgementsService) Create(ctx context.Context, tp string, proper
 
 	return nil
 }
-
 
 func NewJudgementsService(judgementsSrv proto.JudgementsClient) JudgementsService {
 	return &DefaultJudgementsService{

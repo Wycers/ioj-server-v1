@@ -53,7 +53,7 @@ func (m MysqlJudgementsRepository) Create(tp string, properties map[string]strin
 	judgement := &models.Judgement{
 		JudgementId: judgementId,
 		Type:        tp,
-		Status:      "pending",
+		Status:      models.Pending,
 		Property:    propertiesStr,
 		Inputs:      "",
 		Outputs:     "",
@@ -68,8 +68,8 @@ func (m MysqlJudgementsRepository) Create(tp string, properties map[string]strin
 	judgementInQueue := &JudgementElement{
 		Idle: false,
 
-		Type:       "",
-		Properties: nil,
+		Type:       tp,
+		Properties: properties,
 
 		Inputs:  inputs,
 		Outputs: nil,

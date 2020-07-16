@@ -9,6 +9,7 @@ import (
 
 type SubmissionService interface {
 	Create(submitterId uint64, problemId, userSpace string) error
+	DispatchJudgement(submissionId string) error
 }
 
 type DefaultSubmissionService struct {
@@ -22,14 +23,29 @@ func (d DefaultSubmissionService) Create(submitterId uint64, problemId, userSpac
 		UserSpace:   userSpace,
 	}
 
-	pd, err := d.submissionSrv.CreateSubmission(context.TODO(), req)
+	rsp, err := d.submissionSrv.CreateSubmission(context.TODO(), req)
 	if err != nil {
 		return errors.Wrap(err, "create submission error")
 	}
 
-	if pd.GetStatus() == proto.Status_error {
+	if rsp.GetStatus() == proto.Status_error {
 		return errors.New("Failed!")
 	}
+
+	return nil
+}
+
+func (d DefaultSubmissionService) DispatchJudgement(submissionId string) error {
+
+	req := &proto.DispatchJudgeRequest{
+		SubmissionId: submissionId,
+	}
+
+	_, err := d.submissionSrv.DispatchJudge(context.TODO(), req)
+	if err != nil {
+		return errors.Wrap(err, "dispatch submission error")
+	}
+
 	return nil
 }
 

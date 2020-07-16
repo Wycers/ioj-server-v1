@@ -105,7 +105,7 @@ func (m MysqlSubmissionsRepository) FetchSubmissionInQueueById(submissionId stri
 
 func (m MysqlSubmissionsRepository) FetchSubmissionBySubmissionId(submissionId string) (*models.Submission, error) {
 	submission := &models.Submission{}
-	err := m.db.Where("submission_id = ?", submissionId).First(&submissionId).Error
+	err := m.db.Where("submission_id = ?", submissionId).First(&submission).Error
 	return submission, err
 }
 

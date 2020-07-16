@@ -34,6 +34,7 @@ func (s *SubmissionService) DispatchJudge(ctx context.Context, request *proto.Di
 	submissionId := request.SubmissionId
 	err := s.service.DeliverJudgement(submissionId)
 	if err != nil {
+		s.logger.Error("error:", zap.Error(err))
 		return nil, err
 	}
 	return &proto.DispatchJudgeResponse{}, nil

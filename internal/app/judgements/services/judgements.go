@@ -27,7 +27,7 @@ type DefaultJudgementsService struct {
 }
 
 func (d DefaultJudgementsService) List() {
-	panic("implement me")
+	d.Repository.List()
 }
 
 func (d DefaultJudgementsService) Create(tp string, properties map[string]string, inputs [][]byte) (*models.Judgement, error) {

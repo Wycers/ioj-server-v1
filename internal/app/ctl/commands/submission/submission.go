@@ -18,6 +18,7 @@ var ProviderSet = wire.NewSet(NewSubmissionCommand)
 func NewSubmissionCommand(submissionService service.SubmissionService) Command {
 	var subCommands = []*cli.Command{
 		NewCreateSubmissionCommand(submissionService),
+		NewDispatchSubmissionCommand(submissionService),
 	}
 	return Command{Command: &cli.Command{
 		Name:        "submission",
