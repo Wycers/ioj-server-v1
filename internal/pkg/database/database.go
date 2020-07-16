@@ -1,13 +1,14 @@
 package database
 
 import (
-	"github.com/infinity-oj/server/internal/pkg/models"
 	"github.com/google/wire"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
+
+	"github.com/infinity-oj/server/internal/pkg/models"
 )
 
 // Options is  configuration of database

@@ -2,13 +2,12 @@ package grpcservers
 
 import (
 	"context"
-	"strings"
-
-	"github.com/pkg/errors"
+	"errors"
 
 	proto "github.com/infinity-oj/api/protobuf-spec"
-	"github.com/infinity-oj/server/internal/app/judgements/services"
 	"go.uber.org/zap"
+
+	"github.com/infinity-oj/server/internal/app/judgements/services"
 )
 
 type JudgementsService struct {
@@ -16,129 +15,91 @@ type JudgementsService struct {
 	service services.JudgementsService
 }
 
-func (s *JudgementsService) FetchJudgementTask(ctx context.Context, request *proto.FetchJudgementTaskRequest) (*proto.FetchJudgementTaskResponse, error) {
-	taskType := request.GetType()
-
-	task, _ := s.service.FetchJudgementTask(taskType)
-
-	if task == nil {
-		return nil, nil
-	}
-
-	rsp := &proto.FetchJudgementTaskResponse{
-		Token:     "",
-		Arguments: nil,
-		Slots:     nil,
-	}
-
-	return rsp, nil
-
-}
-
 func (s *JudgementsService) ListJudgements(ctx context.Context, request *proto.ListRequest) (*proto.ListResponse, error) {
 	s.service.List()
 	return &proto.ListResponse{}, nil
 }
 
-func (s *JudgementsService) SubmitJudgement(ctx context.Context, req *proto.SubmitJudgementRequest) (res *proto.SubmitJudgementResponse, err error) {
-
-	err = s.service.CreateJudgement(req.GetSubmissionId(), req.GetPublicSpace(), req.GetPrivateSpace(), req.GetUserSpace(), req.GetTestCase())
-	if err != nil {
-		res = &proto.SubmitJudgementResponse{
-			Status: proto.Status_error,
-			Score:  0,
-		}
-		return nil, errors.Wrap(err, "create judgement failed")
-	}
-	res = &proto.SubmitJudgementResponse{
-		Status: proto.Status_success,
-		Score:  0,
-	}
-	return
-}
-
-func (s *JudgementsService) FetchFile(ctx context.Context, req *proto.FetchJudgeFileRequest) (res *proto.FetchJudgeFileResponse, err error) {
-	judgement := s.service.FetchJudgementByToken(req.GetToken())
-	if judgement != nil {
-		space := ""
-		switch strings.ToLower(req.GetSpace()) {
-		case "public":
-			space = judgement.PublicSpace
-			break
-		case "private":
-			space = judgement.PrivateSpace
-			break
-		case "user":
-			space = judgement.UserSpace
-			break
-		default:
-			return nil, errors.New("invalid space type")
-		}
-
-		fetchRes, err := s.service.FetchFile(space, req.GetFilename())
-
-		if err != nil {
-			return nil, err
-		}
-		res = &proto.FetchJudgeFileResponse{
-			Status: proto.Status_success,
-			File:   fetchRes,
-			Sha1:   "",
-		}
-		return res, nil
-	} else {
-		panic("No such judgement")
-	}
-}
-
-func (s *JudgementsService) FetchHashFile(context.Context, *proto.FetchFileHashRequest) (*proto.FetchFileHashResponse, error) {
-	panic("implement me")
-}
-
-func (s *JudgementsService) FetchJudgement(ctx context.Context, req *proto.FetchJudgementRequest) (res *proto.FetchJudgementResponse, err error) {
-	judgement := s.service.FetchJudgement()
-
-	if judgement == nil {
-		res = &proto.FetchJudgementResponse{}
-	} else {
-		res = &proto.FetchJudgementResponse{
-			Token:            judgement.Token,
-			TestCase:         judgement.TestCase,
-			TimeLimit:        0,
-			MemoryLimit:      0,
-			FileIoInputName:  "",
-			FileIoOutputName: "",
-		}
-	}
-
-	return
-}
-
-func (s *JudgementsService) ReturnJudgement(ctx context.Context, req *proto.ReturnJudgementRequest) (res *proto.ReturnJudgementResponse, err error) {
-	err = s.service.FinishJudgement(req.GetToken(), req.GetScore(), req.GetMsg())
-
-	if err != nil {
-		res = &proto.ReturnJudgementResponse{
-			Status: proto.Status_error,
-		}
-	} else {
-		res = &proto.ReturnJudgementResponse{
-			Status: proto.Status_success,
-		}
-	}
-	return
-}
-
 func (s *JudgementsService) CreateJudgement(ctx context.Context, request *proto.CreateJudgementRequest) (*proto.CreateJudgementResponse, error) {
-	panic("implement me")
+	arguments := make(map[string]string)
+	for _, v := range request.Arguments {
+		if _, ok := arguments[v.Key]; ok {
+			return nil, errors.New("duplicate key")
+		}
+		arguments[v.Key] = v.Value
+	}
+
+	var inputs [][]byte
+	for _, v := range request.Slots {
+		input := v.Value
+		inputs = append(inputs, input)
+	}
+
+
+	_, err := s.service.Create("type", arguments, inputs)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &proto.CreateJudgementResponse{}
+
+	return response, nil
 }
 
 func (s *JudgementsService) PullJudgement(ctx context.Context, request *proto.PullJudgementRequest) (*proto.PullJudgementResponse, error) {
-	panic("implement me")
+	taskType := request.GetType()
+
+	token, judgement := s.service.PullJudgement(taskType)
+
+	if judgement == nil {
+		return nil, nil
+	}
+
+	var arguments []*proto.Argument
+	for k, v := range judgement.Properties {
+		argument := &proto.Argument{
+			Key:   k,
+			Value: v,
+		}
+		arguments = append(arguments, argument)
+	}
+
+	var slots []*proto.Slot
+	for k, v := range judgement.Inputs {
+		slot := &proto.Slot{
+			Id:    uint32(k),
+			Value: v,
+		}
+		slots = append(slots, slot)
+	}
+
+	rsp := &proto.PullJudgementResponse{
+		Token:     token,
+		Arguments: arguments,
+		Slots:     slots,
+	}
+
+	return rsp, nil
 }
 
 func (s *JudgementsService) PushJudgement(ctx context.Context, request *proto.PushJudgementRequest) (*proto.PushJudgementResponse, error) {
-	panic("implement me")
+	token := request.Token
+
+	var outputs [][]byte
+	for _, v := range request.Slots {
+		output := v.Value
+		outputs = append(outputs, output)
+	}
+	
+	err := s.service.PushJudgement(token, outputs)
+	if err != nil {
+		return nil, err
+	}
+	
+	response := &proto.PushJudgementResponse{
+		Status: proto.Status_success,
+	}
+	return response, nil
 }
 
 func NewJudgementsServer(logger *zap.Logger, js services.JudgementsService) (*JudgementsService, error) {

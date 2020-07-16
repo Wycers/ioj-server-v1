@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"container/list"
+	"encoding/json"
 	"fmt"
 	"sync"
 
@@ -16,7 +17,7 @@ import (
 type JudgementElement struct {
 	Idle       bool
 	Type       string
-	Properties map[string]interface{}
+	Properties map[string]string
 
 	Inputs  [][]byte
 	Outputs [][]byte
@@ -27,7 +28,7 @@ type JudgementElement struct {
 type JudgementsRepository interface {
 	List()
 	Fetch() *models.Judgement
-	Create(tp, properties string, inputs [][]byte) (*models.Judgement, error)
+	Create(tp string, properties map[string]string, inputs [][]byte) (*models.Judgement, error)
 	Update(judgement *models.Judgement) error
 
 	FetchJudgementInQueueBy(tp string) *JudgementElement
@@ -41,19 +42,24 @@ type MysqlJudgementsRepository struct {
 	queue  *list.List // judgements list
 }
 
-func (m MysqlJudgementsRepository) Create(tp, properties string, inputs [][]byte) (*models.Judgement, error) {
-	judgementId := uuid.New().String()
+func (m MysqlJudgementsRepository) Create(tp string, properties map[string]string, inputs [][]byte) (*models.Judgement, error) {
+	propertiesJson, err := json.Marshal(properties)
+	if err != nil {
+		return nil, err
+	}
+	propertiesStr := string(propertiesJson)
 
+	judgementId := uuid.New().String()
 	judgement := &models.Judgement{
 		JudgementId: judgementId,
 		Type:        tp,
 		Status:      "pending",
-		Property:    properties,
+		Property:    propertiesStr,
 		Inputs:      "",
 		Outputs:     "",
 	}
 
-	err := m.db.Save(&judgement).Error
+	err = m.db.Save(&judgement).Error
 
 	if err != nil {
 		return nil, err

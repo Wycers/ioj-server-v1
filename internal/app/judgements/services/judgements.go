@@ -12,7 +12,7 @@ import (
 
 type JudgementsService interface {
 	List()
-	Create(string, string, [][]byte) (*models.Judgement, error)
+	Create(tp string, properties map[string]string, inputs [][]byte) (*models.Judgement, error)
 	Update() error
 
 	PullJudgement(judgementType string) (string, *repositories.JudgementElement)
@@ -30,7 +30,7 @@ func (d DefaultJudgementsService) List() {
 	panic("implement me")
 }
 
-func (d DefaultJudgementsService) Create(tp string, properties string, inputs [][]byte) (*models.Judgement, error) {
+func (d DefaultJudgementsService) Create(tp string, properties map[string]string, inputs [][]byte) (*models.Judgement, error) {
 	judgement, err := d.Repository.Create(tp, properties, inputs)
 	return judgement, err
 }
