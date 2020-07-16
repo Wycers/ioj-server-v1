@@ -18,7 +18,7 @@ require (
 	github.com/hashicorp/go-msgpack v0.5.5 // indirect
 	github.com/hashicorp/go-sockaddr v1.0.2 // indirect
 	github.com/hashicorp/memberlist v0.1.6 // indirect
-	github.com/infinity-oj/api v0.1.1
+	github.com/infinity-oj/api v0.1.2
 	github.com/jinzhu/gorm v1.9.12
 	github.com/mbobakov/grpc-consul-resolver v1.4.1
 	github.com/miekg/dns v1.1.26 // indirect

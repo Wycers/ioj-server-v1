@@ -1,15 +1,15 @@
 package services
 
 import (
-	"encoding/json"
+	"context"
 	"fmt"
 
 	"github.com/pkg/errors"
+	"go.uber.org/zap"
+	"gopkg.in/yaml.v2"
 
 	"github.com/infinity-oj/server/internal/app/submissions/repositories"
 	"github.com/infinity-oj/server/internal/pkg/models"
-	"go.uber.org/zap"
-	"gopkg.in/yaml.v2"
 )
 
 var specialKey = "imf1nlTy0j"
@@ -91,13 +91,10 @@ func (d DefaultSubmissionService) DeliverJudgement(submissionId string) error {
 
 		upstreamType := upstream.Type
 
-		upstreamProperty, err := json.Marshal(upstream.Properties)
-		if err != nil {
-			continue
-		}
 		err = d.JudgementService.Create(
+			context.TODO(),
 			upstreamType,
-			string(upstreamProperty),
+			upstream.Properties,
 			upstream.Inputs,
 		)
 

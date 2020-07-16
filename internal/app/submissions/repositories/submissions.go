@@ -40,7 +40,7 @@ type SubmissionElement struct {
 
 type JudgementElement struct {
 	Type       string
-	Properties map[string]interface{}
+	Properties map[string]string
 	Inputs     [][]byte
 }
 

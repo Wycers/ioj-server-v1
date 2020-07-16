@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"fmt"
+
 	proto "github.com/infinity-oj/api/protobuf-spec"
 )
 
@@ -24,19 +24,19 @@ func (d DefaultJudgementService) List() error {
 }
 
 func (d DefaultJudgementService) Create(submissionId uint64, publicSpace, privateSpace, userSpace string) error {
-	req := &proto.SubmitJudgementRequest{
-		SubmissionId: submissionId,
-		PublicSpace:  publicSpace,
-		PrivateSpace: privateSpace,
-		UserSpace:    userSpace,
-		TestCase:     "",
-	}
-
-	if res, err := d.judgementSrv.SubmitJudgement(context.TODO(), req); err != nil {
-		return err
-	} else {
-		fmt.Println(res.Status, res.Score)
-	}
+	// req := &proto.Create{
+	// 	SubmissionId: submissionId,
+	// 	PublicSpace:  publicSpace,
+	// 	PrivateSpace: privateSpace,
+	// 	UserSpace:    userSpace,
+	// 	TestCase:     "",
+	// }
+	//
+	// if res, err := d.judgementSrv.SubmitJudgement(context.TODO(), req); err != nil {
+	// 	return err
+	// } else {
+	// 	fmt.Println(res.Status, res.Score)
+	// }
 	return nil
 }
 

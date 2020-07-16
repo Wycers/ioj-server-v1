@@ -31,7 +31,12 @@ func (s *SubmissionService) CreateSubmission(ctx context.Context, req *proto.Cre
 }
 
 func (s *SubmissionService) DispatchJudge(ctx context.Context, request *proto.DispatchJudgeRequest) (*proto.DispatchJudgeResponse, error) {
-	panic("implement me")
+	submissionId := request.SubmissionId
+	err := s.service.DeliverJudgement(submissionId)
+	if err != nil {
+		return nil, err
+	}
+	return &proto.DispatchJudgeResponse{}, nil
 }
 
 func (s *SubmissionService) ReturnJudgement(ctx context.Context, request *proto.ReturnJudgementRequest) (*proto.ReturnJudgementResponse, error) {

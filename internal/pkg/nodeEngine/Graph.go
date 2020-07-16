@@ -10,7 +10,7 @@ type Graph struct {
 type Block struct {
 	Id         int
 	Type       string
-	Properties map[string]interface{}
+	Properties map[string]string
 
 	Inputs []int
 	Output [][]int
@@ -30,9 +30,9 @@ type Link struct {
 	IsReady bool
 }
 
-func (b *Block) setProperty(key string, value interface{}) {
+func (b *Block) setProperty(key string, value string) {
 	if b.Properties == nil {
-		b.Properties = make(map[string]interface{})
+		b.Properties = make(map[string]string)
 	}
 	b.Properties[key] = value
 }

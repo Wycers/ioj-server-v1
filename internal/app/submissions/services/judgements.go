@@ -1,44 +1,55 @@
 package services
 
 import (
+	"context"
+
 	proto "github.com/infinity-oj/api/protobuf-spec"
 )
 
 type JudgementsService interface {
-	Fetch() error
-
-	Create(class, property string, inputs [][]byte) error
+	Create(ctx context.Context, tp string, properties map[string]string, inputs [][]byte) error
 }
 
 type DefaultJudgementsService struct {
 	judgementsSrv proto.JudgementsClient
 }
 
-// func (s *DefaultJudgementsService) Create(submissionId uint64, publicSpace, privateSpace, userSpace, testCase string) error {
-//	req := &proto.SubmitJudgementRequest{
-//		SubmissionId: submissionId,
-//		PublicSpace:  publicSpace,
-//		PrivateSpace: privateSpace,
-//		UserSpace:    userSpace,
-//		TestCase:     testCase,
-//	}
-//
-//	if res, err := s.judgementsSrv.SubmitJudgement(context.TODO(), req); err != nil {
-//		return errors.Wrap(err, "judge error: submit judgement error")
-//	} else {
-//		fmt.Println(res.Status, res.Score)
-//	}
-//	return nil
-// }
+func (s *DefaultJudgementsService) Create(ctx context.Context, tp string, properties map[string]string, inputs [][]byte) error {
 
-func (s *DefaultJudgementsService) Create(class, property string, inputs [][]byte) error {
+
+	var arguments []*proto.Argument
+	for k, v := range properties {
+		argument := &proto.Argument{
+			Key:   k,
+			Value: v,
+		}
+		arguments = append(arguments, argument)
+	}
+
+	var slots []*proto.Slot
+	for k, v := range inputs {
+		slot := &proto.Slot{
+			Id:    uint32(k),
+			Value: v,
+		}
+		slots = append(slots, slot)
+	}
+
+	request := &proto.CreateJudgementRequest{
+		SubmissionId: 0,
+		Type:         tp,
+		Arguments:    arguments,
+		Slots:        slots,
+	}
+
+	_, err := s.judgementsSrv.CreateJudgement(ctx, request)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
 
-func (s *DefaultJudgementsService) Fetch() error {
-	panic("implement me")
-}
 
 func NewJudgementsService(judgementsSrv proto.JudgementsClient) JudgementsService {
 	return &DefaultJudgementsService{
