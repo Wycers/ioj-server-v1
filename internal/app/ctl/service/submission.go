@@ -9,7 +9,7 @@ import (
 
 type SubmissionService interface {
 	Create(submitterId uint64, problemId, userSpace string) error
-	DispatchJudgement(submissionId string) error
+	DispatchJudgement(submissionId string) (judgementId string, err error)
 }
 
 type DefaultSubmissionService struct {
@@ -35,18 +35,18 @@ func (d DefaultSubmissionService) Create(submitterId uint64, problemId, userSpac
 	return nil
 }
 
-func (d DefaultSubmissionService) DispatchJudgement(submissionId string) error {
+func (d DefaultSubmissionService) DispatchJudgement(submissionId string) (string, error) {
 
 	req := &proto.DispatchJudgeRequest{
 		SubmissionId: submissionId,
 	}
 
-	_, err := d.submissionSrv.DispatchJudge(context.TODO(), req)
+	rsp, err := d.submissionSrv.DispatchJudge(context.TODO(), req)
 	if err != nil {
-		return errors.Wrap(err, "dispatch submission error")
+		return "", errors.Wrap(err, "dispatch submission error")
 	}
 
-	return nil
+	return rsp.JudgementId, nil
 }
 
 func NewSubmissionService(client proto.SubmissionsClient) SubmissionService {
