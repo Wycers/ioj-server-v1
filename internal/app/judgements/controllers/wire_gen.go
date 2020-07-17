@@ -17,7 +17,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateJudgementsController(cf string, sto repositories.JudgementsRepository, client protobuf_spec.FilesClient) (*JudgementController, error) {
+func CreateJudgementsController(cf string, sto repositories.JudgementsRepository, fileClient protobuf_spec.FilesClient, submissionClient protobuf_spec.SubmissionsClient) (*JudgementController, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err
@@ -30,8 +30,9 @@ func CreateJudgementsController(cf string, sto repositories.JudgementsRepository
 	if err != nil {
 		return nil, err
 	}
-	filesService := services.NewFilesService(client)
-	judgementsService := services.NewJudgementsService(logger, sto, filesService)
+	filesService := services.NewFilesService(fileClient)
+	submissionsService := services.NewSubmissionsService(submissionClient)
+	judgementsService := services.NewJudgementsService(logger, sto, filesService, submissionsService)
 	judgementController := NewJudgementsController(logger, judgementsService)
 	return judgementController, nil
 }

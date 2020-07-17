@@ -3,6 +3,8 @@ package services
 import (
 	"errors"
 
+	"github.com/infinity-oj/server/internal/pkg/crypto"
+
 	"github.com/infinity-oj/server/internal/pkg/models"
 
 	"github.com/google/uuid"
@@ -20,10 +22,11 @@ type JudgementsService interface {
 }
 
 type DefaultJudgementsService struct {
-	logger      *zap.Logger
-	Repository  repositories.JudgementsRepository
-	FileService FilesService
-	tokenMap    map[string]*repositories.JudgementElement
+	logger            *zap.Logger
+	Repository        repositories.JudgementsRepository
+	FileService       FilesService
+	SubmissionService SubmissionsService
+	tokenMap          map[string]*repositories.JudgementElement
 }
 
 func (d DefaultJudgementsService) List() {
@@ -32,6 +35,44 @@ func (d DefaultJudgementsService) List() {
 
 func (d DefaultJudgementsService) Create(tp string, properties map[string]string, inputs [][]byte) (*models.Judgement, error) {
 	judgement, err := d.Repository.Create(tp, properties, inputs)
+
+	if err != nil {
+		d.logger.Error("error while create judgement", zap.Error(err))
+		return nil, err
+	}
+
+	if tp == "basic/file" {
+		fileSpace, ok := properties["fileSpace"]
+		if !ok {
+			d.logger.Error("missing fileSpace", zap.String("jid", judgement.JudgementId))
+			return judgement, err
+		}
+		fileName, ok := properties["fileName"]
+		if !ok {
+			d.logger.Error("missing fileName", zap.String("jid", judgement.JudgementId))
+			return judgement, err
+		}
+
+		file, err := d.FileService.FetchFile(fileSpace, fileName)
+		if err != nil {
+			d.logger.Error("error while fetching file", zap.Error(err))
+			return judgement, err
+		}
+
+		judgement.Outputs = crypto.EasyEncode([][]byte{file})
+		err = d.Repository.Update(judgement)
+		if err != nil {
+			d.logger.Error("error while setting outputs", zap.Error(err))
+			return judgement, err
+		}
+
+	} else {
+		err := d.Repository.PutJudgementInQueue(judgement)
+		if err != nil {
+			return judgement, err
+		}
+	}
+
 	return judgement, err
 }
 
@@ -40,7 +81,7 @@ func (d DefaultJudgementsService) Update() error {
 }
 
 func (d DefaultJudgementsService) PullJudgement(judgementType string) (token string, judgementElement *repositories.JudgementElement) {
-	judgementElement = d.Repository.FetchJudgementInQueueBy(judgementType)
+	judgementElement = d.Repository.FetchJudgementInQueue(judgementType)
 	if judgementElement != nil {
 		// TODO: use jwt
 		token = uuid.New().String()
@@ -64,11 +105,17 @@ func (d DefaultJudgementsService) PushJudgement(token string, outputs [][]byte) 
 	return err
 }
 
-func NewJudgementsService(logger *zap.Logger, Repository repositories.JudgementsRepository, filesService FilesService) JudgementsService {
+func NewJudgementsService(
+	logger *zap.Logger,
+	Repository repositories.JudgementsRepository,
+	filesService FilesService,
+	submissionService SubmissionsService,
+) JudgementsService {
 	return &DefaultJudgementsService{
-		logger:      logger.With(zap.String("type", "DefaultJudgementService")),
-		Repository:  Repository,
-		FileService: filesService,
-		tokenMap:    make(map[string]*repositories.JudgementElement),
+		logger:            logger.With(zap.String("type", "DefaultJudgementService")),
+		Repository:        Repository,
+		FileService:       filesService,
+		SubmissionService: submissionService,
+		tokenMap:          make(map[string]*repositories.JudgementElement),
 	}
 }

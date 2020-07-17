@@ -3,13 +3,13 @@
 package controllers
 
 import (
+	"github.com/google/wire"
 	proto "github.com/infinity-oj/api/protobuf-spec"
 	"github.com/infinity-oj/server/internal/app/judgements/repositories"
 	"github.com/infinity-oj/server/internal/app/judgements/services"
 	"github.com/infinity-oj/server/internal/pkg/config"
 	"github.com/infinity-oj/server/internal/pkg/database"
 	"github.com/infinity-oj/server/internal/pkg/log"
-	"github.com/google/wire"
 )
 
 var testProviderSet = wire.NewSet(
@@ -17,10 +17,14 @@ var testProviderSet = wire.NewSet(
 	config.ProviderSet,
 	database.ProviderSet,
 	services.ProviderSet,
-	//repositories.ProviderSet,
 	ProviderSet,
 )
 
-func CreateJudgementsController(cf string, sto repositories.JudgementsRepository, client proto.FilesClient) (*JudgementController, error) {
+func CreateJudgementsController(
+	cf string,
+	sto repositories.JudgementsRepository,
+	fileClient proto.FilesClient,
+	submissionClient proto.SubmissionsClient,
+) (*JudgementController, error) {
 	panic(wire.Build(testProviderSet))
 }

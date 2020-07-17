@@ -80,7 +80,12 @@ func CreateApp(cf string) (*app.Application, error) {
 		return nil, err
 	}
 	filesService := services.NewFilesService(filesClient)
-	judgementsService := services.NewJudgementsService(logger, judgementsRepository, filesService)
+	submissionsClient, err := grpcclients.NewSubmissionsClient(client)
+	if err != nil {
+		return nil, err
+	}
+	submissionsService := services.NewSubmissionsService(submissionsClient)
+	judgementsService := services.NewJudgementsService(logger, judgementsRepository, filesService, submissionsService)
 	judgementController := controllers.NewJudgementsController(logger, judgementsService)
 	initControllers := controllers.CreateInitControllersFn(judgementController)
 	engine := http.NewRouter(httpOptions, logger, initControllers, tracer)
