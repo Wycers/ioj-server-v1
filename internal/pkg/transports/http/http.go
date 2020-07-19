@@ -6,13 +6,13 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/infinity-oj/server/internal/pkg/transports/http/middlewares/ginprom"
-	"github.com/infinity-oj/server/internal/pkg/utils/netutil"
 	"github.com/gin-contrib/pprof"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 	consulApi "github.com/hashicorp/consul/api"
+	"github.com/infinity-oj/server/internal/pkg/transports/http/middlewares/ginprom"
+	"github.com/infinity-oj/server/internal/pkg/utils/netutil"
 	"github.com/opentracing-contrib/go-gin/ginhttp"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
@@ -94,7 +94,7 @@ func (s *Server) Start() error {
 	}
 
 	s.host = netutil.GetLocalIP4()
-	s.host = "127.0.0.1"
+	s.host = "10.0.0.233"
 
 	if s.host == "" {
 		return errors.New("get local ipv4 error")

@@ -1,0 +1,112 @@
+{
+  "last_node_id": 4,
+  "last_link_id": 3,
+  "nodes": [{
+    "id": 2,
+    "type": "builder/Clang",
+    "pos": [771, 275],
+    "size": {
+      "0": 295.6000061035156,
+      "1": 58
+    },
+    "flags": {},
+    "order": 2,
+    "mode": 0,
+    "inputs": [{
+      "name": "Source File (cpp)",
+      "type": "cpp",
+      "link": 1
+    }],
+    "outputs": [{
+      "name": "Binary File (elf)",
+      "type": "elf",
+      "links": [2]
+    }],
+    "properties": {},
+    "widgets_values": [""]
+  }, {
+    "id": 1,
+    "type": "basic/file",
+    "pos": [476, 271],
+    "size": {
+      "0": 210,
+      "1": 58
+    },
+    "flags": {},
+    "order": 0,
+    "mode": 0,
+    "inputs": [{
+      "name": "url",
+      "type": 0,
+      "link": null
+    }],
+    "outputs": [{
+      "name": "",
+      "type": "",
+      "links": [1]
+    }],
+    "properties": {
+      "fileSpace": "test_usr",
+      "fileName": "main.cpp"
+    }
+  }, {
+    "id": 4,
+    "type": "basic/file",
+    "pos": [847, 390],
+    "size": {
+      "0": 210,
+      "1": 58
+    },
+    "flags": {},
+    "order": 1,
+    "mode": 0,
+    "inputs": [{
+      "name": "url",
+      "type": 0,
+      "link": null
+    }],
+    "outputs": [{
+      "name": "",
+      "type": "",
+      "links": [3]
+    }],
+    "properties": {
+      "fileSpace": "test_pri",
+      "fileName": "test.in"
+    }
+  }, {
+    "id": 3,
+    "type": "executor/elf",
+    "pos": [1156, 324],
+    "size": {
+      "0": 304,
+      "1": 46
+    },
+    "flags": {},
+    "order": 3,
+    "mode": 0,
+    "inputs": [{
+      "name": "Binary File (elf)",
+      "type": "elf",
+      "link": 2
+    }, {
+      "name": "Input data (text)",
+      "type": "text",
+      "link": 3
+    }],
+    "outputs": [{
+      "name": "Output data (text)",
+      "type": "text",
+      "links": null
+    }],
+    "properties": {}
+  }],
+  "links": [
+    [1, 1, 0, 2, 0, "cpp"],
+    [2, 2, 0, 3, 0, "elf"],
+    [3, 4, 0, 3, 1, "text"]
+  ],
+  "groups": [],
+  "config": {},
+  "version": 0.4
+}

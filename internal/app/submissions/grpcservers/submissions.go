@@ -15,10 +15,6 @@ type SubmissionService struct {
 	service services.SubmissionsService
 }
 
-func (s *SubmissionService) mustEmbedUnimplementedSubmissionsServer() {
-	panic("implement me")
-}
-
 func (s *SubmissionService) CreateSubmission(ctx context.Context, req *proto.CreateSubmissionRequest) (res *proto.CreateSubmissionResponse, err error) {
 	if _, err := s.service.Create(req.GetSubmitterId(), req.GetProblemId(), req.GetUserSpace()); err != nil {
 		return nil, errors.Wrapf(err, "Create submission failed")
@@ -32,7 +28,9 @@ func (s *SubmissionService) CreateSubmission(ctx context.Context, req *proto.Cre
 
 func (s *SubmissionService) DispatchJudge(ctx context.Context, request *proto.DispatchJudgeRequest) (*proto.DispatchJudgeResponse, error) {
 	submissionId := request.SubmissionId
-	err := s.service.DeliverJudgement(submissionId)
+
+	s.logger.Info("dispatch judgement rpc", zap.String("submission id", submissionId))
+	err := s.service.DispatchJudgement(submissionId)
 	if err != nil {
 		s.logger.Error("error:", zap.Error(err))
 		return nil, err
@@ -41,7 +39,15 @@ func (s *SubmissionService) DispatchJudge(ctx context.Context, request *proto.Di
 }
 
 func (s *SubmissionService) ReturnJudgement(ctx context.Context, request *proto.ReturnJudgementRequest) (*proto.ReturnJudgementResponse, error) {
-	panic("implement me")
+	judgementId := request.JudgementId
+	outputs := request.Outputs
+
+	err := s.service.ReturnJudgement(judgementId, outputs)
+	if err != nil {
+		s.logger.Error("return judgement error", zap.Error(err))
+		return nil, err
+	}
+	return &proto.ReturnJudgementResponse{}, nil
 }
 
 func NewSubmissionsServer(logger *zap.Logger, ps services.SubmissionsService) (*SubmissionService, error) {

@@ -2,11 +2,10 @@ package services
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
-	"github.com/pkg/errors"
 	"go.uber.org/zap"
-	"gopkg.in/yaml.v2"
 
 	"github.com/infinity-oj/server/internal/app/submissions/repositories"
 	"github.com/infinity-oj/server/internal/pkg/models"
@@ -17,7 +16,9 @@ var specialKey = "imf1nlTy0j"
 type SubmissionsService interface {
 	Create(submitterID uint64, problemID string, userSpace string) (s *models.Submission, err error)
 
-	DeliverJudgement(submissionId string) error
+	DeliverJudgement(element *repositories.Process) error
+	DispatchJudgement(submissionId string) error
+	ReturnJudgement(judgementId string, outputs [][]byte) error
 }
 
 type DefaultSubmissionService struct {
@@ -26,6 +27,9 @@ type DefaultSubmissionService struct {
 	JudgementService JudgementsService
 	fileService      FilesService
 	Repository       repositories.SubmissionRepository
+
+	processMap map[string]string
+	idMap      map[string]int
 }
 
 func (d DefaultSubmissionService) Create(submitterID uint64, problemId string, userSpace string) (s *models.Submission, err error) {
@@ -33,70 +37,48 @@ func (d DefaultSubmissionService) Create(submitterID uint64, problemId string, u
 	if err != nil {
 		return nil, err
 	}
-
-	err = d.Judge(s)
 	return
 }
 
-type Meta struct {
-	TestCases []string `yaml:"testcases"`
-}
-
-func (d DefaultSubmissionService) Judge(submission *models.Submission) error {
-	problem, err := d.problemService.Fetch(submission.ProblemID)
-	if err != nil {
-		return err
-	}
-
-	meta, err := d.fileService.FetchMetaFile(problem.PrivateSpace)
-	if err != nil {
-		return errors.Wrap(err, "judge error: fetch meta file error")
-	}
-
-	m := Meta{}
-	err = yaml.Unmarshal(meta, &m)
-	if err != nil {
-		d.logger.Error("error: %v", zap.Error(err))
-		return errors.Wrap(err, "judge error: parse meta file error")
-	}
-
-	fmt.Println(problem.PublicSpace)
-	fmt.Println(problem.PrivateSpace)
-	for k, v := range m.TestCases {
-		fmt.Println(k, v)
-		// if err := d.JudgementService.Create(submission.ID, problem.PublicSpace, problem.PrivateSpace, submission.UserSpace, v); err != nil {
-		// 	return errors.Wrap(err, "judge error: submit judgement error")
-		// }
-	}
-	return nil
-}
-
-func (d DefaultSubmissionService) DeliverJudgement(submissionId string) error {
-
+func (d DefaultSubmissionService) DispatchJudgement(submissionId string) error {
 	submission, err := d.Repository.FetchSubmissionBySubmissionId(submissionId)
+	d.logger.Info("dispatch judgement")
 	if err != nil {
 		d.logger.Error("error:", zap.Error(err), zap.String("submissionId", submissionId))
 		return err
 	}
 
-	// problem, err := d.problemService.Fetch(submission.ProblemID)
-	// if err != nil {
-	// 	return err
-	// }
+	if submission == nil {
+		d.logger.Error("unknown submission")
+		return errors.New("unknown submission")
+	}
 
-	submissionElement := d.Repository.CreateSubmissionInQueue(submission)
+	submissionElement := d.Repository.CreateProcess(submission)
 
-	upstreams := submissionElement.FindUpstreams()
+	err = d.DeliverJudgement(submissionElement)
+	if err != nil {
+		d.logger.Error("dispatch judgement error", zap.Error(err))
+		return err
+	}
+	return nil
+}
+
+func (d DefaultSubmissionService) DeliverJudgement(element *repositories.Process) error {
+
+	upstreams := element.FindUpstreams()
 
 	for _, upstream := range upstreams {
-
 		upstreamType := upstream.Type
 
+		fmt.Println(upstream.Properties)
+
 		d.logger.Info("create judgement",
-			zap.String("type", upstreamType),
+			zap.String("process Id", element.ProcessId),
+			zap.Int("block Id", upstream.Id),
+			zap.String("judgement type", upstreamType),
 		)
 
-		err = d.JudgementService.Create(
+		judgementId, err := d.JudgementService.Create(
 			context.TODO(),
 			upstreamType,
 			upstream.Properties,
@@ -104,12 +86,50 @@ func (d DefaultSubmissionService) DeliverJudgement(submissionId string) error {
 		)
 
 		if err != nil {
-
+			d.logger.Error("create judgement error", zap.Error(err))
+			return err
 		}
+		d.logger.Info("create judgement success", zap.String("judgement id", judgementId))
+
+		d.idMap[judgementId] = upstream.Id
+		d.processMap[judgementId] = element.ProcessId
 	}
 
 	return nil
 
+}
+
+func (d DefaultSubmissionService) ReturnJudgement(judgementId string, outputs [][]byte) error {
+	d.logger.Info("return judgement",
+		zap.String("judgement id", judgementId),
+	)
+
+	blockId, ok := d.idMap[judgementId]
+	if !ok {
+		err := errors.New("unknown judgement id")
+		d.logger.Error("unknown judgement id", zap.String("judgement id", judgementId))
+		return err
+	}
+	processId, ok := d.processMap[judgementId]
+	if !ok {
+		err := errors.New("unknown judgement id")
+		d.logger.Error("unknown judgement id", zap.String("judgement id", judgementId))
+		return err
+	}
+
+	submissionElement := d.Repository.FetchProcess(processId)
+	if submissionElement == nil {
+		err := errors.New("internal error: unknown submission")
+		d.logger.Error("return judgement failed", zap.Error(err))
+		return err
+	}
+	err := submissionElement.SetOutputs(blockId, outputs)
+	if err != nil {
+		d.logger.Error("return judgement failed", zap.Error(err))
+	}
+
+	err = d.DeliverJudgement(submissionElement)
+	return err
 }
 
 func NewSubmissionService(
@@ -119,45 +139,13 @@ func NewSubmissionService(
 	FileService FilesService,
 	JudgementService JudgementsService,
 ) SubmissionsService {
-	go func() {
-
-	}()
 	return &DefaultSubmissionService{
 		logger:           logger.With(zap.String("type", "DefaultSubmissionService")),
 		problemService:   ProblemService,
 		fileService:      FileService,
 		JudgementService: JudgementService,
 		Repository:       Repository,
+		processMap:       make(map[string]string),
+		idMap:            make(map[string]int),
 	}
 }
-
-/*
-
-	judgement, task := m.findJudgementTask(judgementId, taskId)
-	if task == nil {
-		return errors.New("unknown task: " + taskId)
-	}
-
-	task.Status = "done"
-
-	//fmt.Println(task.block.Output)
-	//fmt.Println(results)
-
-	if len(task.block.Output) != len(results) {
-		return errors.New("output slots mismatch")
-	}
-
-	blockId := task.block.Id
-	for index, result := range results {
-		fmt.Println(blockId, index)
-		links := judgement.Graph.FindLinkBySourcePort(blockId, index)
-		fmt.Println(links, result)
-		for _, link := range links {
-			fmt.Println(link.Id)
-			judgement.Result[link.Id] = result
-			fmt.Println("set link", link.Id, "to", result)
-		}
-	}
-	task.block.Done()
-
-*/

@@ -1,7 +1,10 @@
 package services
 
 import (
+	"container/list"
 	"errors"
+	"sync"
+	"time"
 
 	"github.com/infinity-oj/server/internal/pkg/crypto"
 
@@ -19,6 +22,8 @@ type JudgementsService interface {
 
 	PullJudgement(judgementType string) (string, *repositories.JudgementElement)
 	PushJudgement(token string, outputs [][]byte) error
+
+	ReportJudgement(element *repositories.JudgementElement)
 }
 
 type DefaultJudgementsService struct {
@@ -27,6 +32,16 @@ type DefaultJudgementsService struct {
 	FileService       FilesService
 	SubmissionService SubmissionsService
 	tokenMap          map[string]*repositories.JudgementElement
+
+	waitList *list.List
+	mutex    *sync.Mutex
+}
+
+func (d DefaultJudgementsService) ReportJudgement(element *repositories.JudgementElement) {
+	d.mutex.Lock()
+	defer d.mutex.Unlock()
+
+	d.waitList.PushBack(element)
 }
 
 func (d DefaultJudgementsService) List() {
@@ -42,6 +57,7 @@ func (d DefaultJudgementsService) Create(tp string, properties map[string]string
 	}
 
 	if tp == "basic/file" {
+
 		fileSpace, ok := properties["fileSpace"]
 		if !ok {
 			d.logger.Error("missing fileSpace", zap.String("jid", judgement.JudgementId))
@@ -66,11 +82,26 @@ func (d DefaultJudgementsService) Create(tp string, properties map[string]string
 			return judgement, err
 		}
 
-	} else {
-		err := d.Repository.PutJudgementInQueue(judgement)
+		judgementElement, err := d.Repository.WrapJudgement(judgement)
 		if err != nil {
 			return judgement, err
 		}
+		d.ReportJudgement(judgementElement)
+		go func() {
+			for {
+				err = d.SubmissionService.ReportJudgement(judgement.JudgementId, [][]byte{file})
+				if err == nil {
+					break
+				}
+				time.Sleep(time.Second)
+			}
+		}()
+	} else {
+		judgementElement, err := d.Repository.WrapJudgement(judgement)
+		if err != nil {
+			return judgement, err
+		}
+		d.Repository.PutJudgementInQueue(judgementElement)
 	}
 
 	return judgement, err
@@ -80,28 +111,37 @@ func (d DefaultJudgementsService) Update() error {
 	panic("implement me")
 }
 
-func (d DefaultJudgementsService) PullJudgement(judgementType string) (token string, judgementElement *repositories.JudgementElement) {
-	judgementElement = d.Repository.FetchJudgementInQueue(judgementType)
-	if judgementElement != nil {
+func (d DefaultJudgementsService) PullJudgement(judgementType string) (token string, element *repositories.JudgementElement) {
+	d.logger.Info("pull judgement", zap.String("type", judgementType))
+	element = d.Repository.FetchJudgementInQueue(judgementType)
+	if element != nil {
+		d.logger.Info("pull judgement", zap.String("judgement id", element.JudgementId))
 		// TODO: use jwt
 		token = uuid.New().String()
-		d.tokenMap[token] = judgementElement
+		d.tokenMap[token] = element
+	} else {
+		d.logger.Info("pull judgement: nothing")
 	}
-	return "", nil
+	return
 }
 
 func (d DefaultJudgementsService) PushJudgement(token string, outputs [][]byte) error {
-	judgementElement, ok := d.tokenMap[token]
+	element, ok := d.tokenMap[token]
 
 	if !ok {
 		return errors.New("invalid token")
 	}
 
-	err := d.Repository.ReturnJudgementInQueue(judgementElement, outputs)
+	d.logger.Info("push judgement",
+		zap.String("type", element.Type))
+	err := d.Repository.ReturnJudgementInQueue(element, outputs)
 	if err != nil {
-		delete(d.tokenMap, token)
+		d.logger.Error("Push judgement", zap.Error(err))
+		return err
 	}
 
+	delete(d.tokenMap, token)
+	err = d.SubmissionService.ReportJudgement(element.JudgementId, outputs)
 	return err
 }
 
@@ -117,5 +157,8 @@ func NewJudgementsService(
 		FileService:       filesService,
 		SubmissionService: submissionService,
 		tokenMap:          make(map[string]*repositories.JudgementElement),
+
+		waitList: list.New(),
+		mutex:    &sync.Mutex{},
 	}
 }

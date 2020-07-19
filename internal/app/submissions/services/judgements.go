@@ -8,14 +8,16 @@ import (
 )
 
 type JudgementsService interface {
-	Create(ctx context.Context, tp string, properties map[string]string, inputs [][]byte) error
+	Create(ctx context.Context, tp string, properties map[string]string, inputs [][]byte) (string, error)
 }
 
 type DefaultJudgementsService struct {
 	judgementsSrv proto.JudgementsClient
 }
 
-func (s *DefaultJudgementsService) Create(ctx context.Context, tp string, properties map[string]string, inputs [][]byte) error {
+func (s *DefaultJudgementsService) Create(
+	ctx context.Context, tp string, properties map[string]string, inputs [][]byte,
+) (string, error) {
 
 	var arguments []*proto.Argument
 	for k, v := range properties {
@@ -43,12 +45,12 @@ func (s *DefaultJudgementsService) Create(ctx context.Context, tp string, proper
 	}
 	fmt.Println(tp)
 
-	_, err := s.judgementsSrv.CreateJudgement(ctx, request)
+	resp, err := s.judgementsSrv.CreateJudgement(ctx, request)
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	return nil
+	return resp.JudgementId, nil
 }
 
 func NewJudgementsService(judgementsSrv proto.JudgementsClient) JudgementsService {

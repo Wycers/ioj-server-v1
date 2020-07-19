@@ -5,7 +5,6 @@ import (
 	"log"
 	"net"
 
-	"github.com/infinity-oj/server/internal/pkg/utils/netutil"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
@@ -13,6 +12,7 @@ import (
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	consulApi "github.com/hashicorp/consul/api"
+	"github.com/infinity-oj/server/internal/pkg/utils/netutil"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
@@ -92,8 +92,7 @@ func (s *Server) Start() error {
 	}
 
 	s.host = netutil.GetLocalIP4()
-	s.host = "127.0.0.1"
-
+	s.host = "10.0.0.233"
 
 	if s.host == "" {
 		return errors.New("get local ipv4 error")

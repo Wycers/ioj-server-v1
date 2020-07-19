@@ -52,8 +52,8 @@ func (_m *JudgementsRepository) Fetch() *models.Judgement {
 	return r0
 }
 
-// FetchJudgementInQueueBy provides a mock function with given fields: tp
-func (_m *JudgementsRepository) FetchJudgementInQueueBy(tp string) *repositories.JudgementElement {
+// FetchJudgementInQueue provides a mock function with given fields: tp
+func (_m *JudgementsRepository) FetchJudgementInQueue(tp string) *repositories.JudgementElement {
 	ret := _m.Called(tp)
 
 	var r0 *repositories.JudgementElement

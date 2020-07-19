@@ -1,6 +1,8 @@
 package submission
 
 import (
+	"fmt"
+
 	"github.com/infinity-oj/server/internal/app/ctl/service"
 	"github.com/urfave/cli/v2"
 )
@@ -21,9 +23,11 @@ func NewDispatchSubmissionCommand(submissionService service.SubmissionService) *
 		After:        nil,
 		Action: func(c *cli.Context) error {
 			//submissionId := c.String("submission ID")
-			if err := submissionService.DispatchJudgement("88cfbbd7-678f-456c-a739-d1a2063ebf23"); err != nil {
+			judgementId, err := submissionService.DispatchJudgement("88cfbbd7-678f-456c-a739-d1a2063ebf23")
+			if err != nil {
 				return err
 			}
+			fmt.Println(judgementId)
 			return nil
 		},
 		OnUsageError: nil,

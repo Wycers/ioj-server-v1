@@ -1,6 +1,8 @@
 package nodeEngine
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Graph struct {
 	Blocks map[int]*Block
@@ -37,11 +39,11 @@ func (b *Block) setProperty(key string, value string) {
 	b.Properties[key] = value
 }
 
-func (g *Graph) AddBlock(id int, tp string, inputs []int, outputs [][]int) *Block {
+func (g *Graph) AddBlock(id int, tp string, properties map[string]string, inputs []int, outputs [][]int) *Block {
 	g.Blocks[id] = &Block{
 		Id:         id,
 		Type:       tp,
-		Properties: nil,
+		Properties: properties,
 		Inputs:     inputs,
 		Output:     outputs,
 
@@ -67,7 +69,7 @@ func (g *Graph) AddLink(id, sourceId, sourceSlot, targetId, targetSlot int) *Lin
 	return g.Links[id]
 }
 
-func (g *Graph) findBlockById(id int) *Block {
+func (g *Graph) FindBlockById(id int) *Block {
 	if block, ok := g.Blocks[id]; ok {
 		return block
 	} else {
@@ -126,16 +128,15 @@ func (g *Graph) Run() []*Block {
 				panic("Wrong file")
 			}
 
-			source := g.findBlockById(link.Source.Id)
+			source := g.FindBlockById(link.Source.Id)
 			if source == nil {
 				panic("Wrong file")
 			}
 
-			if source.Status == "done" {
-				continue
+			if source.Status != "done" {
+				flag = false
+				break
 			}
-			flag = false
-			break
 		}
 
 		if flag {

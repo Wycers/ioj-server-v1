@@ -36,16 +36,16 @@ func (_m *SubmissionRepository) Create(submitterID uint64, problemId string, use
 	return r0, r1
 }
 
-// CreateSubmissionInQueue provides a mock function with given fields: s
-func (_m *SubmissionRepository) CreateSubmissionInQueue(s *models.Submission) *repositories.SubmissionElement {
+// CreateProcess provides a mock function with given fields: s
+func (_m *SubmissionRepository) CreateProcess(s *models.Submission) *repositories.Process {
 	ret := _m.Called(s)
 
-	var r0 *repositories.SubmissionElement
-	if rf, ok := ret.Get(0).(func(*models.Submission) *repositories.SubmissionElement); ok {
+	var r0 *repositories.Process
+	if rf, ok := ret.Get(0).(func(*models.Submission) *repositories.Process); ok {
 		r0 = rf(s)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*repositories.SubmissionElement)
+			r0 = ret.Get(0).(*repositories.Process)
 		}
 	}
 
@@ -75,16 +75,16 @@ func (_m *SubmissionRepository) FetchSubmissionBySubmissionId(submissionId strin
 	return r0, r1
 }
 
-// FetchSubmissionInQueueById provides a mock function with given fields: submissionId
-func (_m *SubmissionRepository) FetchSubmissionInQueueById(submissionId string) *repositories.SubmissionElement {
+// FetchProcess provides a mock function with given fields: submissionId
+func (_m *SubmissionRepository) FetchProcess(submissionId string) *repositories.Process {
 	ret := _m.Called(submissionId)
 
-	var r0 *repositories.SubmissionElement
-	if rf, ok := ret.Get(0).(func(string) *repositories.SubmissionElement); ok {
+	var r0 *repositories.Process
+	if rf, ok := ret.Get(0).(func(string) *repositories.Process); ok {
 		r0 = rf(submissionId)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*repositories.SubmissionElement)
+			r0 = ret.Get(0).(*repositories.Process)
 		}
 	}
 

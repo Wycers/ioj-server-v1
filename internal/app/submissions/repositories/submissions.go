@@ -19,8 +19,8 @@ type SubmissionRepository interface {
 	Create(submitterID uint64, problemId, userSpace string) (s *models.Submission, err error)
 	Update(s *models.Submission) error
 
-	CreateSubmissionInQueue(s *models.Submission) *SubmissionElement
-	FetchSubmissionInQueueById(submissionId string) *SubmissionElement
+	CreateProcess(s *models.Submission) *Process
+	FetchProcess(processId string) *Process
 }
 
 type MysqlSubmissionsRepository struct {
@@ -30,8 +30,8 @@ type MysqlSubmissionsRepository struct {
 	mutex  *sync.Mutex
 }
 
-type SubmissionElement struct {
-	id string
+type Process struct {
+	ProcessId string
 
 	obj    *models.Submission
 	graph  *nodeEngine.Graph
@@ -39,12 +39,13 @@ type SubmissionElement struct {
 }
 
 type JudgementElement struct {
+	Id         int
 	Type       string
 	Properties map[string]string
 	Inputs     [][]byte
 }
 
-func (se SubmissionElement) FindUpstreams() (res []*JudgementElement) {
+func (se Process) FindUpstreams() (res []*JudgementElement) {
 
 	ids := se.graph.Run()
 
@@ -59,6 +60,7 @@ func (se SubmissionElement) FindUpstreams() (res []*JudgementElement) {
 		}
 
 		res = append(res, &JudgementElement{
+			Id:         block.Id,
 			Type:       block.Type,
 			Properties: block.Properties,
 			Inputs:     inputs,
@@ -68,35 +70,55 @@ func (se SubmissionElement) FindUpstreams() (res []*JudgementElement) {
 	return
 }
 
-func (m MysqlSubmissionsRepository) CreateSubmissionInQueue(s *models.Submission) *SubmissionElement {
+func (se Process) SetOutputs(blockId int, outputs [][]byte) error {
 
-	graph := nodeEngine.NewGraphByFile("graph.json")
+	block := se.graph.FindBlockById(blockId)
+
+	if len(block.Output) != len(outputs) {
+		return errors.New("output slots mismatch")
+	}
+
+	for index, output := range outputs {
+		links := se.graph.FindLinkBySourcePort(blockId, index)
+		for _, link := range links {
+			se.result[link.Id] = output
+		}
+	}
+
+	block.Done()
+	return nil
+}
+
+func (m MysqlSubmissionsRepository) CreateProcess(s *models.Submission) *Process {
+
+	graph := nodeEngine.NewGraphByFile("easyGraph.json")
 
 	result := make(map[int][]byte)
 
-	submission := &SubmissionElement{
-		obj:    s,
-		graph:  graph,
-		result: result,
+	element := &Process{
+		ProcessId: uuid.New().String(),
+		obj:       s,
+		graph:     graph,
+		result:    result,
 	}
 
-	m.queue.PushBack(submission)
+	m.queue.PushBack(element)
 
-	return submission
+	return element
 }
 
-func (m MysqlSubmissionsRepository) FetchSubmissionInQueueById(submissionId string) *SubmissionElement {
+func (m MysqlSubmissionsRepository) FetchProcess(processId string) *Process {
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
 
 	for se := m.queue.Front(); se != nil; se = se.Next() {
-		judgement, ok := se.Value.(*SubmissionElement)
+		element, ok := se.Value.(*Process)
 		if !ok {
 			continue
 		}
 
-		if judgement.obj.SubmissionId == submissionId {
-			return judgement
+		if element.ProcessId == processId {
+			return element
 		}
 	}
 
@@ -131,7 +153,7 @@ func (m MysqlSubmissionsRepository) Create(submitterId uint64, problemId, userSp
 func (m MysqlSubmissionsRepository) GetUpstreams() (res []*JudgementElement) {
 
 	for se := m.queue.Front(); se != nil; se = se.Next() {
-		judgement, ok := se.Value.(*SubmissionElement)
+		judgement, ok := se.Value.(*Process)
 
 		if !ok {
 			continue

@@ -7,10 +7,11 @@ import (
 )
 
 type Node struct {
-	Id      int           `json:"id"`
-	Type    string        `json:"type"`
-	Inputs  []interface{} `json:"inputs"`
-	Outputs []interface{} `json:"outputs"`
+	Id         int                    `json:"id"`
+	Type       string                 `json:"type"`
+	Properties map[string]interface{} `json:"properties"`
+	Inputs     []interface{}          `json:"inputs"`
+	Outputs    []interface{}          `json:"outputs"`
 }
 
 type Output struct {
@@ -77,7 +78,15 @@ func NewGraphByFile(filename string) *Graph {
 			}
 		}
 
-		graph.AddBlock(v.Id, v.Type, inputs, outputs)
+		block := graph.AddBlock(v.Id, v.Type, nil, inputs, outputs)
+
+		for k, v := range v.Properties {
+			if v, ok := v.(string); ok {
+				block.setProperty(k, v)
+			} else {
+				fmt.Println("==> value not string:", v)
+			}
+		}
 	}
 
 	for _, v := range dataObject.Links {

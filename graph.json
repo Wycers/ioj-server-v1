@@ -1,8 +1,7 @@
 {
   "last_node_id": 41,
   "last_link_id": 55,
-  "nodes": [
-    {
+  "nodes": [{
       "id": 10,
       "type": "executor/elf",
       "pos": [
@@ -16,8 +15,7 @@
       "flags": {},
       "order": 9,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "Binary File (elf)",
           "type": "elf",
           "link": 25
@@ -28,15 +26,13 @@
           "link": 16
         }
       ],
-      "outputs": [
-        {
-          "name": "Output data （text)",
-          "type": "text",
-          "links": [
-            21
-          ]
-        }
-      ],
+      "outputs": [{
+        "name": "Output data （text)",
+        "type": "text",
+        "links": [
+          21
+        ]
+      }],
       "properties": {}
     },
     {
@@ -53,22 +49,18 @@
       "flags": {},
       "order": 0,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "url",
-          "type": 0,
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "",
-          "links": [
-            16
-          ]
-        }
-      ],
+      "inputs": [{
+        "name": "url",
+        "type": 0,
+        "link": null
+      }],
+      "outputs": [{
+        "name": "",
+        "type": "",
+        "links": [
+          16
+        ]
+      }],
       "properties": {
         "url": "test input1",
         "type": "text"
@@ -89,22 +81,18 @@
       "flags": {},
       "order": 1,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "url",
-          "type": 0,
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "",
-          "links": [
-            28
-          ]
-        }
-      ],
+      "inputs": [{
+        "name": "url",
+        "type": 0,
+        "link": null
+      }],
+      "outputs": [{
+        "name": "",
+        "type": "",
+        "links": [
+          28
+        ]
+      }],
       "properties": {
         "url": "test input2",
         "type": "text"
@@ -125,8 +113,7 @@
       "flags": {},
       "order": 10,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "Binary File (elf)",
           "type": "elf",
           "link": 26
@@ -137,15 +124,13 @@
           "link": 28
         }
       ],
-      "outputs": [
-        {
-          "name": "Output data （text)",
-          "type": "text",
-          "links": [
-            31
-          ]
-        }
-      ],
+      "outputs": [{
+        "name": "Output data （text)",
+        "type": "text",
+        "links": [
+          31
+        ]
+      }],
       "properties": {}
     },
     {
@@ -162,26 +147,22 @@
       "flags": {},
       "order": 4,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "url",
-          "type": 0,
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "",
-          "links": [
-            24,
-            40
-          ]
-        }
-      ],
+      "inputs": [{
+        "name": "url",
+        "type": 0,
+        "link": null
+      }],
+      "outputs": [{
+        "name": "",
+        "type": "",
+        "links": [
+          24,
+          40
+        ]
+      }],
       "properties": {
-        "url": "user file",
-        "type": "text"
+        "fileSpace": "test_usr",
+        "fileName": "main.cpp"
       },
       "boxcolor": "red"
     },
@@ -199,22 +180,18 @@
       "flags": {},
       "order": 8,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "Source File (cpp)",
-          "type": "cpp",
-          "link": 40
-        }
-      ],
-      "outputs": [
-        {
-          "name": "Binary File (elf)",
-          "type": "elf",
-          "links": [
-            39
-          ]
-        }
-      ],
+      "inputs": [{
+        "name": "Source File (cpp)",
+        "type": "cpp",
+        "link": 40
+      }],
+      "outputs": [{
+        "name": "Binary File (elf)",
+        "type": "elf",
+        "links": [
+          39
+        ]
+      }],
       "properties": {},
       "widgets_values": [
         "-Wall -O3"
@@ -234,24 +211,20 @@
       "flags": {},
       "order": 7,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "Source File (cpp)",
-          "type": "cpp",
-          "link": 24
-        }
-      ],
-      "outputs": [
-        {
-          "name": "Binary File (elf)",
-          "type": "elf",
-          "links": [
-            25,
-            26,
-            41
-          ]
-        }
-      ],
+      "inputs": [{
+        "name": "Source File (cpp)",
+        "type": "cpp",
+        "link": 24
+      }],
+      "outputs": [{
+        "name": "Binary File (elf)",
+        "type": "elf",
+        "links": [
+          25,
+          26,
+          41
+        ]
+      }],
       "properties": {},
       "widgets_values": [
         "-Wall -O2 "
@@ -271,8 +244,7 @@
       "flags": {},
       "order": 11,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "Binary File (elf)",
           "type": "elf",
           "link": 41
@@ -283,15 +255,13 @@
           "link": 42
         }
       ],
-      "outputs": [
-        {
-          "name": "Output data （text)",
-          "type": "text",
-          "links": [
-            43
-          ]
-        }
-      ],
+      "outputs": [{
+        "name": "Output data （text)",
+        "type": "text",
+        "links": [
+          43
+        ]
+      }],
       "properties": {}
     },
     {
@@ -308,8 +278,7 @@
       "flags": {},
       "order": 12,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "Binary File (elf)",
           "type": "elf",
           "link": 39
@@ -320,15 +289,13 @@
           "link": 29
         }
       ],
-      "outputs": [
-        {
-          "name": "Output data （text)",
-          "type": "text",
-          "links": [
-            33
-          ]
-        }
-      ],
+      "outputs": [{
+        "name": "Output data （text)",
+        "type": "text",
+        "links": [
+          33
+        ]
+      }],
       "properties": {}
     },
     {
@@ -345,8 +312,7 @@
       "flags": {},
       "order": 17,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "A",
           "type": "number,array,object",
           "link": 52
@@ -357,15 +323,13 @@
           "link": 53
         }
       ],
-      "outputs": [
-        {
-          "name": "=",
-          "type": "number",
-          "links": [
-            54
-          ]
-        }
-      ],
+      "outputs": [{
+        "name": "=",
+        "type": "number",
+        "links": [
+          54
+        ]
+      }],
       "properties": {
         "A": 1,
         "B": 1,
@@ -386,8 +350,7 @@
       "flags": {},
       "order": 20,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "A",
           "type": "number,array,object",
           "link": 54
@@ -398,13 +361,11 @@
           "link": 55
         }
       ],
-      "outputs": [
-        {
-          "name": "=",
-          "type": "number",
-          "links": null
-        }
-      ],
+      "outputs": [{
+        "name": "=",
+        "type": "number",
+        "links": null
+      }],
       "properties": {
         "A": 1,
         "B": 1,
@@ -425,8 +386,7 @@
       "flags": {},
       "order": 15,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "Standard data",
           "type": 0,
           "link": 44
@@ -437,16 +397,14 @@
           "link": 43
         }
       ],
-      "outputs": [
-        {
-          "name": "score",
-          "type": "number",
-          "links": [
-            47,
-            50
-          ]
-        }
-      ],
+      "outputs": [{
+        "name": "score",
+        "type": "number",
+        "links": [
+          47,
+          50
+        ]
+      }],
       "properties": {}
     },
     {
@@ -465,8 +423,7 @@
       },
       "order": 18,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "A",
           "type": "number",
           "link": 47
@@ -477,8 +434,7 @@
           "link": 48
         }
       ],
-      "outputs": [
-        {
+      "outputs": [{
           "name": "true",
           "type": "boolean",
           "links": [
@@ -511,8 +467,7 @@
       "flags": {},
       "order": 14,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "Standard data",
           "type": 0,
           "link": 30
@@ -523,15 +478,13 @@
           "link": 31
         }
       ],
-      "outputs": [
-        {
-          "name": "score",
-          "type": "number",
-          "links": [
-            53
-          ]
-        }
-      ],
+      "outputs": [{
+        "name": "score",
+        "type": "number",
+        "links": [
+          53
+        ]
+      }],
       "properties": {}
     },
     {
@@ -548,8 +501,7 @@
       "flags": {},
       "order": 13,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "Standard data",
           "type": 0,
           "link": 13
@@ -560,15 +512,13 @@
           "link": 21
         }
       ],
-      "outputs": [
-        {
-          "name": "score",
-          "type": "number",
-          "links": [
-            52
-          ]
-        }
-      ],
+      "outputs": [{
+        "name": "score",
+        "type": "number",
+        "links": [
+          52
+        ]
+      }],
       "properties": {}
     },
     {
@@ -585,22 +535,18 @@
       "flags": {},
       "order": 3,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "url",
-          "type": 0,
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "",
-          "links": [
-            13
-          ]
-        }
-      ],
+      "inputs": [{
+        "name": "url",
+        "type": 0,
+        "link": null
+      }],
+      "outputs": [{
+        "name": "",
+        "type": "",
+        "links": [
+          13
+        ]
+      }],
       "properties": {
         "url": "test output1",
         "type": "text"
@@ -621,8 +567,7 @@
       "flags": {},
       "order": 19,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "v",
           "type": "boolean",
           "link": 49
@@ -638,14 +583,12 @@
           "link": 51
         }
       ],
-      "outputs": [
-        {
-          "name": "out",
-          "links": [
-            55
-          ]
-        }
-      ],
+      "outputs": [{
+        "name": "out",
+        "links": [
+          55
+        ]
+      }],
       "properties": {}
     },
     {
@@ -662,23 +605,19 @@
       "flags": {},
       "order": 6,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "url",
-          "type": 0,
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "",
-          "links": [
-            29,
-            42
-          ]
-        }
-      ],
+      "inputs": [{
+        "name": "url",
+        "type": 0,
+        "link": null
+      }],
+      "outputs": [{
+        "name": "",
+        "type": "",
+        "links": [
+          29,
+          42
+        ]
+      }],
       "properties": {
         "url": "test input3",
         "type": "text"
@@ -699,8 +638,7 @@
       "flags": {},
       "order": 16,
       "mode": 0,
-      "inputs": [
-        {
+      "inputs": [{
           "name": "Standard data",
           "type": 0,
           "link": 32
@@ -711,16 +649,14 @@
           "link": 33
         }
       ],
-      "outputs": [
-        {
-          "name": "score",
-          "type": "number",
-          "links": [
-            48,
-            51
-          ]
-        }
-      ],
+      "outputs": [{
+        "name": "score",
+        "type": "number",
+        "links": [
+          48,
+          51
+        ]
+      }],
       "properties": {}
     },
     {
@@ -737,22 +673,18 @@
       "flags": {},
       "order": 2,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "url",
-          "type": 0,
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "",
-          "links": [
-            30
-          ]
-        }
-      ],
+      "inputs": [{
+        "name": "url",
+        "type": 0,
+        "link": null
+      }],
+      "outputs": [{
+        "name": "",
+        "type": "",
+        "links": [
+          30
+        ]
+      }],
       "properties": {
         "url": "test output2",
         "type": "text"
@@ -773,23 +705,19 @@
       "flags": {},
       "order": 5,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "url",
-          "type": 0,
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "",
-          "links": [
-            32,
-            44
-          ]
-        }
-      ],
+      "inputs": [{
+        "name": "url",
+        "type": 0,
+        "link": null
+      }],
+      "outputs": [{
+        "name": "",
+        "type": "",
+        "links": [
+          32,
+          44
+        ]
+      }],
       "properties": {
         "url": "test output3",
         "type": "text"
@@ -797,7 +725,7 @@
       "boxcolor": "red"
     }
   ],
-  "links":  [
+  "links": [
     [
       13,
       4,

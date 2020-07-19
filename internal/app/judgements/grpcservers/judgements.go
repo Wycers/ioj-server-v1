@@ -37,12 +37,14 @@ func (s *JudgementsService) CreateJudgement(ctx context.Context, request *proto.
 		inputs = append(inputs, input)
 	}
 
-	_, err := s.service.Create(tp, arguments, inputs)
+	judgement, err := s.service.Create(tp, arguments, inputs)
 	if err != nil {
 		return nil, err
 	}
 
-	response := &proto.CreateJudgementResponse{}
+	response := &proto.CreateJudgementResponse{
+		JudgementId: judgement.JudgementId,
+	}
 
 	return response, nil
 }
@@ -50,14 +52,14 @@ func (s *JudgementsService) CreateJudgement(ctx context.Context, request *proto.
 func (s *JudgementsService) PullJudgement(ctx context.Context, request *proto.PullJudgementRequest) (*proto.PullJudgementResponse, error) {
 	taskType := request.GetType()
 
-	token, judgement := s.service.PullJudgement(taskType)
+	token, element := s.service.PullJudgement(taskType)
 
-	if judgement == nil {
-		return nil, nil
+	if element == nil {
+		return &proto.PullJudgementResponse{Token: ""}, nil
 	}
 
 	var arguments []*proto.Argument
-	for k, v := range judgement.Properties {
+	for k, v := range element.Properties {
 		argument := &proto.Argument{
 			Key:   k,
 			Value: v,
@@ -66,7 +68,7 @@ func (s *JudgementsService) PullJudgement(ctx context.Context, request *proto.Pu
 	}
 
 	var slots []*proto.Slot
-	for k, v := range judgement.Inputs {
+	for k, v := range element.Inputs {
 		slot := &proto.Slot{
 			Id:    uint32(k),
 			Value: v,
@@ -85,6 +87,7 @@ func (s *JudgementsService) PullJudgement(ctx context.Context, request *proto.Pu
 
 func (s *JudgementsService) PushJudgement(ctx context.Context, request *proto.PushJudgementRequest) (*proto.PushJudgementResponse, error) {
 	token := request.Token
+	s.logger.Info("push judgement", zap.String("token", token))
 
 	var outputs [][]byte
 	for _, v := range request.Slots {

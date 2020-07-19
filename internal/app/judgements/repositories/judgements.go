@@ -34,7 +34,8 @@ type JudgementsRepository interface {
 	Create(tp string, properties map[string]string, inputs [][]byte) (*models.Judgement, error)
 	Update(judgement *models.Judgement) error
 
-	PutJudgementInQueue(judgement *models.Judgement) error
+	WrapJudgement(judgement *models.Judgement) (*JudgementElement, error)
+	PutJudgementInQueue(element *JudgementElement)
 	FetchJudgementInQueue(tp string) *JudgementElement
 	ReturnJudgementInQueue(element *JudgementElement, outputs [][]byte) error
 }
@@ -76,7 +77,7 @@ func (m MysqlJudgementsRepository) Update(judgement *models.Judgement) error {
 	return err
 }
 
-func (m MysqlJudgementsRepository) PutJudgementInQueue(judgement *models.Judgement) error {
+func (m MysqlJudgementsRepository) WrapJudgement(judgement *models.Judgement) (*JudgementElement, error) {
 
 	judgementId := judgement.JudgementId
 	tp := judgement.Type
@@ -85,12 +86,12 @@ func (m MysqlJudgementsRepository) PutJudgementInQueue(judgement *models.Judgeme
 	propertiesJson := judgement.Property
 	if propertiesJson != "" {
 		if err := json.Unmarshal([]byte(propertiesJson), &properties); err != nil {
-			return err
+			return nil, err
 		}
 	}
 	inputs, err := crypto.EasyDecode(judgement.Inputs)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	judgementInQueue := &JudgementElement{
@@ -105,10 +106,12 @@ func (m MysqlJudgementsRepository) PutJudgementInQueue(judgement *models.Judgeme
 
 		obj: judgement,
 	}
+	return judgementInQueue, nil
 
-	m.queue.PushBack(judgementInQueue)
+}
 
-	return nil
+func (m MysqlJudgementsRepository) PutJudgementInQueue(judgementElement *JudgementElement) {
+	m.queue.PushBack(judgementElement)
 }
 
 func (m MysqlJudgementsRepository) List() {
@@ -151,7 +154,7 @@ func (m MysqlJudgementsRepository) FetchJudgementInQueue(taskType string) *Judge
 			continue
 		}
 
-		if !judgementElement.Idle {
+		if judgementElement.Idle {
 			continue
 		}
 		if judgementElement.Type != taskType {
